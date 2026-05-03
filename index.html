@@ -203,6 +203,18 @@
         filter: none !important;
         transform: none !important;
       }
+
+      /* EN i18n font-size restore — i18n.js textContent assign destroys Framer
+         wrapper spans that carried the per-element font-size override. Restore
+         the visible sizes manually for EN mode. */
+      html[lang="en"] section[data-framer-name="Hero"] [data-framer-name="Supporting text"] p {
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+      }
+
+      html[lang="en"] section[data-framer-name="Divider"] h3 {
+        white-space: nowrap !important;
+      }
     </style>
     <script>
       // Framer video tagy mají autoplay=false + preload=none — měl je spouštět JS framework. Nahradíme.
