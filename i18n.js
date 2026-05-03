@@ -111,8 +111,14 @@
     "Připojte se k dalším klientům Sky Guard a pozdvihněte vaši bezpečnost na novou úroveň.": "Join other Sky Guard clients and take your security to a new level.",
     "„Na stavbě se nám v minulosti několikrát ztratily nářadí i materiál. Od té doby spolupracujeme se Sky Guard a rozdíl je obrovský. Kamerový systém a mobilní věže s dohledem nám dávají jistotu i v noci a o víkendech. Instalace byla rychlá, vše jsme zvládli bez zdržení výstavby.":
       "„On the site we used to lose tools and materials several times. Since we started working with Sky Guard the difference has been huge. The camera system and mobile towers with monitoring give us certainty at night and on weekends. The installation was fast, we got everything done without delaying construction.",
+    "„Dlouho jsme hledali komplexní zabezpečovací řešení pro náš výrobní areál a s Sky Guard jsme konečně našli partnera, který nám rozumí. Přístup byl naprosto profesionální — od vstupní analýzy rizik až po instalaci systému a jeho napojení na dohledové centrum.":
+      "„We had been looking for a comprehensive security solution for our production facility for a long time, and with Sky Guard we finally found a partner who understands us. The approach was completely professional — from the initial risk analysis to the system installation and connection to the monitoring center.",
+    "„Spravuji několik areálů a bezpečnost je u nás naprostou prioritou. Sky Guard nám pomohl sjednotit dohled napříč lokalitami, což nám výrazně usnadnilo každodenní provoz. Systémy jsou spolehlivé, technická podpora reaguje rychle a přehledný přístup ke všem kamerám a záznamům online je obrovská výhoda.":
+      "„I manage several sites and security is our absolute priority. Sky Guard helped us unify surveillance across all locations, which significantly streamlined our daily operations. The systems are reliable, technical support responds quickly, and the clear online access to all cameras and recordings is a huge advantage.",
     "Construction Manager": "Construction Manager",
     "Construction Management": "Construction Management",
+    "Majitel většího průmyslového areálu": "Owner of a large industrial site",
+    "Technik spravující několik průmyslových objektů": "Technician managing several industrial buildings",
 
     // FAQ
     "Nejčastěji kladené dotazy": "Frequently asked questions",
@@ -197,11 +203,17 @@
     if (!v) return;
     const t = v.trim();
     if (!t) return;
-    if (DICT.hasOwnProperty(t)) {
-      const lead = v.match(/^\s*/)[0];
-      const tail = v.match(/\s*$/)[0];
-      node.nodeValue = lead + DICT[t] + tail;
-    }
+    if (!DICT.hasOwnProperty(t)) return;
+    // Self-mapping entries (e.g. "Sky security" → "Sky security") would set
+    // nodeValue to the same string, but Chrome still fires a characterData
+    // mutation, which in turn re-triggers this handler — infinite loop on
+    // any text node touched after the MutationObserver is installed (carousel
+    // textContent writes, runtime text edits, etc.). Skip no-op translations.
+    const newVal = DICT[t];
+    if (newVal === t) return;
+    const lead = v.match(/^\s*/)[0];
+    const tail = v.match(/\s*$/)[0];
+    node.nodeValue = lead + newVal + tail;
   }
 
   function walk(root) {
