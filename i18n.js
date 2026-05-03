@@ -123,10 +123,18 @@
     // FAQ
     "Nejčastěji kladené dotazy": "Frequently asked questions",
     "Vše co potřebujete o naší službě Sky Guard na jednom místě": "Everything you need about our Sky Guard service in one place",
-    "Jak funguje dronová ostraha v praxi?": "How does drone security work in practice?",
+    "Jak funguje dronová ostraha v praxi?": "How does drone surveillance work in practice?",
     "Jak je dron chráněn proti krádeži nebo poškození?": "How is the drone protected against theft or damage?",
-    "Co když je špatné počasí? Funguje to i v dešti nebo zimě?": "What about bad weather? Does it work in rain or cold?",
+    "Co když je špatné počasí? Funguje to i v dešti nebo zimě?": "What happens in bad weather? Does it work in rain or winter?",
     "Co když dron selže nebo spadne?": "What if the drone fails or crashes?",
+    "Dron pravidelně hlídkuje ve zvolených intervalech, sleduje okolí pomocí kamer a v případě narušení odešle upozornění našemu dohledu i vám.":
+      "The drone regularly patrols at chosen intervals, monitors the surroundings via cameras, and instantly sends an alert to our monitoring center and to you in case of an intrusion.",
+    "Stanice i dron mají GPS, bezpečnostní zámky a jsou monitorovány. Případný zásah je okamžitě detekován.":
+      "Both the station and the drone have GPS, security locks and are continuously monitored. Any tampering is detected immediately.",
+    "Ano, zařízení je voděodolné a funguje v extrémních teplotách – mráz, sníh, déšť nejsou problém.":
+      "Yes, the device is waterproof and operates in extreme temperatures — frost, snow and rain are not an issue.",
+    "Drony jsou pravidelně servisovány a monitorovány. V případě poruchy je aktivován záložní režim a náš tým situaci řeší okamžitě.":
+      "The drones are regularly serviced and monitored. In the event of a failure, a fail-safe mode activates and our team handles the situation immediately.",
 
     // CTA
     "Jste připraveni povznést vaši bezpečnost na novou úroveň?": "Ready to take your security to a new level?",

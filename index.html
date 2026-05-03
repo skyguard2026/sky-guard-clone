@@ -215,6 +215,29 @@
       html[lang="en"] section[data-framer-name="Divider"] h3 {
         white-space: nowrap !important;
       }
+
+      /* FAQ accordion (faq.js injects answer + Plus/X icons) */
+      .sg-faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+        padding: 0 24px;
+        color: rgba(245, 245, 245, 0.78);
+        font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+      }
+      .sg-faq-answer p { margin: 0; }
+      .sg-faq-slot.sg-faq-open .sg-faq-answer {
+        max-height: 600px;
+        opacity: 1;
+        padding: 0 24px 20px;
+      }
+      .sg-faq-slot [data-framer-name="Close"] { cursor: pointer; }
+      .sg-faq-icon-x { display: none !important; }
+      .sg-faq-slot.sg-faq-open .sg-faq-icon-plus { display: none !important; }
+      .sg-faq-slot.sg-faq-open .sg-faq-icon-x { display: inline-block !important; }
     </style>
     <script>
       // Framer video tagy mají autoplay=false + preload=none — měl je spouštět JS framework. Nahradíme.
@@ -235,6 +258,7 @@
     </script>
     <script defer src="/i18n.js"></script>
     <script defer src="/carousel.js"></script>
+    <script defer src="/faq.js"></script>
 </head>
 <body>
     <script async src="/script.js" data-fid="ae18bcd1495869009e51739a4e8738d42b6c5983be7cdea67b42acbf354c5ae9" data-no-nt></script>
