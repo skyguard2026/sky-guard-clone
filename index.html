@@ -267,6 +267,38 @@
         position: absolute;
         inset: -12px;
       }
+    
+      /* Sky Guard Hub FAB — fixed-position fallback at <1440 px, where Framer
+         hamburger menu is non-functional (React runtime missing). At >=1440
+         the original desktop navbar already contains the inline Hub button,
+         so the FAB is hidden via media query. */
+      #sg-hub-fab {
+        position: fixed;
+        top: 72px;
+        right: 16px;
+        z-index: 2147483646;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: rgb(2, 73, 168);
+        color: #fff;
+        border: 2px solid rgba(255, 250, 250, 0.14);
+        border-radius: 30px;
+        box-shadow: 0 0 34px 0 rgb(2, 74, 168), 0 0 0 4px rgba(34, 34, 34, 0.1);
+        font-family: "DM Sans", "DM Sans Placeholder", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        text-decoration: none;
+      }
+      #sg-hub-fab .sg-hub-label-short { display: none; }
+      @media (min-width: 1440px) { #sg-hub-fab { display: none; } }
+      @media (max-width: 480px) {
+        #sg-hub-fab { padding: 8px 14px; font-size: 13px; }
+        #sg-hub-fab .sg-hub-label-full { display: none; }
+        #sg-hub-fab .sg-hub-label-short { display: inline; }
+      }
     </style>
     <script>
       // Framer video tagy mají autoplay=false + preload=none — měl je spouštět JS framework. Nahradíme.
@@ -291,6 +323,12 @@
 </head>
 <body>
     <script async src="/script.js" data-fid="ae18bcd1495869009e51739a4e8738d42b6c5983be7cdea67b42acbf354c5ae9" data-no-nt></script>
+    <!-- Sky Guard Hub FAB — visible at <1440 where Framer hamburger nav is non-functional -->
+    <a id="sg-hub-fab" href="/hub/login" aria-label="Sky Guard Hub">
+      <span class="sg-hub-label-full">Sky Guard Hub</span>
+      <span class="sg-hub-label-short">Hub</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+    </a>
     <!-- Start of bodyStart -->
     <script src="https://cdn.framerauth.com/packages/sdk/live/latest/framerauth.js" site-id="NEWOPWGX"></script>
 <!-- Plugin: 1ffc82 --> <script src="https://cdn.framerauth.com/packages/sdk/live/latest/framerauth.js" site-id="NEWOPWGX"></script>
