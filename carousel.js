@@ -82,6 +82,34 @@
       });
       b.dataset.sgCarouselBound = "1";
     });
+
+    // Mobile/tablet responsive variant: Framer doesn't wrap the chevron in
+    // an <a data-framer-name="Primary"> — IconLeft/IconRight container is
+    // the leaf. Bind directly. Skip if already covered by a Primary parent.
+    const testimonialsSec = document.querySelector(
+      'section[data-framer-name="Testimonials"]'
+    );
+    if (!testimonialsSec) return;
+    testimonialsSec
+      .querySelectorAll(
+        '[data-framer-name="IconLeft"], [data-framer-name="IconRight"]'
+      )
+      .forEach((icon) => {
+        if (icon.dataset.sgCarouselBound) return;
+        if (
+          icon.closest(
+            'a[data-framer-name="Primary"], button[data-framer-name="Primary"]'
+          )
+        )
+          return;
+        const isPrev = icon.getAttribute("data-framer-name") === "IconLeft";
+        icon.style.cursor = "pointer";
+        icon.addEventListener("click", (e) => {
+          e.preventDefault();
+          setSlide(current + (isPrev ? -1 : 1));
+        });
+        icon.dataset.sgCarouselBound = "1";
+      });
   }
 
   function init() {

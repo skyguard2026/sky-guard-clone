@@ -253,6 +253,20 @@
       .sg-faq-icon-x { display: none !important; }
       .sg-faq-slot.sg-faq-open .sg-faq-icon-plus { display: none !important; }
       .sg-faq-slot.sg-faq-open .sg-faq-icon-x { display: inline-block !important; }
+
+      /* Testimonials carousel chevrons — pseudo-element expands hit area to
+         ~44x44 (Apple HIG / WCAG 2.5.5). Mobile native chevron renders at
+         20-24 px, the ::after captures taps in a wider perimeter. */
+      section[data-framer-name="Testimonials"] [data-framer-name="IconLeft"],
+      section[data-framer-name="Testimonials"] [data-framer-name="IconRight"] {
+        position: relative;
+      }
+      section[data-framer-name="Testimonials"] [data-framer-name="IconLeft"]::after,
+      section[data-framer-name="Testimonials"] [data-framer-name="IconRight"]::after {
+        content: "";
+        position: absolute;
+        inset: -12px;
+      }
     </style>
     <script>
       // Framer video tagy mají autoplay=false + preload=none — měl je spouštět JS framework. Nahradíme.
@@ -272,7 +286,7 @@
       });
     </script>
     <script defer src="/i18n.js?v=2"></script>
-    <script defer src="/carousel.js?v=2"></script>
+    <script defer src="/carousel.js?v=3"></script>
     <script defer src="/faq.js?v=2"></script>
 </head>
 <body>
