@@ -225,8 +225,10 @@
         line-height: 1.2 !important;
       }
 
-      html[lang="en"] section[data-framer-name="Divider"] h3 {
-        white-space: nowrap !important;
+      @media (min-width: 810px) {
+        html[lang="en"] section[data-framer-name="Divider"] h3 {
+          white-space: nowrap !important;
+        }
       }
 
       /* FAQ accordion (faq.js injects answer + Plus/X icons) */
