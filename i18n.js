@@ -251,12 +251,21 @@
     }
 
     // Jinak: rekurze do dětí. Také pro divy / spany — pro případ že textContent
-    // celého divu (např. fráze splitnutá na "Komplexní řešení pro vaše stavební
-    // projekty") je v dictu.
+    // celého divu (např. fráze splitnutá na per-letter span "Komplexní řešení
+    // pro vaše stavební projekty") je v dictu. Skip pokud má block-level
+    // children (P/H1-6/DIV/A/...) — translatePhrase by jejich strukturu
+    // zničil přepsáním textContent, což rozbíjí mobile responsive layouty
+    // kde Framer rozseká titulek do dvou samostatných <p> elementů
+    // (např. "<p>SKY</p><p>SECURITY</p>" se sloučí do jednoho text uzlu
+    // a vizuálně zmizí). Pro tyto případy descend rekurzivně a nech každé
+    // P / H translatovat samostatně přes PHRASE_TAGS path.
     if (root.tagName === "DIV" || root.tagName === "SPAN") {
       const trimmed = root.textContent?.trim();
       if (trimmed && DICT.hasOwnProperty(trimmed)) {
-        if (translatePhrase(root)) return;
+        const hasBlockChildren = root.querySelector(
+          "p, h1, h2, h3, h4, h5, h6, div, section, article, ul, ol, li, table, button, a"
+        );
+        if (!hasBlockChildren && translatePhrase(root)) return;
       }
     }
 
