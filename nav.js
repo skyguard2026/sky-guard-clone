@@ -247,7 +247,10 @@
     if (!sw) return;
     var btn = visibleBtn();
     if (!btn) {
-      sw.style.right = "";
+      // Pozor: prázdný řetězec by inline "right" smazal úplně a přepínač by
+      // s position:fixed spadl na levý okraj — i18n.js ho nastavuje inline,
+      // takže není z čeho spadnout zpět. Vracíme původní hodnotu.
+      sw.style.right = "20px";
       return;
     }
     var r = btn.getBoundingClientRect();
