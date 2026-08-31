@@ -105,6 +105,24 @@
     "Průmyslový areál": "Industrial site",
     "Zemědělský objekt": "Agricultural property",
     "Odeslat": "Submit",
+
+    // Alt texty obrázků
+    "Autonomní dron Sky Guard za letu": "Sky Guard autonomous drone in flight",
+    "Dokovací stanice Sky Guard s otevřenými rameny": "Sky Guard docking station with open arms",
+    "Dron startující z dokovací stanice": "Drone taking off from the docking station",
+    "Stavební technika na staveništi": "Construction machinery on a building site",
+    "Dron v nepřetržitém provozu 24/7": "Drone operating 24/7",
+    "Sky Guard Hub otevřený na notebooku a mobilu": "Sky Guard Hub open on a laptop and a phone",
+    "Detail kamery a termovize na dronu": "Close-up of the drone camera and thermal imaging",
+    "Srovnání dronové ostrahy s klasickou fyzickou ostrahou": "Drone security compared with traditional on-site guards",
+    "Dokovací stanice Sky Guard": "Sky Guard docking station",
+    "Rozhraní Sky Storage s letovými záznamy a 3D modely": "Sky Storage interface with flight records and 3D models",
+    "Ortofotomapa staveniště pořízená dronem": "Drone orthophoto map of the building site",
+    "Fotogrammetrický 3D model rozestavěné haly": "Photogrammetric 3D model of a hall under construction",
+    "Ukázka reportu Sky Reporting": "Sample Sky Reporting report",
+    "Pozemní robot Sky Guard": "Sky Guard ground robot",
+    "Ano": "Yes",
+    "Ne": "No",
     // Placeholdery formuláře — walk() je překládá přes atribut placeholder
     "Josef Novák": "John Smith",
     "novak@seznam.cz": "john@example.com",
@@ -301,6 +319,12 @@
         root.placeholder = DICT[p];
       }
     }
+    if (root.tagName === "IMG" && root.getAttribute("alt")) {
+      const a = root.getAttribute("alt").trim();
+      if (DICT.hasOwnProperty(a) && DICT[a] !== root.getAttribute("alt")) {
+        root.setAttribute("alt", DICT[a]);
+      }
+    }
     if (root.hasAttribute && root.hasAttribute("aria-label")) {
       const al = root.getAttribute("aria-label").trim();
       if (DICT.hasOwnProperty(al) && DICT[al] !== root.getAttribute("aria-label")) {
@@ -407,7 +431,11 @@
         } else if (r.type === "childList") {
           r.addedNodes.forEach(walk);
         } else if (r.type === "attributes") {
-          if (r.attributeName === "placeholder" || r.attributeName === "aria-label") {
+          if (
+            r.attributeName === "placeholder" ||
+            r.attributeName === "aria-label" ||
+            r.attributeName === "alt"
+          ) {
             walk(r.target);
           }
         }
@@ -418,7 +446,7 @@
       childList: true,
       characterData: true,
       attributes: true,
-      attributeFilter: ["placeholder", "aria-label"],
+      attributeFilter: ["placeholder", "aria-label", "alt"],
     });
   }
 
