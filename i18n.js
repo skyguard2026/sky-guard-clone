@@ -106,6 +106,12 @@
     "Zemědělský objekt": "Agricultural property",
     "Odeslat": "Submit",
 
+    // Dočasná hláška kontaktního formuláře (contact.js) — do doby, než bude
+    // hotový backend. Rozdělená na dva spany, aby odkazy uvnitř přežily.
+    "Formulář je momentálně v údržbě. Napište nám prosím na":
+      "The form is temporarily out of service. Please email us at",
+    "nebo volejte": "or call",
+
     // Reference
     "Naši službu aktivně využívají": "Actively used by",
     "Připojte se k dalším klientům Sky Guard a pozdvihněte vaši bezpečnost na novou úroveň.": "Join other Sky Guard clients and take your security to a new level.",
@@ -149,6 +155,17 @@
     "Instagram": "Instagram",
     "LinkedIn": "LinkedIn",
     "Tiktok": "Tiktok",
+  };
+
+  // <option> překládáme podle atributu value, ne podle textu. Text "Další" je
+  // totiž zároveň popisek tlačítka karuselu, kde má být "Next", zatímco
+  // ve výběru služby znamená "jiné" → "Other". Klíč value tuhle kolizi řeší.
+  const OPTION_DICT = {
+    "": "Select",
+    industrial: "Industrial site",
+    construction: "Construction project",
+    agriculture: "Agricultural property",
+    other: "Other",
   };
 
   const STORAGE_KEY = "sg-lang";
@@ -233,6 +250,14 @@
     if (root.nodeType !== Node.ELEMENT_NODE) return;
     if (SKIP_TAGS.has(root.tagName)) return;
     if (root.id === "sg-lang-switcher") return;
+
+    // <option> má vlastní slovník podle value a nikdy nepokračuje do generické
+    // cesty — jinak by se "Další" přeložilo jako "Next" (viz OPTION_DICT).
+    if (root.tagName === "OPTION") {
+      const v = root.getAttribute("value") || "";
+      if (OPTION_DICT.hasOwnProperty(v)) root.textContent = OPTION_DICT[v];
+      return;
+    }
 
     // Atributy
     if (root.placeholder) {
