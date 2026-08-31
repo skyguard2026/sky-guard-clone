@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/(carousel|faq|i18n|script)\\.js",
+      "source": "/(carousel|contact|faq|i18n|script)\\.js",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
       ]
