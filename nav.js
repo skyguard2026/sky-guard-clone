@@ -76,6 +76,21 @@
     return null;
   }
 
+  // Některé kotvy sedí na sekci, kterou Framer na daném breakpointu skrývá —
+  // #sluzby má třídu hidden-1atwl3l, takže pod 810 px má nulový rozměr
+  // a scroll na ni skončí na začátku stránky. V takovém případě hledáme
+  // viditelnou sekci se stejným data-framer-name (u #sluzby je to #ngisui).
+  function resolveTarget(hash) {
+    var id = hash.charAt(0) === "#" ? hash.slice(1) : hash;
+    var el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().height > 0) return el;
+    var alts = document.querySelectorAll('[data-framer-name="' + id + '"]');
+    for (var i = 0; i < alts.length; i++) {
+      if (alts[i].getBoundingClientRect().height > 0) return alts[i];
+    }
+    return el;
+  }
+
   function navLinks() {
     var seen = {};
     var out = [];
@@ -148,7 +163,7 @@
       a.addEventListener("click", function (e) {
         e.preventDefault();
         close();
-        var target = document.querySelector(l.href);
+        var target = resolveTarget(l.href);
         if (!target) return;
         // Vlastní scroll místo nativního skoku na hash — nespoléháme na
         // hashchange a zachováme scroll-margin-top, který web má nastavený.
