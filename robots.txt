@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /hub/
+
+Sitemap: https://www.sky-guard.cz/sitemap.xml
