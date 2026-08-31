@@ -45,16 +45,22 @@
     inner.insertAdjacentHTML("beforeend", PLUS_SVG + X_SVG);
   }
 
+  let answerSeq = 0;
+
   function injectAnswer(slot, qText) {
-    if (slot.querySelector(".sg-faq-answer")) return;
+    if (slot.querySelector(".sg-faq-answer")) return null;
     const csText = Q2A[qText] || Q2A[EN2CS[qText]];
-    if (!csText) return;
+    if (!csText) return null;
     const div = document.createElement("div");
     div.className = "sg-faq-answer";
+    div.id = "sg-faq-answer-" + ++answerSeq;
+    // region + aria-labelledby: odečítač pozná, ke které otázce odpověď patří
+    div.setAttribute("role", "region");
     const p = document.createElement("p");
     p.textContent = csText;
     div.appendChild(p);
     slot.appendChild(div);
+    return div;
   }
 
   function init() {
@@ -68,17 +74,46 @@
       const slot = header.parentElement;
       if (!slot) return;
       slot.classList.add("sg-faq-slot");
-      injectAnswer(slot, qText);
+      const answer = injectAnswer(slot, qText) || slot.querySelector(".sg-faq-answer");
+
+      // Hlavička je <div>, takže jí musíme dodat sémantiku tlačítka ručně.
+      if (!header.hasAttribute("role")) header.setAttribute("role", "button");
+      header.setAttribute("tabindex", "0");
+      header.setAttribute("aria-expanded", "false");
+      if (answer) {
+        header.setAttribute("aria-controls", answer.id);
+        if (!answer.getAttribute("aria-labelledby")) {
+          if (!header.id) header.id = answer.id + "-header";
+          answer.setAttribute("aria-labelledby", header.id);
+        }
+      }
+
       const plus = header.querySelector('[data-framer-name="Plus"]');
       if (plus) ensureIcons(plus);
       if (header.dataset.sgFaqBound) return;
+
+      const toggle = () => {
+        const wasOpen = slot.classList.contains("sg-faq-open");
+        document.querySelectorAll(".sg-faq-slot.sg-faq-open").forEach((s) => {
+          s.classList.remove("sg-faq-open");
+          const h = s.querySelector('[data-framer-name="Close"]');
+          if (h) h.setAttribute("aria-expanded", "false");
+        });
+        if (!wasOpen) {
+          slot.classList.add("sg-faq-open");
+          header.setAttribute("aria-expanded", "true");
+        }
+      };
+
       header.addEventListener("click", (e) => {
         e.preventDefault();
-        const wasOpen = slot.classList.contains("sg-faq-open");
-        document
-          .querySelectorAll(".sg-faq-slot.sg-faq-open")
-          .forEach((s) => s.classList.remove("sg-faq-open"));
-        if (!wasOpen) slot.classList.add("sg-faq-open");
+        toggle();
+      });
+      header.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          toggle();
+        }
       });
       header.dataset.sgFaqBound = "1";
     });

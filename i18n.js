@@ -105,6 +105,9 @@
     "Průmyslový areál": "Industrial site",
     "Zemědělský objekt": "Agricultural property",
     "Odeslat": "Submit",
+    // Placeholdery formuláře — walk() je překládá přes atribut placeholder
+    "Josef Novák": "John Smith",
+    "novak@seznam.cz": "john@example.com",
 
     // Dočasná hláška kontaktního formuláře (contact.js) — do doby, než bude
     // hotový backend. Rozdělená na dva spany, aby odkazy uvnitř přežily.
@@ -154,7 +157,6 @@
     "Facebook": "Facebook",
     "Instagram": "Instagram",
     "LinkedIn": "LinkedIn",
-    "Tiktok": "Tiktok",
   };
 
   // <option> překládáme podle atributu value, ne podle textu. Text "Další" je
@@ -167,6 +169,35 @@
     agriculture: "Agricultural property",
     other: "Other",
   };
+
+  // Metadata hlavičky. document.title a meta tagy nejsou v DOMu jako text,
+  // takže je walk() nepokryje a je nutné je přepsat zvlášť.
+  const META = {
+    title:
+      "Sky Guard - Drone Security | A guard that never sleeps",
+    description:
+      "Sky Guard — autonomous drone security 24/7. AI detection, thermal imaging, instant alerts. Secure your site with 21st-century technology.",
+    keywords:
+      "drone security, autonomous drones, security services, AI detection, thermal imaging, 24/7 monitoring, Sky Guard, Prague",
+    ogImageAlt: "Sky Guard - autonomous drone security",
+  };
+
+  function translateMeta() {
+    document.title = META.title;
+    const set = (sel, value) => {
+      document.querySelectorAll(sel).forEach((el) => el.setAttribute("content", value));
+    };
+    set('meta[name="description"]', META.description);
+    set('meta[name="keywords"]', META.keywords);
+    set('meta[property="og:title"]', META.title);
+    set('meta[name="twitter:title"]', META.title);
+    set('meta[property="og:description"]', META.description);
+    set('meta[name="twitter:description"]', META.description);
+    set('meta[property="og:image:alt"]', META.ogImageAlt);
+    set('meta[name="twitter:image:alt"]', META.ogImageAlt);
+    set('meta[property="og:locale"]', "en_US");
+    set('meta[property="og:locale:alternate"]', "cs_CZ");
+  }
 
   const STORAGE_KEY = "sg-lang";
   const getLang = () => localStorage.getItem(STORAGE_KEY) || "cs";
@@ -259,14 +290,22 @@
       return;
     }
 
-    // Atributy
+    // Atributy.
+    // Stejná pojistka jako v translateTextNode: self-mapping záznamy
+    // (např. "Email": "Email") by zapsaly identickou hodnotu, MutationObserver
+    // by na attributeFilter ["placeholder","aria-label"] fired znovu a walk by
+    // se zacyklil. Zápis proto provedeme jen při skutečné změně.
     if (root.placeholder) {
       const p = root.placeholder.trim();
-      if (DICT.hasOwnProperty(p)) root.placeholder = DICT[p];
+      if (DICT.hasOwnProperty(p) && DICT[p] !== root.placeholder) {
+        root.placeholder = DICT[p];
+      }
     }
     if (root.hasAttribute && root.hasAttribute("aria-label")) {
       const al = root.getAttribute("aria-label").trim();
-      if (DICT.hasOwnProperty(al)) root.setAttribute("aria-label", DICT[al]);
+      if (DICT.hasOwnProperty(al) && DICT[al] !== root.getAttribute("aria-label")) {
+        root.setAttribute("aria-label", DICT[al]);
+      }
     }
 
     // Pokud je to "phrase" tag a celý textContent je ve slovníku, nahradíme ho
@@ -357,9 +396,7 @@
     if (getLang() !== "en") return;
 
     document.documentElement.lang = "en";
-    if (document.title === "Sky Guard - Dronová ostraha") {
-      document.title = "Sky Guard - Drone Security";
-    }
+    translateMeta();
 
     walk(document.body);
 
