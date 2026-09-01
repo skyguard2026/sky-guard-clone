@@ -712,3 +712,71 @@ img[src*="/images/sky-camera-"] {
 .sg-footer picture, .sg-logo picture { display: block; line-height: 0; }
 .sg-footer-logo { display: block; }
 .sg-footer-contact a { min-height: 30px; width: fit-content; }
+
+/* Odkazy v patičce mají 38 px kvůli hustotě sazby (AA vyžaduje 24).
+   Dotykovou plochu roztáhneme na 44 px pseudo-elementem, aby se nezvětšily
+   rozestupy — stejný postup jako u ostatních drobných cílů. */
+.sg-footer-list a, .sg-footer-contact a { position: relative; }
+.sg-footer-list a::after, .sg-footer-contact a::after {
+  content: ""; position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%); width: 100%; height: 44px;
+}
+
+/* ═════════════════════ mobilní hero ════════════════════════════════
+   Vizuál byl přes order:-1 nad textem, takže na 390 px začínal nadpis
+   až kolem 490 px a nad foldem nebyl vidět ani H1, ani CTA. Spec navíc
+   počítá s výškou hera 690–760 px, ne 924. Na tabletu pořadí necháváme,
+   tam je místa dost. */
+@media (max-width: 700px) {
+  .sg-hero-visual { order: 0; min-height: 330px; margin-top: 8px; }
+  .sg-hero { min-height: 0; padding-top: 40px; padding-bottom: 48px; }
+  .sg-h1 { font-size: clamp(38px, 11vw, 46px); }
+  .sg-hero-grid { gap: 24px; }
+  .sg-hero-hub { inset: 0 0 86px 30%; }
+  .sg-hero-camera { width: 30%; height: 78%; left: 0; }
+  .sg-hero-drone { width: 46%; height: 34%; }
+  .sg-hero-actions { gap: 14px; margin-top: 24px; }
+}
+
+/* ═══════════════ dotažení detailů ══════════════════════════════════ */
+
+/* Schopnosti v deep dive byly holý text nad linkou — fajfka je udělá
+   čitelnější jako výčet toho, co zařízení umí. */
+.sg-feature-mini {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 14px 0; color: var(--sg-text);
+}
+.sg-feature-mini::before {
+  content: ""; flex-shrink: 0; margin-top: 3px;
+  width: 16px; height: 16px; background: var(--sg-blue);
+  -webkit-mask: url("/design/icons/shield.svg") center / contain no-repeat;
+  mask: url("/design/icons/shield.svg") center / contain no-repeat;
+}
+.sg-feature-mini-grid { gap: 4px 24px; }
+
+/* Hover stavy podle specu: posun o 3 px a projasnění okraje. */
+.sg-config-card, .sg-solution, .sg-platform-card {
+  transition: transform .25s ease, border-color .25s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sg-config-card:hover, .sg-platform-card:hover {
+    transform: translateY(-3px); border-color: rgba(8,120,255,.34);
+  }
+  .sg-solution.security:hover { transform: translateY(-3px); border-color: rgba(8,120,255,.34); }
+  .sg-solution.construction:hover { transform: translateY(-3px); border-color: rgba(255,133,10,.38); }
+  .sg-faq-item:hover { background: rgba(255,255,255,.012); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sg-config-card, .sg-solution, .sg-platform-card { transition: none; }
+  .sg-config-card:hover, .sg-platform-card:hover, .sg-solution:hover { transform: none; }
+}
+
+/* Spojnice v heru byly sotva znatelné, přitom nesou myšlenku propojení. */
+.sg-hero-connectors { opacity: .75; }
+
+/* Tabulka: hlavička Fusion má být vidět jako doporučený sloupec i shora. */
+.sg-table thead th.is-fusion { position: relative; }
+.sg-table thead th.is-fusion::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: var(--sg-blue);
+}
