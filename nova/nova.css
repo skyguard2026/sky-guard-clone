@@ -780,3 +780,31 @@ img[src*="/images/sky-camera-"] {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
   background: var(--sg-blue);
 }
+
+/* Na tabletu platil stejný problém jako na mobilu: vizuál nad textem
+   posouval H1 na 615 px a CTA končilo až u spodní hrany. Sdělení má být
+   první na všech úzkých šířkách, ne jen na telefonu. */
+@media (max-width: 980px) {
+  .sg-hero-visual { order: 0; }
+  .sg-hero { min-height: 0; padding-top: 56px; padding-bottom: 64px; }
+  /* Spojnice jsou nakreslené pro poměr 1600x800 desktopové kompozice.
+     Na užších šířkách míří mimo prvky a zbývá z nich osamocená tečka. */
+  .sg-hero-connectors { display: none; }
+}
+
+/* Deep dive sekce jsou zrcadlové, ale kamera měla rámovanou fotku a dron
+   volně plovoucí render — dvojice pak působila nesourodě. Dron dostane
+   stejnou plochu, jen průhledný render zůstává uvnitř. */
+#sky-drone .sg-dd-visual {
+  border-radius: var(--sg-radius-lg);
+  border: 1px solid rgba(8,120,255,.16);
+  background: radial-gradient(120% 80% at 50% 40%, rgba(8,120,255,.07), transparent 62%), #0a0a0c;
+  box-shadow: 0 20px 70px rgba(0,0,0,.4);
+  padding: 40px 32px;
+  min-height: 420px;
+}
+#sky-drone .sg-dd-visual img { max-height: 340px; }
+@media (max-width: 700px) {
+  #sky-drone .sg-dd-visual { min-height: 260px; padding: 28px 20px; }
+  #sky-drone .sg-dd-visual img { max-height: 220px; }
+}
