@@ -808,3 +808,19 @@ img[src*="/images/sky-camera-"] {
   #sky-drone .sg-dd-visual { min-height: 260px; padding: 28px 20px; }
   #sky-drone .sg-dd-visual img { max-height: 220px; }
 }
+
+/* Kamera je fotka s tmavým pozadím, dron průhledný render — vedle sebe
+   v kartách platformy působily jako dva různé světy. Oba dostanou stejnou
+   plochu, aby dvojice držela pohromadě. */
+.sg-platform-card > picture { display: block; margin-top: auto; }
+.sg-platform-art {
+  height: 176px; width: 100%;
+  border-radius: var(--sg-radius-md) !important;
+  border: 1px solid rgba(255,255,255,.06) !important;
+  background: radial-gradient(120% 90% at 50% 45%, rgba(8,120,255,.06), transparent 60%), #0a0a0c !important;
+  object-fit: contain; object-position: center;
+  padding: 12px;
+}
+
+/* Kamera je na výšku, takže v nízké ploše vycházela drobná. */
+.sg-platform-art { height: 210px; padding: 14px; }

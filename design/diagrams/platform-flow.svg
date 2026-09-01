@@ -7,10 +7,10 @@
 <path d="M285 194v27c0 14 11 25 25 25h290" stroke="#0878FF" stroke-opacity=".46"/>
 <path d="M915 194v27c0 14-11 25-25 25H600" stroke="#0878FF" stroke-opacity=".46"/>
 <circle cx="285" cy="194" r="3" fill="#0878FF"/><circle cx="915" cy="194" r="3" fill="#0878FF"/><circle cx="600" cy="246" r="4" fill="#0878FF"/>
-<text x="100" y="112" fill="#687180" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">FIXED LAYER</text>
+<text x="100" y="112" fill="#687180" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">PEVNÁ VRSTVA</text>
 <text x="100" y="150" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="26" font-weight="700">SKY CAMERA</text>
-<text x="730" y="112" fill="#687180" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">MOBILE LAYER</text>
+<text x="730" y="112" fill="#687180" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">MOBILNÍ VRSTVA</text>
 <text x="730" y="150" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="26" font-weight="700">SKY DRONE</text>
-<text x="270" y="294" fill="#0878FF" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">CONTROL LAYER</text>
-<text x="270" y="330" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="28" font-weight="700">SKY HUB — ONE VIEW OF THE ENTIRE SITE</text>
+<text x="270" y="294" fill="#0878FF" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">ŘÍDICÍ VRSTVA</text>
+<text x="270" y="330" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="28" font-weight="700">SKY HUB — CELÝ AREÁL NA JEDNOM MÍSTĚ</text>
 </svg>
