@@ -824,3 +824,14 @@ img[src*="/images/sky-camera-"] {
 
 /* Kamera je na výšku, takže v nízké ploše vycházela drobná. */
 .sg-platform-art { height: 210px; padding: 14px; }
+
+/* Závěrečné CTA — spec chce za ním velkou klidnou modrou záři, dodaný
+   gradient byl sotva znatelný. Tlačítko bylo na tak velkém panelu drobné. */
+.sg-final-cta {
+  background:
+    radial-gradient(90% 130% at 50% 130%, rgba(8,120,255,.26), transparent 62%),
+    radial-gradient(60% 80% at 50% -10%, rgba(8,120,255,.10), transparent 60%),
+    var(--sg-surface-2);
+}
+.sg-final-cta .sg-btn { min-height: 56px; padding: 0 30px; font-size: 15px; }
+.sg-final-cta .sg-lead { text-align: center; }
