@@ -533,3 +533,59 @@ a { color: inherit; }
   .sg-nav-item.has-menu:hover .sg-dropdown { opacity: 1; visibility: visible; transform: none; }
   .sg-nav-item.has-menu:hover > .sg-nav-link { color: var(--sg-text); background: rgba(255,255,255,.05); }
 }
+
+/* ══════════════ opravy po vizuální kontrole po sekcích ══════════════ */
+
+/* PRŮBĚH INCIDENTU — dodané CSS kreslí spojnici mimo tečky.
+   Na desktopu je linka na top:14px, ale tečka začíná až za 24px
+   paddingem, takže její střed je na 38px. Na mobilu je linka na
+   left:14px, zatímco střed tečky vychází na 34px. */
+.sg-work-step { padding: 0 20px 0 0; }
+.sg-work-step:not(:last-child)::after { top: 17px; left: 40px; right: 14px; }
+.sg-step-dot {
+  display: grid; place-items: center;
+  color: #9fd0ff; font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 700px) {
+  .sg-work-step { padding: 0 0 0 44px; }
+  .sg-step-dot { position: absolute; top: 0; left: 0; }
+  .sg-work-step:not(:last-child)::after { top: 30px; bottom: -20px; left: 13px; right: auto; }
+  .sg-step-title { margin-top: 2px; }
+}
+
+/* KARTY PLATFORMY — vizuály měly různou velikost i ukotvení a spodní
+   záporný okraj je ořezával o okraj karty. Sjednocujeme na pevný pás. */
+.sg-platform-card { padding-bottom: 0; }
+.sg-platform-art {
+  margin: 26px auto 0; max-height: none;
+  height: 150px; width: 100%; object-fit: contain; object-position: center bottom;
+  opacity: .9;
+}
+.sg-platform-card > picture { margin-top: auto; }
+.sg-platform-card .sg-card-copy { margin-bottom: 4px; }
+
+/* TABULKA — první sloupec zabíral polovinu šířky, hodnoty byly stěsnané. */
+.sg-table { table-layout: fixed; }
+.sg-table th:first-child, .sg-table tbody th { width: 40%; }
+.sg-table th:not(:first-child), .sg-table td { width: 20%; }
+.sg-table th, .sg-table td { padding: 14px 18px; }
+.sg-table td { font-size: 17px; }
+.sg-table td[data-v="opt"] { font-size: 13px; }
+.sg-table td[data-v="ano"] { color: #6fd39b; }
+.sg-table td[data-v="ne"] { color: #4b5563; }
+
+@media (max-width: 640px) {
+  .sg-table, .sg-table th:first-child, .sg-table tbody th,
+  .sg-table th:not(:first-child), .sg-table td { width: auto; table-layout: auto; }
+  .sg-table tbody td { padding: 9px 0 0; }
+}
+
+/* card-v2.svg má obsah přesahující viewBox a v malém pásu se ořízne na
+   holý stožár — v kartách platformy proto používáme kompletní product-v2. */
+.sg-platform-art { object-position: center; height: 170px; }
+
+/* Vyšší poměr stran product-v2 (1600x1800) v kartách konfigurace. */
+.sg-config-art { height: 190px; }
+.sg-config-art img { max-height: 190px; }
+.sg-config-art-fusion img { max-height: 160px; }
