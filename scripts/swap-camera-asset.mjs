@@ -24,6 +24,12 @@ console.log(`zdroj: ${meta.width}x${meta.height} ${meta.format}, alfa: ${!!meta.
 const trimmed = await sharp(SRC).trim({ threshold: 12 }).toBuffer({ resolveWithObject: true });
 console.log(`po ořezu: ${trimmed.info.width}x${trimmed.info.height}`);
 
+// Fotka je studiový snímek na tmavém pozadí s vinětou, která je uprostřed
+// světlejší než u krajů. Prolnutí okrajů ji neopraví (a ukrajovalo kamery),
+// takže ji nechávame jako celý snímek a v layoutu ji rámujeme — viz
+// .sg-camera-frame v nova.css. Jen srovnáme úroveň pozadí blíž k webu.
+const feathered = await sharp(trimmed.data).linear(1.0, -8).toBuffer();
+
 const VARIANTS = [
   { name: 'sky-camera-tower', h: 1800 },   // deep dive, plná výška
   { name: 'sky-camera-hero',  h: 1500 },   // hero
@@ -32,9 +38,9 @@ const VARIANTS = [
 
 for (const v of VARIANTS) {
   const base = path.join(OUT, v.name);
-  const img = sharp(trimmed.data).resize({ height: v.h, withoutEnlargement: true });
+  const img = sharp(feathered).resize({ height: v.h, withoutEnlargement: true });
   await img.clone().png({ compressionLevel: 9 }).toFile(base + '.png');
-  await img.clone().webp({ quality: 86 }).toFile(base + '.webp');
+  await img.clone().webp({ quality: 86, alphaQuality: 90 }).toFile(base + '.webp');
   await img.clone().avif({ quality: 58 }).toFile(base + '.avif');
   const kb = (e) => (fs.statSync(base + '.' + e).size / 1024).toFixed(0);
   console.log(`  ${v.name}: png ${kb('png')} kB, webp ${kb('webp')} kB, avif ${kb('avif')} kB`);
