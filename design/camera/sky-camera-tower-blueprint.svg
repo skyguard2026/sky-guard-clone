@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
+<defs>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#5E6875"/>
+    <stop offset="0.18" stop-color="#DDE3EA"/>
+    <stop offset="0.48" stop-color="#F9FBFD"/>
+    <stop offset="0.78" stop-color="#A6B0BC"/>
+    <stop offset="1" stop-color="#46505C"/>
+  </linearGradient>
+  <linearGradient id="metalDark" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#313A46"/>
+    <stop offset="0.55" stop-color="#11161E"/>
+    <stop offset="1" stop-color="#05070B"/>
+  </linearGradient>
+  <linearGradient id="whiteShell" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/>
+    <stop offset="0.55" stop-color="#E9EEF4"/>
+    <stop offset="1" stop-color="#A9B4C0"/>
+  </linearGradient>
+  <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0D1824"/>
+    <stop offset="0.55" stop-color="#02060A"/>
+    <stop offset="1" stop-color="#10283B"/>
+  </linearGradient>
+  <radialGradient id="blueGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#0A78FF" stop-opacity="0.9"/>
+    <stop offset="0.4" stop-color="#0A78FF" stop-opacity="0.25"/>
+    <stop offset="1" stop-color="#0A78FF" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="cyanGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#19C9C2" stop-opacity="0.8"/>
+    <stop offset="0.5" stop-color="#19C9C2" stop-opacity="0.2"/>
+    <stop offset="1" stop-color="#19C9C2" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="14" result="blur"/>
+    <feOffset dy="14" result="off"/>
+    <feColorMatrix in="off" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+    <feGaussianBlur stdDeviation="12"/>
+  </filter>
+  <filter id="tinyGlow" x="-100%" y="-100%" width="300%" height="300%">
+    <feGaussianBlur stdDeviation="4"/>
+  </filter>
+</defs>
+
+<g fill="none" stroke="#1A85FF" stroke-width="2" opacity="0.74">
+ <rect x="568" y="410" width="64" height="810" rx="26"/>
+ <rect x="505" y="1218" width="190" height="48" rx="10"/>
+ <rect x="350" y="305" width="500" height="38" rx="19"/>
+ <path d="M310 315 L438 275 L482 310 L446 364 L326 382 Z"/>
+ <path d="M890 315 L762 275 L718 310 L754 364 L874 382 Z"/>
+ <rect x="535" y="365" width="130" height="62" rx="22"/>
+ <path d="M548 405 Q600 465 652 405 L647 454 Q600 500 553 454 Z"/>
+ <rect x="508" y="225" width="184" height="76" rx="22"/>
+ <circle cx="555" cy="263" r="18"/><circle cx="645" cy="263" r="18"/>
+ <rect x="522" y="880" width="156" height="210" rx="20"/>
+ <line x1="522" y1="985" x2="678" y2="985"/>
+ <line x1="600" y1="180" x2="600" y2="1320" stroke-dasharray="6 12" opacity="0.25"/>
+</g>
+<g fill="#1A85FF" opacity="0.35"><circle cx="555" cy="263" r="6"/><circle cx="645" cy="263" r="6"/><circle cx="600" cy="427" r="6"/></g>
+<g font-family="Arial,Helvetica,sans-serif" fill="#7EB7FF" opacity="0.65" font-size="20" letter-spacing="3">
+ <text x="730" y="250">DUAL SENSOR ARRAY</text><text x="730" y="280">PTZ / FIXED CAMERA HEAD</text><text x="730" y="1030">EDGE / POWER MODULE</text><text x="730" y="1250">FREESTANDING MAST</text>
+</g>
+<g stroke="#1A85FF" opacity="0.35" stroke-width="1.5"><line x1="692" y1="260" x2="715" y2="260"/><line x1="678" y1="1030" x2="715" y2="1030"/><line x1="632" y1="1240" x2="715" y2="1240"/></g>
+</svg>

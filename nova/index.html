@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Rozpracovaná verze homepage. Dokud běží vedle ostrého webu, nesmí
+         do indexu — canonical i robots proto míří pryč od /nova. -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Sky Guard — Bezpečnost, která nikdy nespí</title>
+    <meta name="description" content="Bezpečnostní kamery, autonomní drony a Sky Hub v jednom systému. Samostatně nebo v kombinaci podle potřeb vašeho areálu.">
+
+    <link rel="icon" href="/images/Z2lZvcYfq77KF2mDej53UtYXE.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="/images/4eqbL8dm2O9IU2lIcuSFEjAWsE.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" href="/images/4eqbL8dm2O9IU2lIcuSFEjAWsE.png">
+
+    <link rel="stylesheet" href="/design/css/tokens.css">
+    <link rel="stylesheet" href="/design/css/component-primitives.css">
+    <link rel="stylesheet" href="/design/css/homepage-sections.css">
+    <link rel="stylesheet" href="/nova/nova.css?v=9">
+</head>
+<body>
+
+<a class="sg-skip" href="#obsah">Přeskočit na obsah</a>
+
+<!-- ══════════════════════════════════════════════════ HLAVIČKA ══════ -->
+<header class="sg-header" id="sg-header">
+  <div class="sg-header-inner">
+    <a class="sg-logo" href="/nova" aria-label="Sky Guard — domů">
+      <picture>
+        <source type="image/avif" srcset="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.avif">
+        <source type="image/webp" srcset="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.webp">
+        <img src="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.png" alt="Sky Guard" width="230" height="39" decoding="async">
+      </picture>
+    </a>
+
+    <nav class="sg-nav" id="sg-nav" aria-label="Hlavní navigace">
+      <ul class="sg-nav-list">
+        <li class="sg-nav-item has-menu">
+          <button type="button" class="sg-nav-link" aria-expanded="false" aria-controls="menu-reseni">Řešení<span class="sg-caret" aria-hidden="true"></span></button>
+          <ul class="sg-dropdown" id="menu-reseni">
+            <li><a href="#reseni">Sky Security</a></li>
+            <li><a href="#reseni">Sky Construction</a></li>
+            <li><a href="#konfigurace">Kamera + dron / Fusion</a></li>
+          </ul>
+        </li>
+        <li class="sg-nav-item has-menu">
+          <button type="button" class="sg-nav-link" aria-expanded="false" aria-controls="menu-tech">Technologie<span class="sg-caret" aria-hidden="true"></span></button>
+          <ul class="sg-dropdown" id="menu-tech">
+            <li><a href="#sky-camera">Sky Camera</a></li>
+            <li><a href="#sky-drone">Sky Drone</a></li>
+            <li><a href="#sky-hub">Sky Hub</a></li>
+          </ul>
+        </li>
+        <li class="sg-nav-item"><a class="sg-nav-link" href="#sky-hub">Sky Hub</a></li>
+        <li class="sg-nav-item"><a class="sg-nav-link" href="#o-nas">O nás</a></li>
+        <li class="sg-nav-item"><a class="sg-nav-link" href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+
+    <div class="sg-header-actions">
+      <a class="sg-btn sg-btn-sm" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
+      <a class="sg-btn-secondary sg-login" href="/hub/login">Přihlásit se <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <button type="button" class="sg-burger" id="sg-burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="sg-mobile-panel">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<div class="sg-mobile-panel" id="sg-mobile-panel" role="dialog" aria-modal="true" aria-label="Hlavní navigace" hidden>
+  <nav aria-label="Mobilní navigace">
+    <a href="#reseni">Řešení</a>
+    <a href="#sky-camera">Technologie</a>
+    <a href="#sky-hub">Sky Hub</a>
+    <a href="#o-nas">O nás</a>
+    <a href="#kontakt">Kontakt</a>
+    <a class="sg-btn sg-mobile-cta" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
+    <a class="sg-mobile-login" href="/hub/login">Přihlásit se <span aria-hidden="true">↗</span></a>
+  </nav>
+</div>
+
+<main id="obsah">
+
+<!-- ══════════════════════════════════════════ 01 — HERO ═════════════ -->
+<section class="sg-section sg-hero" id="hero">
+  <div class="sg-grid-bg" aria-hidden="true"></div>
+  <span class="sg-blue-glow" style="left:-140px;top:60px" aria-hidden="true"></span>
+
+  <div class="sg-container sg-hero-grid">
+    <div class="sg-hero-copy">
+      <p class="sg-eyebrow">Inteligentní ochrana areálů</p>
+      <h1 class="sg-h1">Bezpečnost,<br>která nikdy nespí.</h1>
+      <p class="sg-lead" style="margin-top:22px">Bezpečnostní kamery, autonomní drony a Sky Hub v jednom systému. Samostatně nebo v kombinaci podle potřeb vašeho areálu.</p>
+      <div class="sg-hero-actions">
+        <a class="sg-btn" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
+        <a class="sg-btn-secondary" href="#platforma">Jak Sky Guard funguje <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+
+    <div class="sg-hero-visual">
+      <!-- Softwarová vrstva vzadu: reálný snímek Sky Hubu -->
+      <div class="sg-hero-hub">
+        <picture>
+          <source type="image/avif" srcset="/images/Q8umKFCKy3dEqUHhFwcY1rfAJrk.avif">
+          <source type="image/webp" srcset="/images/Q8umKFCKy3dEqUHhFwcY1rfAJrk.webp">
+          <img src="/images/Q8umKFCKy3dEqUHhFwcY1rfAJrk.png" alt="Sky Guard Hub otevřený na notebooku a mobilu" width="2891" height="1574" decoding="async" fetchpriority="high">
+        </picture>
+      </div>
+      <img class="sg-hero-connectors" src="/design/camera/camera-hub-connectors.svg" alt="" aria-hidden="true" decoding="async">
+      <img class="sg-hero-camera sg-float" src="/design/camera/sky-camera-tower-hero-v2.svg" alt="Kamerový sloup Sky Guard" width="1600" height="1600" decoding="async">
+      <div class="sg-hero-drone sg-float sg-float-b">
+        <picture>
+          <source type="image/avif" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.avif">
+          <source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp">
+          <img src="/images/gQHwsT719Q0yDD2ggabqel8sc.png" alt="Autonomní dron Sky Guard startující z dokovací stanice" width="3840" height="2160" decoding="async">
+        </picture>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 02 — MICRO VALUE STRIP ════════════ -->
+<section aria-label="Klíčové vlastnosti">
+  <div class="sg-container">
+    <ul class="sg-value-strip">
+      <li class="sg-value-item"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/shield.svg);--s:20px"></span> 24/7 dohled</li>
+      <li class="sg-value-item"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/fusion.svg);--s:20px"></span> Kamera + dron</li>
+      <li class="sg-value-item"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/hub.svg);--s:20px"></span> Jedna aplikace</li>
+      <li class="sg-value-item"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/analytics.svg);--s:20px"></span> Modulární řešení</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════ 03 — ARCHITEKTURA PLATFORMY ═══════════════ -->
+<section class="sg-section" id="platforma">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Sky Guard platform</p>
+    <h2 class="sg-h2">Jeden systém. Kompletní přehled.</h2>
+    <p class="sg-lead" style="margin-top:18px">Pevný dohled kamer. Mobilní dosah autonomního dronu. Všechno propojené v Sky Hubu.</p>
+
+    <div class="sg-platform-grid">
+      <article class="sg-card sg-platform-card">
+        <div class="sg-icon-tile"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/camera.svg);--s:20px"></span></div>
+        <p class="sg-micro">Fixed layer</p>
+        <h3 class="sg-card-title">Pevný dohled 24/7</h3>
+        <p class="sg-card-copy">Kritická místa pod nepřetržitou kontrolou s přístupem odkudkoliv.</p>
+        <img class="sg-platform-art" src="/design/camera/sky-camera-tower-blueprint.svg" alt="" aria-hidden="true" decoding="async">
+      </article>
+
+      <article class="sg-card sg-platform-card">
+        <div class="sg-icon-tile"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/drone.svg);--s:20px"></span></div>
+        <p class="sg-micro">Mobile layer</p>
+        <h3 class="sg-card-title">Mobilní dohled areálu</h3>
+        <p class="sg-card-copy">Autonomní kontrola rozsáhlých ploch a rychlé prověření situace.</p>
+        <picture>
+          <source type="image/avif" srcset="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.avif">
+          <source type="image/webp" srcset="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.webp">
+          <img class="sg-platform-art" src="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.png" alt="" aria-hidden="true" decoding="async" loading="lazy">
+        </picture>
+      </article>
+
+      <article class="sg-card sg-hub-layer">
+        <div>
+          <div class="sg-icon-tile"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/hub.svg);--s:20px"></span></div>
+          <p class="sg-micro">Control layer</p>
+          <h3 class="sg-card-title">Sky Hub</h3>
+          <p class="sg-card-copy">Jedno místo pro kamery, drony, záznamy, události a provozní data.</p>
+          <p style="margin-top:22px"><a class="sg-btn-secondary sg-arrow" href="#sky-hub">Poznat Sky Hub <span aria-hidden="true">→</span></a></p>
+        </div>
+        <img class="sg-platform-flow" src="/design/diagrams/platform-flow.svg" alt="Schéma: kamery a drony se sbíhají do Sky Hubu" decoding="async" loading="lazy">
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 04 — VÝBĚR KONFIGURACE ════════════════════ -->
+<section class="sg-section" id="konfigurace">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Konfigurace</p>
+    <h2 class="sg-h2">Vaše bezpečnost. Vaše konfigurace.</h2>
+    <p class="sg-lead" style="margin-top:18px">Začněte kamerami, autonomním dronem nebo propojte obě technologie do jednoho systému.</p>
+
+    <div class="sg-config-grid">
+      <article class="sg-card sg-config-card">
+        <span class="sg-chip">Camera + Hub</span>
+        <div class="sg-config-art">
+          <img src="/design/camera/sky-camera-tower-card-v2.svg" alt="Kamerový sloup Sky Guard" width="1200" height="1200" decoding="async" loading="lazy">
+        </div>
+        <h3 class="sg-card-title">Nepřetržitý dohled kritických míst</h3>
+        <p class="sg-card-copy">Vlastní kamerové sloupy Sky Guard rozmístíme podle potřeb vašeho objektu.</p>
+        <p class="cta"><a class="sg-btn-secondary sg-arrow" href="#sky-camera">Zjistit více <span aria-hidden="true">→</span></a></p>
+      </article>
+
+      <article class="sg-card sg-config-card">
+        <span class="sg-chip">Drone + Hub</span>
+        <div class="sg-config-art">
+          <picture>
+            <source type="image/avif" srcset="/images/yFOLVBrL4igF5Wu5jtFwMNSO2o.avif">
+            <source type="image/webp" srcset="/images/yFOLVBrL4igF5Wu5jtFwMNSO2o.webp">
+            <img src="/images/yFOLVBrL4igF5Wu5jtFwMNSO2o.png" alt="Dokovací stanice Sky Guard s otevřenými rameny" width="2784" height="997" decoding="async" loading="lazy">
+          </picture>
+        </div>
+        <h3 class="sg-card-title">Autonomní dohled nad celým areálem</h3>
+        <p class="sg-card-copy">Pravidelné hlídky a rychlé vizuální prověření situace i mimo pevné zorné pole kamer.</p>
+        <p class="cta"><a class="sg-btn-secondary sg-arrow" href="#sky-drone">Zjistit více <span aria-hidden="true">→</span></a></p>
+      </article>
+
+      <article class="sg-card sg-config-card fusion">
+        <span class="sg-chip sg-chip-blue">Kompletní řešení</span>
+        <div class="sg-config-art sg-config-art-fusion">
+          <img src="/design/camera/sky-camera-tower-card-v2.svg" alt="" aria-hidden="true" width="1200" height="1200" decoding="async" loading="lazy">
+          <picture>
+            <source type="image/avif" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.avif">
+            <source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp">
+            <img src="/images/gQHwsT719Q0yDD2ggabqel8sc.png" alt="Kamerový sloup a dron s dokovací stanicí vedle sebe" width="3840" height="2160" decoding="async" loading="lazy">
+          </picture>
+        </div>
+        <h3 class="sg-card-title">Kamery vidí. Dron prověřuje. Sky Hub spojuje.</h3>
+        <p class="sg-card-copy">Nejkomplexnější varianta propojuje nepřetržitý pevný dohled s mobilním dosahem autonomního dronu.</p>
+        <p class="cta"><a class="sg-btn-secondary sg-arrow" href="#kontakt">Navrhnout řešení <span aria-hidden="true">→</span></a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ 05 — SKY HUB SHOWCASE ════════════════════ -->
+<section class="sg-section" id="sky-hub">
+  <img class="sg-hub-glow" src="/design/backgrounds/hub-glow.svg" alt="" aria-hidden="true">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Sky Guard Hub</p>
+    <h2 class="sg-h2">Celý areál. Jedna aplikace.</h2>
+
+    <div class="sg-card sg-hub-showcase" style="margin-top:44px">
+      <div>
+        <p class="sg-card-copy">Sledujte kamery, drony, záznamy a události na jednom místě. Sky Hub dává vašemu týmu kompletní přehled nad bezpečností objektu.</p>
+
+        <div class="sg-tabs" role="tablist" aria-label="Oblasti Sky Hubu">
+          <button type="button" class="sg-tab active" role="tab" aria-selected="true" data-hub-tab="prehled">Přehled</button>
+          <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="kamery">Kamery</button>
+          <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="drony">Drony</button>
+          <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="udalosti">Události</button>
+          <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="zaznamy">Záznamy</button>
+          <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="mapa">Mapa</button>
+        </div>
+
+        <ul class="sg-feature-list">
+          <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/camera.svg);--s:16px"></span>Živý náhled</li>
+          <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/alert.svg);--s:16px"></span>Okamžité notifikace</li>
+          <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/storage.svg);--s:16px"></span>Historie záznamů</li>
+          <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/map.svg);--s:16px"></span>Mapa objektu</li>
+          <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/drone.svg);--s:16px"></span>Přehled zařízení</li>
+          <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/analytics.svg);--s:16px"></span>Reporty</li>
+        </ul>
+
+        <p class="sg-hub-actions">
+          <a class="sg-btn" href="#kontakt">Poznat Sky Hub <span aria-hidden="true">→</span></a>
+          <a class="sg-btn-secondary" href="/hub/login">Přihlásit se <span aria-hidden="true">↗</span></a>
+        </p>
+      </div>
+
+      <figure class="sg-hub-figure">
+        <picture>
+          <source type="image/avif" srcset="/images/sg-hub-shot.avif">
+          <source type="image/webp" srcset="/images/sg-hub-shot.webp">
+          <img id="sg-hub-shot" src="/images/sg-hub-shot.png" alt="Sky Guard Hub otevřený na notebooku a mobilu" decoding="async" loading="lazy">
+        </picture>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 06 — PRŮBĚH INCIDENTU ═══════════════════════ -->
+<section class="sg-section" id="incident">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Od detekce k reakci</p>
+    <h2 class="sg-h2">Během několika okamžiků víte, co se děje.</h2>
+    <p class="sg-strong-line">Kamera vidí problém. Dron může situaci prověřit.</p>
+
+    <ol class="sg-workflow">
+      <li class="sg-work-step">
+        <div class="sg-step-dot" aria-hidden="true"></div>
+        <h3 class="sg-step-title">Detekce</h3>
+        <p class="sg-step-copy">Kamera zaznamená událost.</p>
+      </li>
+      <li class="sg-work-step">
+        <div class="sg-step-dot" aria-hidden="true"></div>
+        <h3 class="sg-step-title">Sky Hub</h3>
+        <p class="sg-step-copy">Incident se objeví v jednom přehledu.</p>
+      </li>
+      <li class="sg-work-step">
+        <div class="sg-step-dot" aria-hidden="true"></div>
+        <h3 class="sg-step-title">Upozornění</h3>
+        <p class="sg-step-copy">Odpovědná osoba dostane informaci.</p>
+      </li>
+      <li class="sg-work-step">
+        <div class="sg-step-dot" aria-hidden="true"></div>
+        <h3 class="sg-step-title">Prověření</h3>
+        <p class="sg-step-copy">Dron lze vyslat k ověření situace.</p>
+      </li>
+      <li class="sg-work-step">
+        <div class="sg-step-dot" aria-hidden="true"></div>
+        <h3 class="sg-step-title">Reakce</h3>
+        <p class="sg-step-copy">Operátor a bezpečnostní tým jedná s aktuálními informacemi.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ════════════════════ 07 — SKY CAMERA DEEP DIVE ══════════════════ -->
+<section class="sg-section" id="sky-camera">
+  <div class="sg-container sg-deep-dive">
+    <figure class="sg-dd-visual">
+      <img src="/design/camera/sky-camera-tower-product-v2.svg" alt="Kamerový sloup Sky Guard v plné výšce" width="1600" height="1800" decoding="async" loading="lazy">
+    </figure>
+    <div>
+      <p class="sg-eyebrow">Sky Camera</p>
+      <h2 class="sg-h2">Nepřetržitý dohled přesně tam, kde ho potřebujete.</h2>
+      <p class="sg-lead" style="margin-top:18px">Samostatně stojící kamerové systémy Sky Guard umožňují pokrýt kritická místa areálu bez nutnosti budovat kompletní novou bezpečnostní infrastrukturu.</p>
+      <div class="sg-feature-mini-grid">
+        <div class="sg-feature-mini">Pevný dohled 24/7</div>
+        <div class="sg-feature-mini">Rychlé nasazení</div>
+        <div class="sg-feature-mini">Vzdálený přístup</div>
+        <div class="sg-feature-mini">Sky Hub integrace</div>
+      </div>
+      <p style="margin-top:28px"><a class="sg-btn-secondary sg-arrow" href="#kontakt">Zjistit více o Sky Camera <span aria-hidden="true">→</span></a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 08 — SKY DRONE DEEP DIVE ═══════════════════ -->
+<section class="sg-section" id="sky-drone">
+  <div class="sg-container sg-deep-dive">
+    <div>
+      <p class="sg-eyebrow">Sky Drone</p>
+      <h2 class="sg-h2">Dohled, který není omezený jedním bodem.</h2>
+      <p class="sg-lead" style="margin-top:18px">Autonomní dron pokrývá rozsáhlé části areálu, provádí pravidelné hlídky a umožňuje rychlé vizuální prověření události.</p>
+      <div class="sg-feature-mini-grid">
+        <div class="sg-feature-mini">Autonomní hlídkové trasy</div>
+        <div class="sg-feature-mini">Termální pohled</div>
+        <div class="sg-feature-mini">Rychlé prověření situace</div>
+        <div class="sg-feature-mini">Sky Hub integrace</div>
+      </div>
+      <p style="margin-top:28px"><a class="sg-btn-secondary sg-arrow" href="#kontakt">Zjistit více o Sky Drone <span aria-hidden="true">→</span></a></p>
+    </div>
+    <figure class="sg-dd-visual">
+      <picture>
+        <source type="image/avif" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.avif">
+        <source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp">
+        <img src="/images/gQHwsT719Q0yDD2ggabqel8sc.png" alt="Autonomní dron Sky Guard startující z dokovací stanice" width="3840" height="2160" decoding="async" loading="lazy">
+      </picture>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 09 — ŘEŠENÍ / USE CASES ═════════════════ -->
+<section class="sg-section" id="reseni">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Řešení</p>
+    <h2 class="sg-h2">Jedna technologie. Různé využití.</h2>
+
+    <div class="sg-solutions" style="margin-top:44px">
+      <article class="sg-card sg-solution security">
+        <h3 class="sg-solution-title">Sky Security</h3>
+        <p class="sg-card-copy">Kompletní ochrana průmyslových areálů, logistických center, skladů a dalších objektů.</p>
+        <p class="sg-chips">
+          <span class="sg-chip">Camera</span><span class="sg-chip">Drone</span><span class="sg-chip">Hub</span>
+        </p>
+        <figure class="sg-solution-art">
+          <picture>
+            <source type="image/avif" srcset="/images/wS3dAM6l9iCPzBy6IszY7x8.avif">
+            <source type="image/webp" srcset="/images/wS3dAM6l9iCPzBy6IszY7x8.webp">
+            <img src="/images/wS3dAM6l9iCPzBy6IszY7x8.png" alt="Srovnání dronové ostrahy s klasickou fyzickou ostrahou" width="2581" height="2024" decoding="async" loading="lazy">
+          </picture>
+        </figure>
+        <p class="cta"><a class="sg-btn-secondary sg-arrow" href="#kontakt">Sky Security <span aria-hidden="true">→</span></a></p>
+      </article>
+
+      <article class="sg-card sg-solution construction">
+        <h3 class="sg-solution-title">Sky Construction</h3>
+        <p class="sg-card-copy">Bezpečnost, vzdálený dohled a datová dokumentace staveb v jednom řešení.</p>
+        <p class="sg-chips">
+          <span class="sg-chip">Camera</span><span class="sg-chip">Drone</span><span class="sg-chip">Hub</span>
+        </p>
+        <ul class="sg-bullets">
+          <li>Ortofoto</li><li>Fotogrammetrie</li><li>Reporting</li><li>Průběh výstavby</li>
+        </ul>
+        <figure class="sg-solution-art">
+          <picture>
+            <source type="image/avif" srcset="/images/XL1966WtqhSH3NVibtQtSGZIWLk.avif">
+            <source type="image/webp" srcset="/images/XL1966WtqhSH3NVibtQtSGZIWLk.webp">
+            <img src="/images/XL1966WtqhSH3NVibtQtSGZIWLk.png" alt="Ortofotomapa staveniště pořízená dronem" width="1024" height="1024" decoding="async" loading="lazy">
+          </picture>
+        </figure>
+        <p class="cta"><a class="sg-btn-secondary sg-arrow sg-arrow-orange" href="#kontakt">Sky Construction <span aria-hidden="true">→</span></a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 10 — PROČ SKY GUARD ═════════════════════ -->
+<section class="sg-section" id="o-nas">
+  <div class="sg-container">
+    <h2 class="sg-h2">Proč Sky Guard?</h2>
+    <div class="sg-benefits" style="margin-top:40px">
+      <div class="sg-benefit">
+        <h3 class="sg-benefit-title">Jedna platforma</h3>
+        <p class="sg-benefit-copy">Kamery, dron i data na jednom místě.</p>
+      </div>
+      <div class="sg-benefit">
+        <h3 class="sg-benefit-title">Bezpečnost jako služba</h3>
+        <p class="sg-benefit-copy">Technologie i provoz řeší Sky Guard.</p>
+      </div>
+      <div class="sg-benefit">
+        <h3 class="sg-benefit-title">Modulární systém</h3>
+        <p class="sg-benefit-copy">Začněte jednou technologií a systém postupně rozšiřujte.</p>
+      </div>
+      <div class="sg-benefit">
+        <h3 class="sg-benefit-title">Rychlé nasazení</h3>
+        <p class="sg-benefit-copy">Řešení přizpůsobíme vašemu existujícímu areálu.</p>
+      </div>
+      <div class="sg-benefit">
+        <h3 class="sg-benefit-title">Kompletní provoz</h3>
+        <p class="sg-benefit-copy">Včetně provozních a legislativních požadavků souvisejících s drony.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ 11 — POROVNÁNÍ MOŽNOSTÍ ══════════════════ -->
+<section class="sg-section" id="porovnani">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Porovnání</p>
+    <h2 class="sg-h2">Vyberte správnou úroveň pokrytí.</h2>
+
+    <div class="sg-table-wrap" tabindex="0" role="region" aria-label="Tabulka porovnání konfigurací">
+      <table class="sg-table">
+        <caption class="sg-visually-hidden">Porovnání možností Sky Camera, Sky Drone a Fusion</caption>
+        <thead>
+          <tr>
+            <th scope="col">Možnost</th>
+            <th scope="col">Sky Camera</th>
+            <th scope="col">Sky Drone</th>
+            <th scope="col" class="is-fusion">Fusion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Stálý dohled kritického bodu</th><td data-col="Sky Camera" data-v="ano">Ano</td><td data-col="Sky Drone" data-v="ne">Ne</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Mobilní kontrola areálu</th><td data-col="Sky Camera" data-v="ne">Ne</td><td data-col="Sky Drone" data-v="ano">Ano</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Kontrola rozsáhlých ploch</th><td data-col="Sky Camera" data-v="ne">Ne</td><td data-col="Sky Drone" data-v="ano">Ano</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Prověření incidentu z jiné pozice</th><td data-col="Sky Camera" data-v="ne">Ne</td><td data-col="Sky Drone" data-v="ano">Ano</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Přístup přes Sky Hub</th><td data-col="Sky Camera" data-v="ano">Ano</td><td data-col="Sky Drone" data-v="ano">Ano</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Záznam a historie</th><td data-col="Sky Camera" data-v="ano">Ano</td><td data-col="Sky Drone" data-v="ano">Ano</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Okamžité upozornění</th><td data-col="Sky Camera" data-v="ano">Ano</td><td data-col="Sky Drone" data-v="ano">Ano</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+          <tr><th scope="row">Termální pohled<span class="sg-fn">*</span></th><td data-col="Sky Camera" data-v="opt">Volitelné</td><td data-col="Sky Drone" data-v="opt">Volitelné</td><td data-col="Fusion" data-v="opt" class="is-fusion">Volitelné</td></tr>
+          <tr><th scope="row">Propojení pevného a mobilního dohledu</th><td data-col="Sky Camera" data-v="ne">Ne</td><td data-col="Sky Drone" data-v="ne">Ne</td><td data-col="Fusion" data-v="ano" class="is-fusion">Ano</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sg-footnote"><span class="sg-fn">*</span> Rozsah funkcí závisí na konkrétní hardwarové konfiguraci navržené pro váš areál.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════════ 12 — REFERENCE ════════════════════════ -->
+<section class="sg-section" id="reference">
+  <div class="sg-container">
+    <h2 class="sg-h2">Naši službu aktivně využívají</h2>
+
+    <div class="sg-card sg-quote-card" style="margin-top:40px">
+      <span class="sg-chip sg-quote-tag" id="sg-quote-tag">Sky Construction</span>
+      <blockquote class="sg-quote" id="sg-quote">„Na stavbě se nám v minulosti několikrát ztratily nářadí i materiál. Od té doby spolupracujeme se Sky Guard a rozdíl je obrovský. Kamerový systém a mobilní věže s dohledem nám dávají jistotu i v noci a o víkendech. Instalace byla rychlá, vše jsme zvládli bez zdržení výstavby.</blockquote>
+      <figcaption class="sg-quote-role" id="sg-quote-role">Construction Manager</figcaption>
+
+      <div class="sg-quote-nav">
+        <button type="button" class="sg-round-btn" id="sg-quote-prev" aria-label="Předchozí reference"><span aria-hidden="true">←</span></button>
+        <span class="sg-quote-counter" id="sg-quote-counter" aria-live="polite">1/3</span>
+        <button type="button" class="sg-round-btn" id="sg-quote-next" aria-label="Další reference"><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ 13 — KONTAKTNÍ FORMULÁŘ ═══════════════ -->
+<section class="sg-section" id="kontakt">
+  <div class="sg-container sg-contact-grid">
+    <div>
+      <p class="sg-eyebrow">Kontakt</p>
+      <h2 class="sg-h2">Navrhneme řešení pro váš areál.</h2>
+      <p class="sg-lead" style="margin-top:18px">Ozvěte se a projdeme spolu, co dává pro váš objekt smysl — kamery, dron, nebo obojí.</p>
+      <ul class="sg-contact-direct">
+        <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/alert.svg);--s:16px"></span><a href="tel:+420737373430">+420 737 373 430</a></li>
+        <li><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/hub.svg);--s:16px"></span><a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a></li>
+      </ul>
+    </div>
+
+    <form class="sg-card sg-form" id="sg-form" method="post" novalidate>
+      <!-- Past na roboty: skutečný návštěvník pole nevidí a nevyplní. -->
+      <div class="sg-hp" aria-hidden="true">
+        <label for="f-company-url">Nevyplňujte</label>
+        <input type="text" id="f-company-url" name="company_url" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="sg-field">
+        <label for="f-name">Jméno <span class="sg-req" aria-hidden="true">*</span></label>
+        <input type="text" id="f-name" name="name" required autocomplete="name" placeholder="Josef Novák">
+        <p class="sg-err" id="err-name" hidden>Zadejte prosím své jméno.</p>
+      </div>
+
+      <div class="sg-field">
+        <label for="f-company">Společnost</label>
+        <input type="text" id="f-company" name="company" autocomplete="organization" placeholder="Vaše firma s.r.o.">
+      </div>
+
+      <div class="sg-field">
+        <label for="f-email">E-mail <span class="sg-req" aria-hidden="true">*</span></label>
+        <input type="email" id="f-email" name="email" required autocomplete="email" placeholder="novak@seznam.cz">
+        <p class="sg-err" id="err-email" hidden>Zadejte platnou e-mailovou adresu.</p>
+      </div>
+
+      <div class="sg-field">
+        <label for="f-phone">Telefon</label>
+        <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+420 000 000 000">
+      </div>
+
+      <div class="sg-field">
+        <label for="f-object">Typ objektu <span class="sg-req" aria-hidden="true">*</span></label>
+        <select id="f-object" name="object_type" required>
+          <option value="">Vybrat</option>
+          <option value="industrial">Průmyslový areál</option>
+          <option value="logistics">Logistika / sklad</option>
+          <option value="construction">Stavba</option>
+          <option value="office">Administrativa</option>
+          <option value="other">Jiný</option>
+        </select>
+        <p class="sg-err" id="err-object" hidden>Vyberte prosím typ objektu.</p>
+      </div>
+
+      <div class="sg-field">
+        <label for="f-interest">Zajímá mě</label>
+        <select id="f-interest" name="interest">
+          <option value="">Vybrat</option>
+          <option value="camera">Sky Camera</option>
+          <option value="drone">Sky Drone</option>
+          <option value="fusion">Kamera + dron / Fusion</option>
+          <option value="construction">Sky Construction</option>
+          <option value="hub">Sky Hub</option>
+          <option value="unsure">Nevím — chci poradit</option>
+        </select>
+      </div>
+
+      <button type="submit" class="sg-btn sg-form-submit">Domluvit konzultaci</button>
+      <div class="sg-form-status" id="sg-form-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ 14 — FAQ ════════════════════════ -->
+<section class="sg-section" id="faq">
+  <div class="sg-container">
+    <p class="sg-eyebrow">Časté dotazy</p>
+    <h2 class="sg-h2">Nejčastěji kladené dotazy</h2>
+    <div class="sg-faq" id="sg-faq" style="margin-top:40px"></div>
+  </div>
+</section>
+
+<!-- ═════════════════════════ 15 — ZÁVĚREČNÉ CTA ═══════════════════ -->
+<section class="sg-section">
+  <div class="sg-container">
+    <div class="sg-final-cta">
+      <h2 class="sg-h2">Váš areál. Jeden systém.<br>Kompletní přehled.</h2>
+      <p class="sg-lead" style="margin:20px auto 0">Kamery, autonomní drony a Sky Hub navržené podle potřeb vašeho objektu.</p>
+      <p style="margin-top:32px"><a class="sg-btn" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════ 16 — PATIČKA ═══════════════════ -->
+<footer class="sg-footer">
+  <div class="sg-container sg-footer-grid">
+    <div>
+      <picture>
+        <source type="image/avif" srcset="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.avif">
+        <source type="image/webp" srcset="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.webp">
+        <img class="sg-footer-logo" src="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.png" alt="Sky Guard" width="230" height="39" decoding="async" loading="lazy">
+      </picture>
+      <p class="sg-footer-tagline">Kamery. Drony. Jeden Sky Hub.</p>
+      <p class="sg-footer-contact">
+        <a href="tel:+420737373430">+420 737 373 430</a><br>
+        <a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a>
+      </p>
+      <p class="sg-footer-legal">
+        Sky Guard s.r.o.<br>
+        Pernerova 533/59, 186 00 Praha 8<br>
+        IČO: 24803383<br>
+        C 175699 vedená u Městského soudu v Praze
+      </p>
+    </div>
+
+    <nav aria-label="Navigace v patičce">
+      <h2 class="sg-footer-head">Navigace</h2>
+      <ul class="sg-footer-list">
+        <li><a href="#reseni">Řešení</a></li>
+        <li><a href="#sky-camera">Sky Camera</a></li>
+        <li><a href="#sky-drone">Sky Drone</a></li>
+        <li><a href="#sky-hub">Sky Hub</a></li>
+        <li><a href="#o-nas">O nás</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Sociální sítě">
+      <h2 class="sg-footer-head">Sociální sítě</h2>
+      <ul class="sg-footer-list">
+        <li><a href="https://www.facebook.com/profile.php?id=61575623963893" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+        <li><a href="https://www.instagram.com/skyguard.cz" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a href="https://www.linkedin.com/company/sky-guard-cz" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script defer src="/nova/nova.js?v=2"></script>
+</body>
+</html>

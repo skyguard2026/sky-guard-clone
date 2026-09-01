@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" fill="none">
+<rect width="1200" height="420" rx="28" fill="#090C14"/>
+<rect x="28" y="28" width="1144" height="364" rx="22" stroke="white" stroke-opacity=".08"/>
+<rect x="70" y="74" width="430" height="120" rx="20" fill="#0B0E16" stroke="white" stroke-opacity=".11"/>
+<rect x="700" y="74" width="430" height="120" rx="20" fill="#0B0E16" stroke="white" stroke-opacity=".11"/>
+<rect x="230" y="254" width="740" height="104" rx="22" fill="#0B0E16" stroke="#0878FF" stroke-opacity=".28"/>
+<path d="M285 194v27c0 14 11 25 25 25h290" stroke="#0878FF" stroke-opacity=".46"/>
+<path d="M915 194v27c0 14-11 25-25 25H600" stroke="#0878FF" stroke-opacity=".46"/>
+<circle cx="285" cy="194" r="3" fill="#0878FF"/><circle cx="915" cy="194" r="3" fill="#0878FF"/><circle cx="600" cy="246" r="4" fill="#0878FF"/>
+<text x="100" y="112" fill="#687180" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">FIXED LAYER</text>
+<text x="100" y="150" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="26" font-weight="700">SKY CAMERA</text>
+<text x="730" y="112" fill="#687180" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">MOBILE LAYER</text>
+<text x="730" y="150" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="26" font-weight="700">SKY DRONE</text>
+<text x="270" y="294" fill="#0878FF" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">CONTROL LAYER</text>
+<text x="270" y="330" fill="#F4F7FB" font-family="Arial,sans-serif" font-size="28" font-weight="700">SKY HUB — ONE VIEW OF THE ENTIRE SITE</text>
+</svg>

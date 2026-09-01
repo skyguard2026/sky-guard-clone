@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600">
+<defs>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#5E6875"/>
+    <stop offset="0.18" stop-color="#DDE3EA"/>
+    <stop offset="0.48" stop-color="#F9FBFD"/>
+    <stop offset="0.78" stop-color="#A6B0BC"/>
+    <stop offset="1" stop-color="#46505C"/>
+  </linearGradient>
+  <linearGradient id="metalDark" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#313A46"/>
+    <stop offset="0.55" stop-color="#11161E"/>
+    <stop offset="1" stop-color="#05070B"/>
+  </linearGradient>
+  <linearGradient id="whiteShell" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/>
+    <stop offset="0.55" stop-color="#E9EEF4"/>
+    <stop offset="1" stop-color="#A9B4C0"/>
+  </linearGradient>
+  <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#0D1824"/>
+    <stop offset="0.55" stop-color="#02060A"/>
+    <stop offset="1" stop-color="#10283B"/>
+  </linearGradient>
+  <radialGradient id="blueGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#0A78FF" stop-opacity="0.9"/>
+    <stop offset="0.4" stop-color="#0A78FF" stop-opacity="0.25"/>
+    <stop offset="1" stop-color="#0A78FF" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="cyanGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#19C9C2" stop-opacity="0.8"/>
+    <stop offset="0.5" stop-color="#19C9C2" stop-opacity="0.2"/>
+    <stop offset="1" stop-color="#19C9C2" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="14" result="blur"/>
+    <feOffset dy="14" result="off"/>
+    <feColorMatrix in="off" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/>
+    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+    <feGaussianBlur stdDeviation="12"/>
+  </filter>
+  <filter id="tinyGlow" x="-100%" y="-100%" width="300%" height="300%">
+    <feGaussianBlur stdDeviation="4"/>
+  </filter>
+</defs>
+
+<ellipse cx="600" cy="930" rx="500" ry="650" fill="url(#blueGlow)" opacity="0.08"/>
+<g transform="translate(0 0) scale(1.0)" filter="url(#shadow)">
+      <!-- base shadow -->
+      <ellipse cx="600" cy="1384" rx="150" ry="28" fill="#000" opacity="0.34"/>
+      <ellipse cx="600" cy="1370" rx="105" ry="18" fill="url(#blueGlow)" opacity="0.35"/>
+
+      <!-- anchor base -->
+      <path d="M505 1322 L695 1322 L732 1362 L468 1362 Z" fill="url(#metalDark)" stroke="#485463" stroke-width="2"/>
+      <path d="M530 1298 L670 1298 L694 1328 L506 1328 Z" fill="url(#metal)" stroke="#798594" stroke-width="2"/>
+      <circle cx="505" cy="1341" r="8" fill="#7E8B99"/><circle cx="695" cy="1341" r="8" fill="#7E8B99"/>
+
+      <!-- mast -->
+      <rect x="563" y="420" width="74" height="890" rx="28" fill="url(#metal)" stroke="#9AA6B3" stroke-width="2"/>
+      <rect x="575" y="438" width="14" height="850" rx="7" fill="#FFFFFF" opacity="0.42"/>
+      <rect x="622" y="438" width="8" height="850" rx="4" fill="#111820" opacity="0.28"/>
+
+      <!-- service module -->
+      <g>
+        <rect x="519" y="910" width="162" height="220" rx="22" fill="url(#metalDark)" stroke="#6C7785" stroke-width="2"/>
+        <rect x="532" y="927" width="136" height="118" rx="14" fill="#080D14" stroke="#26313E" stroke-width="2"/>
+        <g opacity="0.65" stroke="#55616E" stroke-width="2">
+          <line x1="548" y1="948" x2="652" y2="948"/><line x1="548" y1="966" x2="652" y2="966"/><line x1="548" y1="984" x2="652" y2="984"/><line x1="548" y1="1002" x2="652" y2="1002"/>
+        </g>
+        <rect x="552" y="1068" width="96" height="8" rx="4" fill="#0A78FF" opacity="0.85"/>
+        <text x="600" y="1102" fill="#DCE5F0" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" text-anchor="middle" letter-spacing="3">SKY GUARD</text>
+      </g>
+
+      <!-- head collar -->
+      <rect x="531" y="370" width="138" height="74" rx="24" fill="url(#metalDark)" stroke="#7F8B99" stroke-width="2"/>
+      <rect x="548" y="388" width="104" height="10" rx="5" fill="#0A78FF" opacity="0.85"/>
+
+      <!-- cross arm -->
+      <rect x="350" y="302" width="500" height="44" rx="21" fill="url(#metal)" stroke="#AAB3BE" stroke-width="2"/>
+      <rect x="372" y="311" width="456" height="8" rx="4" fill="#FFFFFF" opacity="0.34"/>
+      <rect x="394" y="335" width="412" height="6" rx="3" fill="#0D1118" opacity="0.20"/>
+
+      <!-- left bullet camera -->
+      <g transform="translate(310 298) rotate(-9)">
+        <path d="M0 16 L38 0 L136 0 Q152 2 164 18 L164 62 Q158 77 141 80 L38 80 L0 62 Z" fill="url(#whiteShell)" stroke="#A8B2BE" stroke-width="2"/>
+        <rect x="108" y="8" width="48" height="64" rx="18" fill="url(#metalDark)"/>
+        <ellipse cx="132" cy="40" rx="17" ry="20" fill="url(#lens)" stroke="#263B4D" stroke-width="2"/>
+        <ellipse cx="132" cy="40" rx="8" ry="10" fill="#0A78FF" opacity="0.32"/>
+        <path d="M45 80 L78 111 L114 111 L103 80 Z" fill="#6F7A87"/>
+        <rect x="57" y="105" width="72" height="16" rx="8" fill="#383F48"/>
+        <rect x="13" y="22" width="56" height="7" rx="3" fill="#0A78FF" opacity="0.9"/>
+      </g>
+
+      <!-- right bullet camera -->
+      <g transform="translate(725 286) rotate(9)">
+        <path d="M0 18 Q12 2 30 0 L128 0 L166 16 L166 62 L128 80 L30 80 Q12 78 0 64 Z" fill="url(#whiteShell)" stroke="#A8B2BE" stroke-width="2"/>
+        <rect x="8" y="8" width="48" height="64" rx="18" fill="url(#metalDark)"/>
+        <ellipse cx="32" cy="40" rx="17" ry="20" fill="url(#lens)" stroke="#263B4D" stroke-width="2"/>
+        <ellipse cx="32" cy="40" rx="8" ry="10" fill="#0A78FF" opacity="0.32"/>
+        <path d="M52 80 L42 111 L78 111 L111 80 Z" fill="#6F7A87"/>
+        <rect x="32" y="105" width="72" height="16" rx="8" fill="#383F48"/>
+        <rect x="100" y="22" width="52" height="7" rx="3" fill="#0A78FF" opacity="0.9"/>
+      </g>
+
+      <!-- center PTZ -->
+      <g transform="translate(600 346)">
+        <rect x="-66" y="0" width="132" height="58" rx="26" fill="url(#whiteShell)" stroke="#ABB5C0" stroke-width="2"/>
+        <path d="M-54 42 Q0 84 54 42 L50 86 Q0 128 -50 86 Z" fill="url(#metalDark)" stroke="#707B88" stroke-width="2"/>
+        <ellipse cx="0" cy="76" rx="31" ry="24" fill="url(#lens)" stroke="#273747" stroke-width="2"/>
+        <ellipse cx="0" cy="76" rx="14" ry="11" fill="#19C9C2" opacity="0.28"/>
+        <circle cx="44" cy="20" r="5" fill="#0A78FF"/>
+      </g>
+
+      <!-- top thermal/AI module -->
+      <g transform="translate(600 220)">
+        <rect x="-92" y="0" width="184" height="76" rx="22" fill="url(#metalDark)" stroke="#5D6875" stroke-width="2"/>
+        <rect x="-78" y="13" width="66" height="50" rx="15" fill="url(#whiteShell)"/>
+        <circle cx="-45" cy="38" r="16" fill="url(#lens)"/><circle cx="-45" cy="38" r="7" fill="#0A78FF" opacity="0.45"/>
+        <rect x="10" y="13" width="66" height="50" rx="15" fill="url(#whiteShell)"/>
+        <circle cx="43" cy="38" r="16" fill="url(#lens)"/><circle cx="43" cy="38" r="7" fill="#19C9C2" opacity="0.45"/>
+        <rect x="-25" y="-25" width="50" height="32" rx="12" fill="url(#metal)"/>
+        <circle cx="0" cy="-9" r="5" fill="#0A78FF"/>
+      </g>
+
+      <!-- small status light -->
+      <circle cx="600" cy="462" r="8" fill="#0A78FF"/>
+      <circle cx="600" cy="462" r="26" fill="url(#blueGlow)" opacity="0.65"/>
+    </g>
+</svg>

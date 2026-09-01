@@ -1,0 +1,517 @@
+/* Doplňky nad dodaným design systémem.
+   tokens.css + component-primitives.css + homepage-sections.css pokrývají
+   sekční skelet a primitiva; tady je jen to, co v nich není — hlavička,
+   mobilní panel, tabulka, formulář, FAQ, patička a drobné utility. */
+
+/* ───────────────────────────────────────────────── základ dokumentu */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--sg-bg);
+  color: var(--sg-text);
+  font: 400 16px/1.6 "DM Sans", "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, svg { max-width: 100%; }
+img { height: auto; }
+
+h1, h2, h3, h4, p, figure, blockquote, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid #4da3ff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sg-visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.sg-skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  padding: 12px 18px; background: var(--sg-blue); color: #fff;
+  border-radius: 0 0 10px 0; text-decoration: none; font-weight: 650;
+}
+.sg-skip:focus { left: 0; }
+
+/* Kotvy nesmí skončit pod fixní hlavičkou. */
+[id] { scroll-margin-top: 96px; }
+
+/* ─────────────────────────────────────────────────────── hlavička */
+
+.sg-header {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(5, 6, 11, .78);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--sg-line);
+}
+.sg-header-inner {
+  width: min(var(--sg-max), calc(100vw - 48px));
+  margin: 0 auto; min-height: 74px;
+  display: flex; align-items: center; gap: 28px;
+}
+.sg-logo { display: inline-flex; align-items: center; flex-shrink: 0; }
+.sg-logo img { width: 150px; height: auto; }
+
+.sg-nav { margin-left: auto; }
+.sg-nav-list { display: flex; align-items: center; gap: 4px; }
+.sg-nav-item { position: relative; }
+.sg-nav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 0 12px;
+  background: none; border: 0; border-radius: 10px;
+  color: var(--sg-text-2); font: inherit; font-size: 14px; font-weight: 550;
+  text-decoration: none; cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+.sg-nav-link:hover, .sg-nav-item.open > .sg-nav-link { color: var(--sg-text); background: rgba(255,255,255,.05); }
+
+.sg-caret {
+  width: 6px; height: 6px; margin-top: -3px;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg); transition: transform .2s ease;
+}
+.sg-nav-item.open .sg-caret { transform: rotate(-135deg); margin-top: 2px; }
+
+.sg-dropdown {
+  position: absolute; top: calc(100% + 8px); left: 0; min-width: 232px;
+  padding: 8px; border-radius: var(--sg-radius-md);
+  border: 1px solid var(--sg-line-strong); background: var(--sg-surface-2);
+  box-shadow: var(--sg-shadow-panel);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+.sg-nav-item.open .sg-dropdown { opacity: 1; visibility: visible; transform: none; }
+.sg-dropdown a {
+  display: flex; align-items: center; min-height: 44px; padding: 0 12px;
+  border-radius: 10px; color: var(--sg-text-2); font-size: 14px; text-decoration: none;
+}
+.sg-dropdown a:hover { background: rgba(8,120,255,.1); color: var(--sg-text); }
+
+.sg-header-actions { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.sg-btn-sm { min-height: 42px; font-size: 13px; padding: 0 17px; }
+.sg-login { font-size: 13px; white-space: nowrap; }
+
+.sg-burger {
+  display: none; position: relative;
+  width: 44px; height: 44px; margin-left: auto;
+  background: none; border: 0; cursor: pointer;
+}
+.sg-burger span {
+  position: absolute; left: 11px; width: 22px; height: 2px;
+  background: var(--sg-text); border-radius: 2px;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.sg-burger span:nth-child(1) { top: 15px; }
+.sg-burger span:nth-child(2) { top: 21px; }
+.sg-burger span:nth-child(3) { top: 27px; }
+.sg-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.sg-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.sg-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.sg-mobile-panel {
+  position: fixed; inset: 74px 0 0 0; z-index: 55;
+  background: rgba(5,6,11,.98);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  padding: 12px 0 40px; overflow-y: auto;
+  opacity: 0; transform: translateY(-8px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.sg-mobile-panel[data-open="true"] { opacity: 1; transform: none; }
+.sg-mobile-panel[hidden] { display: none; }
+.sg-mobile-panel nav { display: flex; flex-direction: column; padding: 0 24px; }
+.sg-mobile-panel nav > a {
+  display: flex; align-items: center; min-height: 58px;
+  border-bottom: 1px solid var(--sg-line);
+  color: var(--sg-text); text-decoration: none; font-size: 19px;
+}
+.sg-mobile-cta { justify-content: center; margin-top: 28px; border-bottom: 0 !important; }
+.sg-mobile-login { justify-content: center; border-bottom: 0 !important; color: var(--sg-text-2) !important; font-size: 15px !important; }
+
+/* ───────────────────────────────────────────────────────────── hero */
+
+.sg-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: url("/design/backgrounds/technical-grid.svg");
+  background-size: 90px 90px;
+  opacity: .5;
+  mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 30%, transparent 78%);
+}
+.sg-hero { border-top: 0; padding-top: 72px; padding-bottom: 72px; }
+.sg-hero-hub { overflow: hidden; display: grid; place-items: center; padding: 18px; }
+.sg-hero-hub img { width: 100%; height: 100%; object-fit: contain; opacity: .78; }
+.sg-hero-connectors {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: .5; pointer-events: none; z-index: 2;
+}
+.sg-hero-camera, .sg-hero-drone { z-index: 3; object-fit: contain; }
+.sg-hero-camera { height: auto; }
+.sg-hero-drone { display: grid; align-items: end; }
+
+@keyframes sg-drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.sg-float { animation: sg-drift 8s ease-in-out infinite; }
+.sg-float-b { animation-duration: 10s; animation-delay: -3s; }
+@media (prefers-reduced-motion: reduce) { .sg-float { animation: none; } }
+
+/* ─────────────────────────────────────────── typografie v kartách */
+
+.sg-micro {
+  margin: 18px 0 8px; color: var(--sg-text-3);
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+}
+.sg-card-title { font-size: clamp(20px, 2.1vw, 26px); line-height: 1.2; letter-spacing: -.02em; }
+.sg-card-copy { margin-top: 10px; color: var(--sg-text-2); font-size: 16px; line-height: 1.6; }
+.sg-platform-card, .sg-config-card, .sg-hub-layer, .sg-solution { position: relative; z-index: 1; }
+.sg-platform-card { display: flex; flex-direction: column; overflow: hidden; }
+.sg-platform-art { margin: 22px auto -60px; max-height: 190px; width: auto; opacity: .8; }
+.sg-platform-flow { width: 100%; height: auto; }
+.sg-chip-blue { border-color: rgba(8,120,255,.5); color: #9fd0ff; background: rgba(8,120,255,.1); }
+.sg-arrow { color: var(--sg-blue); }
+.sg-arrow-orange { color: var(--sg-orange); }
+
+.sg-config-art { margin: 20px 0 22px; height: 168px; display: grid; place-items: center; }
+.sg-config-art img { max-height: 168px; width: auto; object-fit: contain; }
+.sg-config-art-fusion { grid-auto-flow: column; gap: 8px; align-items: center; }
+.sg-config-art-fusion img { max-height: 140px; }
+
+/* ───────────────────────────────────────────────────── Sky Hub blok */
+
+.sg-hub-glow {
+  position: absolute; top: 50%; left: 50%; width: 900px; max-width: none;
+  transform: translate(-50%,-50%); opacity: .55; pointer-events: none;
+}
+.sg-hub-showcase { position: relative; z-index: 1; }
+.sg-feature-list {
+  margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px;
+  color: var(--sg-text-2); font-size: 15px;
+}
+.sg-feature-list li { display: flex; align-items: center; gap: 10px; }
+.sg-hub-actions { display: flex; align-items: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+.sg-hub-figure {
+  border-radius: var(--sg-radius-lg); overflow: hidden;
+  border: 1px solid rgba(8,120,255,.2);
+  box-shadow: 0 0 0 1px rgba(8,120,255,.12), var(--sg-shadow-blue);
+}
+.sg-hub-figure img { display: block; width: 100%; transition: opacity .28s ease; }
+.sg-hub-figure.is-swapping img { opacity: .25; }
+
+/* ────────────────────────────────────────────── průběh incidentu */
+
+.sg-strong-line {
+  margin-top: 18px; color: var(--sg-text);
+  font-size: clamp(18px, 2vw, 22px); font-weight: 600; letter-spacing: -.01em;
+}
+.sg-step-title { margin-top: 18px; font-size: 17px; letter-spacing: -.01em; }
+.sg-step-copy { margin-top: 6px; color: var(--sg-text-2); font-size: 14px; line-height: 1.55; padding-right: 12px; }
+
+/* ─────────────────────────────────────────────────────── deep dive */
+
+.sg-dd-visual { display: grid; place-items: center; }
+.sg-dd-visual img { max-height: 520px; width: auto; object-fit: contain; }
+.sg-feature-mini { font-size: 15px; }
+
+/* ──────────────────────────────────────────────────────── řešení */
+
+.sg-solution { display: flex; flex-direction: column; overflow: hidden; }
+.sg-solution-title { font-size: clamp(24px, 2.6vw, 30px); letter-spacing: -.025em; }
+.sg-solution.security .sg-solution-title { color: #7ab8ff; }
+.sg-solution.construction .sg-solution-title { color: #ffab5c; }
+.sg-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.sg-bullets { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; color: var(--sg-text-2); font-size: 14px; }
+.sg-bullets li { display: flex; align-items: center; gap: 8px; }
+.sg-bullets li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--sg-orange); }
+.sg-solution-art { margin: 26px -34px -34px; }
+.sg-solution-art img { display: block; width: 100%; opacity: .85; }
+.sg-solution .cta { margin-top: auto; padding-top: 26px; }
+
+/* ─────────────────────────────────────────────────────── benefity */
+
+.sg-benefit-title { font-size: 16px; letter-spacing: -.01em; }
+.sg-benefit-copy { margin-top: 8px; color: var(--sg-text-2); font-size: 14px; line-height: 1.55; }
+
+/* ──────────────────────────────────────────────────────── tabulka */
+
+.sg-table-wrap {
+  margin-top: 44px; overflow-x: auto;
+  border: 1px solid var(--sg-line); border-radius: var(--sg-radius-lg);
+  background: var(--sg-surface-2);
+}
+.sg-table { width: 100%; border-collapse: collapse; min-width: 620px; }
+.sg-table th, .sg-table td { padding: 16px 20px; text-align: left; font-size: 14px; }
+.sg-table thead th {
+  color: var(--sg-text); font-size: 13px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  border-bottom: 1px solid var(--sg-line-strong);
+  background: rgba(255,255,255,.02);
+}
+.sg-table thead th.is-fusion { color: #9fd0ff; background: rgba(8,120,255,.1); }
+.sg-table tbody th { color: var(--sg-text-2); font-weight: 500; }
+.sg-table tbody tr + tr th, .sg-table tbody tr + tr td { border-top: 1px solid var(--sg-line); }
+.sg-table td { color: var(--sg-text-2); text-align: center; }
+.sg-table td.is-fusion { background: rgba(8,120,255,.05); }
+.sg-table td[data-v="ano"] { color: #8fe0b0; }
+.sg-table td[data-v="ne"] { color: var(--sg-text-3); }
+.sg-table td[data-v="opt"] { color: #ffc37a; }
+.sg-fn { color: var(--sg-blue); }
+.sg-footnote { margin-top: 14px; color: var(--sg-text-3); font-size: 13px; }
+
+/* ─────────────────────────────────────────────────────── reference */
+
+.sg-quote-card { padding: 40px; }
+.sg-quote-tag { margin-bottom: 22px; }
+.sg-quote {
+  color: var(--sg-text); font-size: clamp(18px, 2.2vw, 24px);
+  line-height: 1.5; letter-spacing: -.015em; max-width: 900px;
+}
+.sg-quote-role { margin-top: 20px; color: var(--sg-text-3); font-size: 14px; }
+.sg-quote-nav { display: flex; align-items: center; gap: 14px; margin-top: 30px; }
+.sg-quote-counter { color: var(--sg-text-3); font-size: 13px; font-variant-numeric: tabular-nums; }
+.sg-round-btn {
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid var(--sg-line-strong);
+  background: rgba(255,255,255,.02); color: var(--sg-text);
+  font-size: 16px; cursor: pointer;
+  transition: border-color .2s ease, background .2s ease;
+}
+.sg-round-btn:hover { border-color: rgba(8,120,255,.5); background: rgba(8,120,255,.1); }
+
+/* ─────────────────────────────────────────────────────── formulář */
+
+.sg-contact-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 56px; align-items: start; }
+.sg-contact-direct { margin-top: 30px; display: grid; gap: 12px; color: var(--sg-text-2); font-size: 16px; }
+.sg-contact-direct li { display: flex; align-items: center; gap: 10px; }
+.sg-contact-direct a { color: var(--sg-text); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); }
+.sg-contact-direct a:hover { border-color: var(--sg-blue); }
+
+.sg-form { padding: 32px; display: grid; gap: 18px; }
+.sg-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.sg-field { display: grid; gap: 7px; }
+.sg-field label { color: var(--sg-text-2); font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+.sg-req { color: var(--sg-blue); }
+.sg-field input, .sg-field select {
+  min-height: 48px; padding: 0 14px;
+  border-radius: var(--sg-radius-sm); border: 1px solid var(--sg-line-strong);
+  background: rgba(255,255,255,.03); color: var(--sg-text);
+  font: inherit; font-size: 15px;
+  transition: border-color .2s ease, background .2s ease;
+}
+.sg-field select { appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--sg-text-2) 50%), linear-gradient(135deg, var(--sg-text-2) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 21px, calc(100% - 14px) 21px;
+  background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
+.sg-field input::placeholder { color: var(--sg-text-3); }
+.sg-field input:focus, .sg-field select:focus { border-color: rgba(8,120,255,.6); background: rgba(8,120,255,.05); }
+.sg-field input[aria-invalid="true"], .sg-field select[aria-invalid="true"] { border-color: var(--sg-danger); }
+.sg-err { color: var(--sg-danger); font-size: 13px; }
+.sg-form-submit { width: 100%; margin-top: 6px; }
+.sg-form-status:empty { display: none; }
+.sg-form-status {
+  padding: 14px 16px; border-radius: var(--sg-radius-sm);
+  border: 1px solid rgba(255,133,10,.45); background: rgba(255,133,10,.09);
+  color: #f5f5f5; font-size: 14px; line-height: 1.55;
+}
+.sg-form-status a { color: #fff; font-weight: 650; }
+
+/* ───────────────────────────────────────────────────────────── FAQ */
+
+.sg-faq-item { border-top: 1px solid var(--sg-line); }
+.sg-faq-item:last-child { border-bottom: 1px solid var(--sg-line); }
+.sg-faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  min-height: 68px; padding: 16px 4px;
+  background: none; border: 0; color: var(--sg-text);
+  font: inherit; font-size: clamp(16px, 1.7vw, 19px); font-weight: 550;
+  text-align: left; cursor: pointer;
+}
+.sg-faq-q:hover { color: #9fd0ff; }
+.sg-faq-sign { position: relative; flex-shrink: 0; width: 20px; height: 20px; }
+.sg-faq-sign::before, .sg-faq-sign::after {
+  content: ""; position: absolute; top: 9px; left: 0; width: 20px; height: 2px;
+  background: var(--sg-blue); border-radius: 2px; transition: transform .25s ease;
+}
+.sg-faq-sign::after { transform: rotate(90deg); }
+.sg-faq-q[aria-expanded="true"] .sg-faq-sign::after { transform: rotate(0deg); }
+.sg-faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.sg-faq-a > div { overflow: hidden; }
+.sg-faq-item.open .sg-faq-a { grid-template-rows: 1fr; }
+.sg-faq-a p { padding: 0 4px 24px; max-width: 780px; color: var(--sg-text-2); font-size: 16px; line-height: 1.65; }
+@media (prefers-reduced-motion: reduce) { .sg-faq-a { transition: none; } }
+
+/* ─────────────────────────────────────────────────────── patička */
+
+.sg-footer { border-top: 1px solid var(--sg-line); padding: 72px 24px 56px; }
+.sg-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; }
+.sg-footer-logo { width: 150px; }
+.sg-footer-tagline { margin-top: 18px; color: var(--sg-text); font-size: 17px; font-weight: 550; }
+.sg-footer-contact { margin-top: 18px; font-size: 15px; }
+.sg-footer-contact a { color: var(--sg-text-2); text-decoration: none; }
+.sg-footer-contact a:hover { color: var(--sg-text); }
+.sg-footer-legal { margin-top: 22px; color: var(--sg-text-3); font-size: 13px; line-height: 1.7; }
+.sg-footer-head { color: var(--sg-text-3); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.sg-footer-list { margin-top: 16px; display: grid; gap: 4px; }
+.sg-footer-list a {
+  display: inline-flex; align-items: center; min-height: 40px;
+  color: var(--sg-text-2); font-size: 15px; text-decoration: none;
+}
+.sg-footer-list a:hover { color: var(--sg-text); }
+
+/* ────────────────────────────────────────────────────── responzivita */
+
+@media (max-width: 1100px) {
+  .sg-nav, .sg-header-actions { display: none; }
+  .sg-burger { display: block; }
+}
+@media (max-width: 980px) {
+  .sg-contact-grid { grid-template-columns: 1fr; gap: 36px; }
+  .sg-footer-grid { grid-template-columns: 1fr 1fr; }
+  .sg-hero-visual { order: -1; }
+}
+@media (max-width: 700px) {
+  .sg-header-inner { width: min(100%, calc(100vw - 32px)); }
+  .sg-feature-list { grid-template-columns: 1fr; }
+  .sg-footer-grid { grid-template-columns: 1fr; gap: 36px; }
+  .sg-quote-card { padding: 28px; }
+  .sg-solution-art { margin: 22px -20px -20px; }
+  .sg-bullets { grid-template-columns: 1fr; }
+  .sg-config-art-fusion { grid-auto-flow: row; }
+  .sg-form { padding: 22px; }
+}
+
+/* ────────────────────────────────────────── nájezd sekcí (JS třídy) */
+
+.sg-reveal { opacity: 0; transform: translateY(12px); }
+.sg-revealed {
+  opacity: 1; transform: none;
+  transition: opacity .55s ease, transform .55s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sg-reveal { opacity: 1; transform: none; }
+}
+
+/* ─────────────────────── oprava přetečení a mobilní verze tabulky */
+
+/* Glow za Sky Hub sekcí je širší než viewport — musí se oříznout,
+   jinak roztáhne dokument do strany. */
+#sky-hub { overflow: hidden; }
+
+@media (max-width: 640px) {
+  /* Spec: pod 640 px žádná drobná tabulka — každý řádek se složí
+     do vlastní karty s popiskem sloupce u hodnoty. */
+  .sg-table-wrap { border: 0; background: none; overflow: visible; }
+  .sg-table { min-width: 0; }
+  .sg-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .sg-table tbody tr {
+    display: block; margin-bottom: 12px; padding: 18px;
+    border: 1px solid var(--sg-line); border-radius: var(--sg-radius-md);
+    background: var(--sg-surface-2);
+  }
+  .sg-table tbody th {
+    display: block; padding: 0 0 12px; font-size: 15px;
+    color: var(--sg-text); font-weight: 600;
+    border-bottom: 1px solid var(--sg-line);
+  }
+  .sg-table tbody td {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 0 0; text-align: right; border: 0 !important; background: none !important;
+  }
+  .sg-table tbody td::before {
+    content: attr(data-col);
+    color: var(--sg-text-3); font-size: 13px; text-transform: uppercase;
+    letter-spacing: .06em; font-weight: 700;
+  }
+  .sg-table tbody td[data-col="Fusion"]::before { color: #9fd0ff; }
+  .sg-table tbody tr + tr th, .sg-table tbody tr + tr td { border-top: 0; }
+}
+
+/* ───────────────────────────────── doladění po vizuální kontrole */
+
+/* Dodaná primitiva nemají mezeru mezi popiskem a šipkou. */
+.sg-btn, .sg-btn-secondary { gap: 8px; }
+
+/* Hero: kamera, dron a Hub mají mít srovnatelnou váhu. Dodané CSS dává
+   prvkům jen šířku, takže se SVG vykreslilo malé a dole. Dorovnáváme výšky
+   a ukotvujeme je ke spodní hraně kompozice. */
+.sg-hero-visual { min-height: 620px; }
+.sg-hero-camera {
+  width: 34%; height: 86%; bottom: 0; left: 2%;
+  object-fit: contain; object-position: bottom center;
+}
+.sg-hero-drone { width: 46%; height: 42%; right: 0; bottom: 10px; }
+.sg-hero-drone img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
+.sg-hero-hub { inset: 26px 10px 150px 120px; }
+
+@media (max-width: 980px) {
+  .sg-hero-visual { min-height: 460px; }
+  .sg-hero-hub { inset: 10px 0 130px 60px; }
+  .sg-hero-camera { height: 80%; }
+}
+@media (max-width: 700px) {
+  .sg-hero-visual { min-height: 380px; }
+  .sg-hero-hub { inset: 6px 0 110px 34px; }
+  .sg-hero-camera { width: 38%; height: 74%; }
+  .sg-hero-drone { width: 54%; height: 38%; }
+}
+
+/* Dodané .sg-tab nemá background, takže <button> zdědil světlé výchozí
+   pozadí prohlížeče a neaktivní záložky vypadaly jako plné pilulky. */
+.sg-tab { background: rgba(255,255,255,.02); cursor: pointer; font: inherit; font-size: 12px; min-height: 36px; }
+.sg-tab:hover { border-color: var(--sg-line-strong); color: var(--sg-text); }
+.sg-tab.active { background: rgba(8,120,255,.12); }
+
+/* Vizuál v panelech řešení musí mít pevnou výšku, jinak panel přeroste
+   a CTA spadne stovky pixelů dolů. */
+.sg-solution-art { height: 240px; overflow: hidden; border-radius: 0 0 var(--sg-radius-lg) var(--sg-radius-lg); }
+.sg-solution-art img { height: 100%; object-fit: cover; object-position: center; }
+.sg-solution { min-height: 0; }
+@media (max-width: 700px) { .sg-solution-art { height: 190px; } }
+
+/* Chip je inline-flex, ale ve sloupcovém flex kontejneru se roztáhne
+   na celou šířku — v kartách konfigurace i v referencích. */
+.sg-config-card > .sg-chip, .sg-quote-card > .sg-chip { align-self: flex-start; }
+.sg-quote-card { display: flex; flex-direction: column; align-items: flex-start; }
+
+/* Dodané ikony kreslí přes currentColor. Jako <img> ho zdědit nemohou
+   a vykreslily by se černé na černém pozadí — proto z nich děláme masku
+   obarvenou aktuální barvou textu. */
+.sg-i {
+  display: inline-block; flex-shrink: 0;
+  width: var(--s, 20px); height: var(--s, 20px);
+  background: currentColor;
+  -webkit-mask: var(--i) center / contain no-repeat;
+  mask: var(--i) center / contain no-repeat;
+}
+.sg-icon-tile .sg-i { color: #7ab8ff; }
+.sg-value-item .sg-i { color: var(--sg-blue); }
+.sg-feature-list .sg-i, .sg-contact-direct .sg-i { color: var(--sg-blue); }
+
+/* ─────────────────── opravy WCAG AA nad dodaným design systémem */
+
+/* Dodaný token --sg-text-3 (#687180) má na pozadí webu jen 4,11:1
+   a na kartách 3,92:1 — pro běžný text je minimum 4,5:1. Zesvětlujeme
+   o 5 % světlosti při zachování odstínu: 4,80:1 / 4,58:1.
+   Token neměníme v tokens.css, aby zůstal dodaný soubor nedotčený. */
+:root { --sg-text-3: #727C8D; }
+
+/* Bílá na --sg-blue dává 4,08:1. Skip link je běžný text, potřebuje 4,5. */
+.sg-skip { background: #0B6CF2; }
+
+/* Dotykové plochy na 44 px. */
+.sg-tab { min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center; }
+.sg-btn-sm { min-height: 44px; }
+.sg-footer-list a { min-height: 44px; }
+.sg-contact-direct a { display: inline-flex; align-items: center; min-height: 44px; }
+.sg-contact-direct li { min-height: 44px; }
+
+.sg-footer-contact a { display: inline-flex; align-items: center; min-height: 44px; }
+.sg-nav-link { min-width: 44px; justify-content: center; }
