@@ -515,3 +515,21 @@ a { color: inherit; }
 
 .sg-footer-contact a { display: inline-flex; align-items: center; min-height: 44px; }
 .sg-nav-link { min-width: 44px; justify-content: center; }
+
+/* Na úzkých displejích se dvojice CTA nevejde vedle sebe. */
+.sg-hero-actions, .sg-hub-actions { flex-wrap: wrap; }
+
+@media (max-width: 700px) {
+  /* Padding karty a záporný okraj vizuálu si musí odpovídat, jinak
+     obrázek nedosedne k okraji panelu. */
+  .sg-solution { padding: 24px; }
+  .sg-solution-art { margin: 22px -24px -24px; }
+  .sg-platform-card, .sg-config-card, .sg-hub-showcase { padding: 24px; }
+}
+
+/* Otevírání dropdownu najetím — jen na zařízeních se skutečným kurzorem.
+   Na dotyku a klávesnici ho otevírá klik (nova.js). */
+@media (hover: hover) and (pointer: fine) {
+  .sg-nav-item.has-menu:hover .sg-dropdown { opacity: 1; visibility: visible; transform: none; }
+  .sg-nav-item.has-menu:hover > .sg-nav-link { color: var(--sg-text); background: rgba(255,255,255,.05); }
+}

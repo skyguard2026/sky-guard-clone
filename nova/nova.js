@@ -28,9 +28,9 @@
         e.stopPropagation();
         open(!item.classList.contains("open"));
       });
-      // Myší necháme otevírat najetím, klávesnice si vystačí s klikem.
-      item.addEventListener("mouseenter", function () { open(true); });
-      item.addEventListener("mouseleave", function () { open(false); });
+      // Otevírání najetím myší řeší CSS (@media hover). Kdyby ho dělal i JS,
+      // mouseenter by menu otevřel a bezprostředně následující klik na
+      // stejné tlačítko by ho zase zavřel.
       item.querySelectorAll(".sg-dropdown a").forEach(function (a) {
         a.addEventListener("click", function () { open(false); });
       });
