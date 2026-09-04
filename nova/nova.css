@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v43)
+   Sky Guard — /nova, samostatný stylesheet (v44)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -279,7 +279,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
 .sg-hero .sg-lead { margin-left: auto; margin-right: auto; max-width: 600px; font-size: 18px; }
 .sg-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 
-.sg-stage { position: relative; width: 100%; margin-top: clamp(40px, 5vw, 72px); height: clamp(320px, 38vw, 560px); }
+.sg-stage { position: relative; width: 100%; margin-top: clamp(64px, 6vw, 88px); height: clamp(320px, 38vw, 560px); }
 .sg-stage-ground {
   position: absolute; left: 6%; right: 6%; bottom: -8%; height: 52%; pointer-events: none;
   background: radial-gradient(ellipse at 50% 60%, rgba(47, 123, 255, .42), rgba(2, 73, 168, .16) 42%, transparent 70%);
