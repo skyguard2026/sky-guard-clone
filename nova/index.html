@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/design/css/tokens.css">
     <link rel="stylesheet" href="/design/css/component-primitives.css">
     <link rel="stylesheet" href="/design/css/homepage-sections.css">
-    <link rel="stylesheet" href="/nova/nova.css?v=34">
+    <link rel="stylesheet" href="/nova/nova.css?v=35">
 </head>
 <body>
 
@@ -63,8 +63,8 @@
     </nav>
 
     <div class="sg-header-actions">
+      <a class="sg-btn-secondary sg-login" href="/hub/login">Sky Guard Hub <span aria-hidden="true">↗</span></a>
       <a class="sg-btn sg-btn-sm" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
-      <a class="sg-btn-secondary sg-login" href="/hub/login">Přihlásit se <span aria-hidden="true">↗</span></a>
     </div>
 
     <button type="button" class="sg-burger" id="sg-burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="sg-mobile-panel">
@@ -81,7 +81,7 @@
     <a href="#o-nas">O nás</a>
     <a href="#kontakt">Kontakt</a>
     <a class="sg-btn sg-mobile-cta" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
-    <a class="sg-mobile-login" href="/hub/login">Přihlásit se <span aria-hidden="true">↗</span></a>
+    <a class="sg-mobile-login" href="/hub/login">Sky Guard Hub <span aria-hidden="true">↗</span></a>
   </nav>
 </div>
 
@@ -94,34 +94,38 @@
   <div class="sg-grid-bg" aria-hidden="true"></div>
   <span class="sg-blue-glow" style="left:-160px;top:40px" aria-hidden="true"></span>
 
-  <div class="sg-container sg-hero-grid">
-    <div class="sg-hero-copy">
-      <p class="sg-eyebrow">Inteligentní ochrana areálů</p>
-      <h1 class="sg-h1">Bezpečnost,<br>která nikdy nespí.</h1>
-      <p class="sg-lead" style="margin-top:22px">Bezpečnostní kamery, autonomní drony a Sky Hub v jednom systému. Samostatně nebo v kombinaci podle potřeb vašeho areálu.</p>
-      <div class="sg-hero-actions">
-        <a class="sg-btn" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
-        <a class="sg-btn-secondary" href="#platforma">Jak Sky Guard funguje <span aria-hidden="true">↓</span></a>
-      </div>
+  <!-- Stejná stavba jako hero na sky-guard.cz: wordmark 648 px, tagline
+       v Nippo, jedna modrá pilulka se září a produkty volně pod tím. -->
+  <div class="sg-container sg-hero-center">
+    <h1 class="sg-h1">
+      <picture class="sg-wordmark">
+        <source type="image/avif" srcset="/images/ex7xMQnmrgmUJLP0IQnBvShSqBE.avif">
+        <source type="image/webp" srcset="/images/ex7xMQnmrgmUJLP0IQnBvShSqBE.webp">
+        <img src="/images/ex7xMQnmrgmUJLP0IQnBvShSqBE.png" alt="Sky Guard" width="1024" height="164" decoding="async" fetchpriority="high">
+      </picture>
+      <span class="sg-h1-tag">Bezpečnost, která nikdy nespí.</span>
+    </h1>
+    <p class="sg-lead">Bezpečnostní kamery, autonomní drony a Sky Hub v jednom systému. Samostatně nebo v kombinaci podle potřeb vašeho areálu.</p>
+    <div class="sg-hero-actions">
+      <a class="sg-btn" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
+      <a class="sg-btn-secondary" href="#platforma">Jak Sky Guard funguje <span aria-hidden="true">↓</span></a>
     </div>
 
-    <!-- Ekosystém: Sky Hub jako softwarová plocha vzadu, kamera a dron
-         s dokem volně plovoucí vpředu — stejný princip jako produkty na
-         původním webu, žádné rámečky. -->
+    <!-- Ekosystém: kamerový sloup, Sky Hub na notebooku a telefonu, dron
+         s dokem — bez rámečků, jako produkty na původním webu. -->
     <div class="sg-hero-visual">
-      <div class="sg-hero-hub">
-        <picture>
-          <source type="image/avif" srcset="/images/sg-hub-shot.avif">
-          <source type="image/webp" srcset="/images/sg-hub-shot.webp">
-          <img src="/images/sg-hub-shot.png" alt="Sky Guard Hub otevřený na notebooku a mobilu" decoding="async" fetchpriority="high">
-        </picture>
-      </div>
-      <img class="sg-hero-connectors" src="/design/camera/camera-hub-connectors.svg" alt="" aria-hidden="true" decoding="async">
       <picture class="sg-hero-camera sg-float">
         <source type="image/avif" srcset="/images/sky-camera-hero.avif">
         <source type="image/webp" srcset="/images/sky-camera-hero.webp">
         <img src="/images/sky-camera-hero.png" alt="Kamerový sloup Sky Guard se třemi kamerami, satelitní anténou a rozvaděčem" width="514" height="1200" decoding="async">
       </picture>
+      <div class="sg-hero-hub">
+        <picture>
+          <source type="image/avif" srcset="/images/sky-hub-app.avif">
+          <source type="image/webp" srcset="/images/sky-hub-app.webp">
+          <img src="/images/sky-hub-app.png" alt="Sky Guard Hub: provozní přehled areálu na notebooku a přihlášení v mobilní aplikaci" width="1794" height="799" decoding="async" fetchpriority="high">
+        </picture>
+      </div>
       <picture class="sg-hero-drone sg-float sg-float-b">
         <source type="image/avif" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.avif">
         <source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp">
@@ -165,7 +169,7 @@
 
       <div class="sg-arch-cell is-hub">
         <div class="sg-arch-visual">
-          <picture><source type="image/avif" srcset="/images/sg-hub-shot.avif"><source type="image/webp" srcset="/images/sg-hub-shot.webp"><img src="/images/sg-hub-shot.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></picture>
+          <picture><source type="image/avif" srcset="/images/sky-hub-phone.avif"><source type="image/webp" srcset="/images/sky-hub-phone.webp"><img src="/images/sky-hub-phone.png" alt="" aria-hidden="true" width="389" height="688" loading="lazy" decoding="async"></picture>
         </div>
         <span class="sg-arch-node" aria-hidden="true"></span>
         <p class="sg-micro">Řídicí vrstva</p>
@@ -176,7 +180,7 @@
 
       <div class="sg-arch-cell">
         <div class="sg-arch-visual">
-          <picture><source type="image/avif" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.avif"><source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp"><img src="/images/gQHwsT719Q0yDD2ggabqel8sc.png" alt="" aria-hidden="true" width="3840" height="2160" loading="lazy" decoding="async"></picture>
+          <picture><source type="image/avif" srcset="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.avif"><source type="image/webp" srcset="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.webp"><img src="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.png" alt="" aria-hidden="true" width="1230" height="741" loading="lazy" decoding="async"></picture>
         </div>
         <span class="sg-arch-link is-right" aria-hidden="true"></span>
         <p class="sg-micro">Mobilní vrstva</p>
@@ -260,9 +264,9 @@
 
     <figure class="sg-hub-figure">
       <picture>
-        <source type="image/avif" srcset="/images/sg-hub-shot.avif">
-        <source type="image/webp" srcset="/images/sg-hub-shot.webp">
-        <img id="sg-hub-shot" src="/images/sg-hub-shot.png" alt="Sky Guard Hub otevřený na notebooku a mobilu" decoding="async" loading="lazy">
+        <source type="image/avif" srcset="/images/sky-hub-app.avif">
+        <source type="image/webp" srcset="/images/sky-hub-app.webp">
+        <img id="sg-hub-shot" src="/images/sky-hub-app.png" alt="Sky Guard Hub: provozní přehled s letovou trasou, termokamerou a posledními událostmi na notebooku, přihlášení v mobilní aplikaci" width="1794" height="799" decoding="async" loading="lazy">
       </picture>
     </figure>
 
@@ -367,6 +371,14 @@
   </div>
 </section>
 
+<!-- ═══════════════ 08b — MODRÝ PÁS (jako v sekci Technologie) ══════ -->
+<section class="sg-section sg-band" aria-label="Domluvit ukázku">
+  <div class="sg-container sg-band-inner">
+    <p class="sg-band-text">Chcete vidět, jak Sky Guard hlídá areál? Ukážeme vám kamery, dron i Sky Hub naživo.</p>
+    <a class="sg-btn" href="#kontakt">Domluvit ukázku <span aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
 <!-- ═══════════════════════ 09 — ŘEŠENÍ / USE CASES ═════════════════ -->
 <section class="sg-section" id="reseni">
   <div class="sg-container">
@@ -385,9 +397,9 @@
         </ul>
         <figure class="sg-solution-art">
           <picture>
-            <source type="image/avif" srcset="/images/hXbeNGeZeQaaTEwkTHvRMPDgE.avif">
-            <source type="image/webp" srcset="/images/hXbeNGeZeQaaTEwkTHvRMPDgE.webp">
-            <img src="/images/hXbeNGeZeQaaTEwkTHvRMPDgE.png" alt="Detail kamery a termovize na dronu" width="2279" height="1827" decoding="async" loading="lazy">
+            <source type="image/avif" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.avif">
+            <source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp">
+            <img src="/images/gQHwsT719Q0yDD2ggabqel8sc.png" alt="Dron Sky Guard nad otevřenou dokovací stanicí" width="3840" height="2160" decoding="async" loading="lazy">
           </picture>
         </figure>
         <p class="cta"><a class="sg-btn-secondary sg-arrow" href="#kontakt">Sky Security <span aria-hidden="true">→</span></a></p>
@@ -404,9 +416,9 @@
         </ul>
         <figure class="sg-solution-art">
           <picture>
-            <source type="image/avif" srcset="/images/PMJlHiHsUUDj5rWz480roO9OM.avif">
-            <source type="image/webp" srcset="/images/PMJlHiHsUUDj5rWz480roO9OM.webp">
-            <img src="/images/PMJlHiHsUUDj5rWz480roO9OM.png" alt="Fotogrammetrický 3D model rozestavěné haly" width="1536" height="1024" decoding="async" loading="lazy">
+            <source type="image/avif" srcset="/images/8m1nQwPyWEy3NSN2i24biINwFAo.avif">
+            <source type="image/webp" srcset="/images/8m1nQwPyWEy3NSN2i24biINwFAo.webp">
+            <img src="/images/8m1nQwPyWEy3NSN2i24biINwFAo.png" alt="Ilustrace staveniště: bagr, jeřáb, zábrana a cedule Under Construction" width="1000" height="1000" decoding="async" loading="lazy">
           </picture>
         </figure>
         <p class="cta"><a class="sg-btn-secondary sg-arrow sg-arrow-orange" href="#kontakt">Sky Construction <span aria-hidden="true">→</span></a></p>

@@ -919,3 +919,243 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-hero-hub { inset: 14px 26px 150px 150px; }
 .sg-hero-camera { width: 31%; left: -1%; }
 .sg-hero-drone { right: 0; width: 50%; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIVE PASS — hodnoty naměřené na www.sky-guard.cz (1440 px)
+   pozadí #08070E · text #F5F5F5 / #D5D5D5 · hairline rgba(95,95,113,.22)
+   kontejner 1184 px se svislými linkami · nadpisy DM Sans 40/48 −0,8 px
+   v regular řezu · Nippo 18 px tagline · CTA pilulka 52 px #0249A8 se
+   září 0 0 34px · kruhové ikony 64 px · sekce 144 px · rádiusy 30/48
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --sg-bg: #08070E;
+  --sg-surface: #08070E;
+  --sg-surface-2: #0B0A12;
+  --sg-surface-3: #0E0D16;
+  --sg-text: #F5F5F5;
+  --sg-text-2: #D5D5D5;
+  --sg-text-3: #9A9AA6;            /* 7,2:1 na pozadí */
+  --sg-line: rgba(95, 95, 113, .22);
+  --sg-line-strong: rgba(255, 255, 255, .12);
+  --sg-brand: #0249A8;             /* výplně (CTA, pás) — na text je moc tmavá */
+  --sg-max: 1184px;
+  --sg-radius-xl: 48px;
+  --sg-radius-lg: 30px;
+  --sg-radius-md: 20px;
+}
+
+/* ── typografie ─────────────────────────────────────────────────── */
+body { color: var(--sg-text-2); font: 400 16px/24px "DM Sans", "Inter", system-ui, -apple-system, sans-serif; }
+.sg-h2 {
+  color: var(--sg-text); font-weight: 400;
+  font-size: clamp(30px, 2.8vw, 40px); line-height: 1.2; letter-spacing: -.02em;
+}
+.sg-lead { color: var(--sg-text-2); font-size: 16px; line-height: 24px; max-width: 640px; }
+.sg-eyebrow { color: #6EA8FF; font-weight: 500; letter-spacing: .14em; font-size: 12px; }
+.sg-card-title, .sg-arch-title { font-size: 24px; font-weight: 400; line-height: 1.25; letter-spacing: -.01em; color: var(--sg-text); }
+.sg-card-copy, .sg-arch-copy { font-size: 16px; line-height: 24px; color: var(--sg-text-2); }
+.sg-step-title, .sg-benefit-title, .sg-tile h3, .sg-feature-mini { font-size: 16px; font-weight: 500; color: var(--sg-text); }
+.sg-strong-line { font-size: clamp(22px, 2.2vw, 30px); font-weight: 400; color: var(--sg-text); }
+.sg-quote { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.43; font-weight: 400; letter-spacing: 0; }
+.sg-nav-link { font-size: 16px; font-weight: 400; color: var(--sg-text-2); }
+.sg-btn-secondary { font-size: 16px; font-weight: 500; color: var(--sg-text); }
+.sg-value-item { font-size: 14px; font-weight: 500; letter-spacing: .06em; color: var(--sg-text); }
+.sg-micro { color: var(--sg-text-3); font-weight: 500; }
+
+/* ── CTA pilulka přesně jako na webu: 52 px, #0249A8, záře 34 px ─── */
+.sg-btn {
+  min-height: 52px; padding: 0 28px; border-radius: 48px; border: 0;
+  background: var(--sg-brand); color: #fff;
+  font: 500 18px/26px "DM Sans", sans-serif;
+  box-shadow: 0 0 34px var(--sg-brand), 0 0 0 4px rgba(0, 255, 178, .1);
+}
+.sg-btn:hover {
+  background: #0B5BC8; border-color: transparent; transform: translateY(-2px);
+  box-shadow: 0 0 44px var(--sg-brand), 0 0 0 4px rgba(0, 255, 178, .14);
+}
+.sg-btn-sm { min-height: 43px; padding: 0 22px; font-size: 16px; }
+.sg-final-cta .sg-btn { min-height: 52px; padding: 0 28px; font-size: 18px; }
+
+/* ── hlavička: logo 230 px, navigace uprostřed, pilulka vpravo ──── */
+.sg-header { background: rgba(8, 7, 14, .82); border-bottom: 0; }
+.sg-header-inner { min-height: 80px; gap: 24px; }
+.sg-logo img { width: 230px; }
+.sg-nav { margin: 0 auto; }
+.sg-nav-list { gap: 10px; }
+.sg-nav-link { padding: 0 10px; border-radius: 48px; }
+.sg-nav-link:hover, .sg-nav-item.open > .sg-nav-link { color: var(--sg-text); background: none; }
+.sg-header-actions { gap: 22px; }
+.sg-login { font-size: 16px; color: var(--sg-text-2); }
+.sg-dropdown { border-radius: 20px; background: #0E0D16; }
+
+/* ── mřížka a sekce ─────────────────────────────────────────────── */
+.sg-lines span { background: var(--sg-line); }
+.sg-section { padding: clamp(80px, 10vw, 144px) 0; border-top: 1px solid var(--sg-line); }
+.sg-container { width: min(var(--sg-max), calc(100vw - 48px)); padding: 0 20px; }
+.sg-hero-visual, .sg-value-strip, .sg-arch, .sg-benefits, .sg-tiles, .sg-workflow { margin-left: -20px; margin-right: -20px; }
+.sg-value-strip { border-top: 0; }
+.sg-value-item { min-height: 88px; }
+
+/* ── karty: bez výplně a záře, jen hairline a rádius 30 ─────────── */
+.sg-card {
+  background: transparent; border: 1px solid var(--sg-line);
+  border-radius: 30px; box-shadow: none;
+}
+.sg-card::before { display: none; }
+.sg-table-wrap { background: transparent; border-radius: 30px; }
+.sg-table th, .sg-table td { font-size: 19px; font-weight: 400; padding: 16px 20px; }
+.sg-table thead th { font-size: 12px; font-weight: 500; letter-spacing: .12em; }
+.sg-table tbody th { color: var(--sg-text); }
+.sg-table td[data-v="opt"] { font-size: 14px; }
+.sg-table td[data-v="ne"] { color: #6B6B78; }
+.sg-final-cta {
+  border-radius: 48px; border: 1px solid var(--sg-line);
+  background: radial-gradient(90% 130% at 50% 130%, rgba(2, 73, 168, .55), transparent 62%), var(--sg-bg);
+}
+.sg-form { border-radius: 30px; }
+.sg-field label { font-family: "Inter", "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--sg-text-2); }
+.sg-field input, .sg-field select { background: rgba(255, 255, 255, .02); border-color: var(--sg-line-strong); font-size: 16px; }
+.sg-quote-card { border-radius: 30px; }
+.sg-chip { font-weight: 500; }
+
+/* ── kruhové ikony 64 px s hairline (dlaždice „Proč si vybrat“) ──── */
+.sg-tile-icon, .sg-icon-tile {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 1px solid var(--sg-line); background: var(--sg-bg); color: var(--sg-text);
+}
+.sg-tile-icon .sg-i, .sg-icon-tile .sg-i { color: var(--sg-text); }
+.sg-tile { padding: 34px 28px 36px; }
+.sg-tile h3 { margin-top: 24px; }
+.sg-tile p { margin-top: 8px; font-size: 16px; line-height: 24px; color: var(--sg-text-2); }
+.sg-tiles { margin-top: 48px; border-radius: 30px; background: transparent; }
+.sg-benefit { padding: 36px 24px 40px; gap: 0; }
+.sg-benefit-num {
+  display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%;
+  border: 1px solid var(--sg-line); color: var(--sg-text);
+  font-size: 16px; font-weight: 500; letter-spacing: 0;
+}
+.sg-benefit-title { margin-top: 24px; }
+.sg-benefit-copy { margin-top: 8px; font-size: 16px; line-height: 24px; }
+
+/* průběh incidentu: kruh 64 px s číslem, spojnice ve středu kruhu */
+.sg-step-dot {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 1px solid var(--sg-line); background: var(--sg-bg);
+  color: var(--sg-text); font-size: 16px; font-weight: 500;
+}
+.sg-work-step:not(:last-child)::after { top: 32px; left: 72px; right: 8px; }
+.sg-step-title { margin-top: 24px; }
+.sg-step-copy { font-size: 16px; line-height: 24px; }
+@media (max-width: 700px) {
+  .sg-work-step { padding-left: 84px; min-height: 64px; }
+  .sg-work-step:not(:last-child)::after { top: 72px; left: 32px; bottom: -8px; }
+  .sg-step-title { margin-top: 8px; }
+}
+
+/* ── hero jako na webu: wordmark, Nippo tagline, pilulka, produkty ─ */
+.sg-hero { display: block; min-height: 0; overflow: visible; padding: 64px 0 0; border-top: 0; }
+.sg-hero .sg-grid-bg { display: none; }
+#hero .sg-blue-glow { left: 50%; top: -140px; width: 760px; height: 520px; transform: translateX(-50%); opacity: .8; }
+.sg-hero-center { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.sg-h1 { margin: 0; font: 400 18px/26px "Nippo", "DM Sans", sans-serif; letter-spacing: 0; color: #fff; }
+.sg-wordmark { display: block; width: min(648px, 82vw); margin: 0 auto; line-height: 0; }
+.sg-wordmark img { width: 100%; height: auto; display: block; }
+.sg-h1-tag { display: block; margin: 46px auto 0; max-width: 712px; font-size: 18px; line-height: 26px; }
+.sg-hero .sg-lead { margin: 18px auto 0; text-align: center; max-width: 620px; }
+.sg-hero-actions { justify-content: center; margin-top: 30px; gap: 28px; }
+.sg-hero-visual {
+  position: static; min-height: 0; margin-top: 88px; width: calc(100% + 40px);
+  display: grid; grid-template-columns: 1fr 2.3fr 1.55fr; align-items: end; column-gap: 12px;
+}
+.sg-hero-hub { position: static; inset: auto; transform: none; padding: 0; overflow: visible; }
+.sg-hero-hub img { width: 100%; height: auto; opacity: 1; }
+.sg-hero-camera { position: static; width: auto; height: auto; justify-self: center; }
+.sg-hero-camera img { height: 470px; width: auto; max-width: 100%; object-fit: contain; object-position: bottom; }
+.sg-hero-drone { position: static; width: auto; height: auto; display: block; }
+.sg-hero-drone img { width: 100%; height: auto; object-fit: contain; object-position: bottom; }
+.sg-hero-connectors { display: none; }
+
+/* ── platforma / Sky Hub / řešení s novými assety ───────────────── */
+.sg-arch-visual { height: 260px; }
+.sg-arch-visual img { max-height: 260px; }
+.sg-arch-cell.is-hub .sg-arch-visual img { max-height: 250px; }
+#sky-hub .sg-hub-figure {
+  margin-top: 44px; padding: 0; border: 0; border-radius: 0; background: none;
+  box-shadow: none; overflow: visible;
+}
+#sky-hub .sg-hub-figure img { margin-bottom: 0; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .6)); }
+.sg-solution-title { font-size: 30px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; }
+.sg-solution.security .sg-solution-title, .sg-solution.construction .sg-solution-title { color: var(--sg-text); }
+.sg-solution-art { height: 280px; margin: 26px 0 0; border-radius: 0; overflow: visible; }
+.sg-solution-art img { width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 1; filter: drop-shadow(0 20px 36px rgba(0, 0, 0, .5)); }
+.sg-solution .cta { padding-top: 28px; }
+@media (max-width: 700px) { .sg-solution-art { height: 200px; margin: 22px 0 0; } }
+
+/* ── plnobarevný modrý pás „Domluvit ukázku“ (jako v Technologiích) ─ */
+.sg-band { background: var(--sg-brand); border-top: 0; padding: 56px 0; }
+.sg-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px 40px; flex-wrap: wrap; }
+.sg-band-text { color: #fff; font-size: clamp(24px, 2.4vw, 30px); line-height: 1.2; font-weight: 400; max-width: 720px; }
+.sg-band .sg-btn { background: #fff; color: var(--sg-brand); box-shadow: 0 0 34px rgba(255, 255, 255, .28); }
+.sg-band .sg-btn:hover { background: #F0F4FF; color: var(--sg-brand); box-shadow: 0 0 44px rgba(255, 255, 255, .36); }
+
+/* ── patička ────────────────────────────────────────────────────── */
+.sg-footer { border-top: 1px solid var(--sg-line); padding-top: 72px; }
+.sg-footer-logo { width: 160px; }
+.sg-footer-tagline { font-weight: 400; font-size: 16px; }
+.sg-footer-head { font-weight: 500; }
+.sg-footer-list a, .sg-footer-contact a { font-size: 16px; }
+.sg-footer-legal { font-size: 14px; }
+
+/* ── responzivita live passu ────────────────────────────────────── */
+@media (max-width: 1100px) { .sg-logo img { width: 190px; } }
+@media (max-width: 980px) {
+  .sg-hero-visual { min-height: 0; grid-template-columns: 1fr 2fr 1.4fr; margin-top: 64px; }
+  .sg-hero-camera { width: auto; height: auto; }
+  .sg-hero-camera img { height: 340px; }
+  .sg-hero-hub { inset: auto; transform: none; }
+  .sg-hero-drone { width: auto; height: auto; }
+  .sg-benefit { padding: 28px 20px 32px; }
+}
+@media (max-width: 700px) {
+  .sg-hero { padding-top: 40px; }
+  .sg-hero-visual { min-height: 0; margin-top: 48px; grid-template-columns: 1fr 1fr; row-gap: 16px; }
+  .sg-hero-hub { grid-column: 1 / -1; inset: auto; }
+  .sg-hero-camera { width: auto; height: auto; justify-self: center; }
+  .sg-hero-camera img { height: 250px; }
+  .sg-hero-drone { width: auto; height: auto; }
+  .sg-h1 { font-size: 18px; }
+  .sg-h1-tag { margin-top: 30px; font-size: 16px; line-height: 24px; }
+  .sg-hero-actions { gap: 16px; }
+  .sg-container { padding: 0 4px; }
+  .sg-hero-visual, .sg-value-strip, .sg-arch, .sg-benefits, .sg-tiles, .sg-workflow { margin-left: -4px; margin-right: -4px; }
+  .sg-hero-visual { width: calc(100% + 8px); }
+  .sg-logo img { width: 170px; }
+  .sg-table th, .sg-table td { font-size: 16px; }
+  .sg-band { padding: 44px 0; }
+}
+
+/* Mobilní hero: Hub na celou šířku nahoře, pod ním sloup a dron vedle
+   sebe — jinak sloup visel sám vlevo a dron vlevo dole s prázdnou pravou
+   půlkou. Popisky value stripu se na 390 px lámaly do dvou řádků. */
+@media (max-width: 700px) {
+  .sg-hero-hub { order: -1; margin-bottom: 8px; }
+  .sg-hero-camera { justify-self: start; padding-left: 8px; }
+  .sg-hero-drone { justify-self: end; align-self: end; }
+  .sg-value-item { font-size: 12px; letter-spacing: .04em; min-height: 76px; }
+}
+
+/* Sky Construction jako na původním webu: šedá ilustrace staveniště sedí
+   na plném modrém panelu #0249A8, text bílý, štítky a odrážky oranžové. */
+.sg-solution.construction { background: var(--sg-brand); border-color: transparent; }
+.sg-solution.construction .sg-card-copy, .sg-solution.construction .sg-bullets { color: #fff; }
+.sg-solution.construction .sg-chip { border-color: rgba(255, 255, 255, .35); color: #fff; background: rgba(255, 255, 255, .06); }
+.sg-solution.construction .sg-bullets li::before { background: #FF8605; }
+.sg-solution.construction .sg-btn-secondary { color: #fff; }
+.sg-solution.construction .sg-arrow-orange { color: #FFB25C; }
+.sg-solution.construction .sg-solution-art img { filter: drop-shadow(0 20px 36px rgba(0, 0, 0, .35)); }
+@media (hover: hover) and (pointer: fine) {
+  .sg-solution.construction:hover { border-color: rgba(255, 255, 255, .25); }
+}
+/* „SKY CONSTRUCTION“ se na 390 px lámalo do dvou řádků. */
+.sg-solution-title { font-size: clamp(22px, 6.4vw, 30px); }
