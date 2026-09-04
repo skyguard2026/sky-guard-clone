@@ -590,62 +590,6 @@ a { color: inherit; }
 .sg-config-art img { max-height: 190px; }
 .sg-config-art-fusion img { max-height: 160px; }
 
-/* ═════════ proporce po záměně konceptu za reálnou fotku sloupu ═══════
-   Fotka má poměr 1028x1376 (0,75), koncepční SVG mělo 0,89–1,0. Sloup je
-   tedy užší a vyšší, takže při object-fit: contain vycházel menší.
-   Dorovnáváme výšky slotů a zmenšujeme šířky. */
-
-.sg-hero-camera { width: 30%; height: 96%; bottom: -2%; left: 3%; }
-.sg-platform-art { height: 190px; }
-.sg-config-art { height: 210px; }
-.sg-config-art img { max-height: 210px; }
-.sg-config-art-fusion img { max-height: 175px; }
-.sg-dd-visual img { max-height: 560px; }
-
-@media (max-width: 980px) { .sg-hero-camera { width: 34%; height: 90%; } }
-@media (max-width: 700px) {
-  .sg-hero-camera { width: 36%; height: 84%; }
-  .sg-config-art { height: 180px; }
-  .sg-config-art img { max-height: 180px; }
-}
-
-/* ═════════════ rámování reálné fotky sloupu ═══════════════════════
-   Snímek je studiové foto na tmavém pozadí s vinětou, která je uprostřed
-   světlejší než u krajů — prolnutí okrajů ji neopraví a ukrajovalo kamery.
-   Místo boje s pozadím ho rámujeme: obdélník tak působí záměrně, ne jako
-   nedodělaný ořez. Až dodá klient verzi s průhledným pozadím, stačí
-   tenhle blok smazat. */
-
-img[src*="/images/sky-camera-"] {
-  border-radius: var(--sg-radius-md);
-  border: 1px solid rgba(255,255,255,.07);
-  background: #0a0a0c;
-}
-
-/* V heru je fotka produktovou destičkou vedle plochy Sky Hubu. */
-.sg-hero-camera {
-  border-radius: var(--sg-radius-lg) !important;
-  border: 1px solid rgba(8,120,255,.16) !important;
-  box-shadow: 0 18px 60px rgba(0,0,0,.45);
-  object-fit: cover;
-  object-position: center;
-}
-
-/* V deep dive dostane víc prostoru a jemný modrý nádech okraje. */
-.sg-dd-visual img[src*="sky-camera-"] {
-  border-radius: var(--sg-radius-lg);
-  border-color: rgba(8,120,255,.16);
-  box-shadow: 0 20px 70px rgba(0,0,0,.4);
-}
-
-/* V kartách platformy je vizuál jen doplněk, rámeček by tam přebíjel. */
-.sg-platform-art { border: 0 !important; background: none !important; border-radius: 0 !important; }
-
-/* cover ořezával ramena s kamerami; contain je zachová celé a prázdno
-   dorovná vlastní pozadí rámečku. */
-.sg-hero-camera { object-fit: contain !important; width: 32%; height: 92%; }
-@media (max-width: 700px) { .sg-hero-camera { width: 40%; height: 82%; } }
-
 /* ═══════════════ druhá vlna designových oprav ═══════════════════════ */
 
 /* VALUE STRIP — spec chce verzálkové popisky, dodané CSS je nemá. */
@@ -792,38 +736,8 @@ img[src*="/images/sky-camera-"] {
   .sg-hero-connectors { display: none; }
 }
 
-/* Deep dive sekce jsou zrcadlové, ale kamera měla rámovanou fotku a dron
-   volně plovoucí render — dvojice pak působila nesourodě. Dron dostane
-   stejnou plochu, jen průhledný render zůstává uvnitř. */
-#sky-drone .sg-dd-visual {
-  border-radius: var(--sg-radius-lg);
-  border: 1px solid rgba(8,120,255,.16);
-  background: radial-gradient(120% 80% at 50% 40%, rgba(8,120,255,.07), transparent 62%), #0a0a0c;
-  box-shadow: 0 20px 70px rgba(0,0,0,.4);
-  padding: 40px 32px;
-  min-height: 420px;
-}
-#sky-drone .sg-dd-visual img { max-height: 340px; }
-@media (max-width: 700px) {
-  #sky-drone .sg-dd-visual { min-height: 260px; padding: 28px 20px; }
-  #sky-drone .sg-dd-visual img { max-height: 220px; }
-}
 
-/* Kamera je fotka s tmavým pozadím, dron průhledný render — vedle sebe
-   v kartách platformy působily jako dva různé světy. Oba dostanou stejnou
-   plochu, aby dvojice držela pohromadě. */
-.sg-platform-card > picture { display: block; margin-top: auto; }
-.sg-platform-art {
-  height: 176px; width: 100%;
-  border-radius: var(--sg-radius-md) !important;
-  border: 1px solid rgba(255,255,255,.06) !important;
-  background: radial-gradient(120% 90% at 50% 45%, rgba(8,120,255,.06), transparent 60%), #0a0a0c !important;
-  object-fit: contain; object-position: center;
-  padding: 12px;
-}
 
-/* Kamera je na výšku, takže v nízké ploše vycházela drobná. */
-.sg-platform-art { height: 210px; padding: 14px; }
 
 /* Závěrečné CTA — spec chce za ním velkou klidnou modrou záři, dodaný
    gradient byl sotva znatelný. Tlačítko bylo na tak velkém panelu drobné. */
@@ -835,3 +749,173 @@ img[src*="/images/sky-camera-"] {
 }
 .sg-final-cta .sg-btn { min-height: 56px; padding: 0 30px; font-size: 15px; }
 .sg-final-cta .sg-lead { text-align: center; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   BRAND PASS — přiblížení původnímu webu sky-guard.cz
+   Původní web: DM Sans i pro velké nadpisy v regular řezu, Nippo jako
+   display akcent, vertikální architektonická mřížka přes celou stránku,
+   produkty volně plovoucí na tmavém pozadí, dlaždice s kruhovými ikonami.
+   Dodaný design systém tlačil těžké tight titulky a karty — přebíjíme.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── typografie ─────────────────────────────────────────────────── */
+body { font-family: "DM Sans", "Inter", system-ui, -apple-system, sans-serif; }
+.sg-h1 {
+  font-family: "Nippo", "DM Sans", sans-serif; font-weight: 400;
+  font-size: clamp(42px, 5.2vw, 68px); line-height: 1.04; letter-spacing: -.005em;
+}
+.sg-h2 {
+  font-family: "DM Sans", sans-serif; font-weight: 400;
+  font-size: clamp(32px, 3.6vw, 46px); line-height: 1.12; letter-spacing: -.02em;
+}
+.sg-card-title, .sg-solution-title, .sg-step-title, .sg-benefit-title, .sg-arch-title, .sg-tile h3 {
+  font-family: "DM Sans", sans-serif; font-weight: 500;
+}
+.sg-lead { font-weight: 400; }
+.sg-eyebrow { font-family: "DM Sans", sans-serif; font-weight: 600; letter-spacing: .14em; }
+.sg-btn, .sg-btn-secondary, .sg-nav-link, .sg-tab { font-family: "DM Sans", sans-serif; font-weight: 500; }
+.sg-btn { background: linear-gradient(180deg, #0B63D8, #0249A8); border-color: rgba(94,164,255,.35); }
+.sg-quote { font-weight: 400; }
+
+/* ── architektonická mřížka (jako na sky-guard.cz) ───────────────── */
+.sg-lines {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  width: min(var(--sg-max), calc(100vw - 48px)); margin: 0 auto;
+  display: flex; justify-content: space-between;
+}
+.sg-lines span { width: 1px; height: 100%; background: rgba(255,255,255,.055); }
+.sg-lines span:nth-child(2), .sg-lines span:nth-child(3) { display: none; }
+main, .sg-header, .sg-footer { position: relative; z-index: 1; }
+.sg-section { border-top: 1px solid rgba(255,255,255,.07); }
+
+/* ── hero: volně plovoucí ekosystém ─────────────────────────────── */
+.sg-hero-visual { min-height: 640px; }
+.sg-hero-hub {
+  inset: 10px 0 150px 110px; padding: 0; overflow: visible;
+  border: 0; background: none; transform: perspective(1400px) rotateY(-6deg);
+}
+.sg-hero-hub img {
+  width: 100%; height: 100%; object-fit: contain; opacity: 1;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(8,120,255,.12));
+}
+.sg-hero-camera {
+  position: absolute; left: 0; bottom: 0; width: 34%; height: 100%;
+  display: block; z-index: 3;
+}
+.sg-hero-camera img {
+  width: 100%; height: 100%; object-fit: contain; object-position: left bottom;
+  filter: drop-shadow(0 24px 40px rgba(0,0,0,.55));
+}
+.sg-hero-drone { position: absolute; right: -2%; bottom: 0; width: 52%; height: 46%; z-index: 3; display: block; }
+.sg-hero-drone img {
+  width: 100%; height: 100%; object-fit: contain; object-position: right bottom;
+  filter: drop-shadow(0 20px 36px rgba(0,0,0,.55));
+}
+.sg-hero-connectors { opacity: .55; z-index: 2; }
+
+/* ── platforma: řádek architektury ──────────────────────────────── */
+.sg-arch {
+  margin-top: 56px; display: grid; grid-template-columns: 1fr 1.25fr 1fr;
+  border-top: 1px solid var(--sg-line); border-bottom: 1px solid var(--sg-line);
+}
+.sg-arch-cell { position: relative; padding: 36px 28px 40px; }
+.sg-arch-cell + .sg-arch-cell { border-left: 1px solid var(--sg-line); }
+.sg-arch-cell.is-hub {
+  background: radial-gradient(70% 60% at 50% 30%, rgba(8,120,255,.10), transparent 70%);
+}
+.sg-arch-visual { height: 250px; display: grid; place-items: center; }
+.sg-arch-visual img {
+  max-height: 250px; max-width: 100%; object-fit: contain;
+  filter: drop-shadow(0 20px 36px rgba(0,0,0,.5));
+}
+.sg-arch-cell.is-hub .sg-arch-visual img { max-height: 210px; filter: drop-shadow(0 0 32px rgba(8,120,255,.16)) drop-shadow(0 20px 36px rgba(0,0,0,.5)); }
+.sg-arch .sg-micro { margin-top: 26px; }
+.sg-arch-title { font-size: 22px; line-height: 1.2; letter-spacing: -.015em; }
+.sg-arch-copy { margin-top: 8px; color: var(--sg-text-2); font-size: 15px; line-height: 1.55; }
+.sg-arch-cta { margin-top: 16px; }
+/* spojnice: z bočních buněk k uzlu Hubu */
+.sg-arch-link {
+  position: absolute; top: 160px; right: -1px; width: 28px; height: 1px;
+  background: linear-gradient(90deg, rgba(8,120,255,0), rgba(8,120,255,.7));
+}
+.sg-arch-link.is-right { right: auto; left: -1px; background: linear-gradient(270deg, rgba(8,120,255,0), rgba(8,120,255,.7)); }
+.sg-arch-link::after {
+  content: ""; position: absolute; top: -3px; right: -3px; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--sg-blue); box-shadow: 0 0 12px rgba(8,120,255,.8);
+}
+.sg-arch-link.is-right::after { right: auto; left: -3px; }
+.sg-arch-node { display: none; }
+
+/* ── Sky Hub: snímek na celou šířku, dlaždice pod ním ───────────── */
+.sg-hub-head { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+.sg-hub-head .sg-lead { max-width: 520px; padding-bottom: 6px; }
+#sky-hub .sg-tabs { margin-top: 36px; }
+#sky-hub .sg-hub-figure {
+  margin-top: 16px; padding: 22px 26px 0;
+  border-radius: var(--sg-radius-xl) var(--sg-radius-xl) 0 0;
+  border-bottom: 0;
+  background: linear-gradient(180deg, rgba(8,120,255,.07), rgba(255,255,255,.01)), var(--sg-surface-2);
+  box-shadow: 0 0 0 1px rgba(8,120,255,.14), 0 -20px 80px rgba(0,70,180,.10);
+  overflow: hidden;
+}
+#sky-hub .sg-hub-figure img { display: block; width: 100%; margin-bottom: -2%; }
+.sg-tiles {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--sg-line); border-radius: 0 0 var(--sg-radius-xl) var(--sg-radius-xl);
+  overflow: hidden; background: var(--sg-surface);
+}
+.sg-tile { padding: 26px 24px 28px; border-left: 1px solid var(--sg-line); border-top: 1px solid var(--sg-line); }
+.sg-tile:nth-child(3n+1) { border-left: 0; }
+.sg-tile:nth-child(-n+3) { border-top: 0; }
+.sg-tile-icon {
+  display: grid; place-items: center; width: 48px; height: 48px;
+  border-radius: 50%; border: 1px solid var(--sg-line-strong); color: var(--sg-text);
+}
+.sg-tile h3 { margin-top: 18px; font-size: 16px; }
+.sg-tile p { margin-top: 6px; color: var(--sg-text-2); font-size: 14px; line-height: 1.55; }
+#sky-hub .sg-hub-actions { margin-top: 36px; }
+
+/* ── konfigurace / deep dive: průhledný sloup bez rámečků ───────── */
+.sg-config-art { height: 210px; }
+.sg-config-art img { max-height: 210px; filter: drop-shadow(0 16px 28px rgba(0,0,0,.5)); }
+.sg-config-art-fusion img { max-height: 180px; }
+.sg-dd-visual img { max-height: 560px; filter: drop-shadow(0 26px 50px rgba(0,0,0,.55)); }
+#sky-drone .sg-dd-visual { border: 0; background: none; box-shadow: none; padding: 0; min-height: 0; }
+#sky-drone .sg-dd-visual img { max-height: 380px; }
+
+/* ── responzivita brand passu ───────────────────────────────────── */
+@media (max-width: 980px) {
+  .sg-hero-visual { min-height: 460px; }
+  .sg-hero-hub { inset: 0 0 130px 22%; transform: none; }
+  .sg-hero-camera { width: 32%; height: 96%; }
+  .sg-hero-drone { width: 54%; height: 40%; }
+  .sg-arch { grid-template-columns: 1fr; }
+  .sg-arch-cell + .sg-arch-cell { border-left: 0; border-top: 1px solid var(--sg-line); }
+  .sg-arch-link { display: none; }
+  .sg-hub-head { grid-template-columns: 1fr; gap: 16px; }
+  .sg-tiles { grid-template-columns: 1fr 1fr; }
+  .sg-tile:nth-child(3n+1) { border-left: 1px solid var(--sg-line); }
+  .sg-tile:nth-child(2n+1) { border-left: 0; }
+  .sg-tile:nth-child(-n+3) { border-top: 1px solid var(--sg-line); }
+  .sg-tile:nth-child(-n+2) { border-top: 0; }
+}
+@media (max-width: 700px) {
+  .sg-lines { display: none; }
+  .sg-hero-visual { min-height: 360px; }
+  .sg-hero-hub { inset: 0 0 100px 26%; }
+  .sg-hero-camera { width: 34%; height: 92%; }
+  .sg-hero-drone { width: 56%; height: 36%; right: 0; }
+  .sg-arch-visual { height: 200px; }
+  .sg-arch-visual img { max-height: 200px; }
+  .sg-tiles { grid-template-columns: 1fr; }
+  .sg-tile { border-left: 0 !important; border-top: 1px solid var(--sg-line) !important; }
+  .sg-tile:first-child { border-top: 0 !important; }
+  #sky-hub .sg-hub-figure { padding: 12px 12px 0; }
+  .sg-h1 { font-size: clamp(36px, 10vw, 44px); }
+}
+
+/* hero: sloup zasahoval do obrazovky notebooku a telefon narážel na linku
+   mřížky — Hub posunut o kus dovnitř, sloup drobet doleva a menší */
+.sg-hero-hub { inset: 14px 26px 150px 150px; }
+.sg-hero-camera { width: 31%; left: -1%; }
+.sg-hero-drone { right: 0; width: 50%; }
