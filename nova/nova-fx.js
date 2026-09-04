@@ -47,8 +47,14 @@
   /* Hlavička: po odscrollování dostane třídu, CSS ji ztmaví a zmenší. */
   function initHeader() {
     var h = document.getElementById("sg-header");
+    var grid = document.querySelector(".sg-bg-grid");
     if (!h) return;
-    function sync() { h.classList.toggle("is-scrolled", window.scrollY > 24); }
+    function sync() {
+      var y = window.scrollY;
+      h.classList.toggle("is-scrolled", y > 24);
+      // Mřížka patří jen k heru; při scrollu se vytratí, ať neprosvítá všude.
+      if (grid) grid.style.opacity = Math.max(0, 1 - y / 700).toFixed(2);
+    }
     window.addEventListener("scroll", sync, { passive: true });
     sync();
   }

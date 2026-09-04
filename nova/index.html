@@ -19,7 +19,7 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=42">
+    <link rel="stylesheet" href="/nova/nova.css?v=43">
 </head>
 <body>
 
@@ -216,14 +216,9 @@
       <p class="sg-lead">Sledujte kamery, drony, záznamy a události na jednom místě. Sky Hub dává vašemu týmu kompletní přehled nad bezpečností objektu.</p>
     </div>
 
-    <div class="sg-tabs" role="tablist" aria-label="Oblasti Sky Hubu">
-      <button type="button" class="sg-tab active" role="tab" aria-selected="true" data-hub-tab="prehled">Přehled</button>
-      <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="kamery">Kamery</button>
-      <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="drony">Drony</button>
-      <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="udalosti">Události</button>
-      <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="zaznamy">Záznamy</button>
-      <button type="button" class="sg-tab" role="tab" aria-selected="false" data-hub-tab="mapa">Mapa</button>
-    </div>
+    <ul class="sg-areas" aria-label="Oblasti Sky Hubu">
+      <li>Přehled</li><li>Kamery</li><li>Drony</li><li>Události</li><li>Záznamy</li><li>Mapa</li>
+    </ul>
 
     <figure class="sg-hub-figure">
       <span class="sg-hub-ground" aria-hidden="true"></span>
@@ -464,9 +459,11 @@
 <section class="sg-section" id="kontakt">
   <div class="sg-container sg-contact">
     <div class="sg-contact-copy">
-      <p class="sg-tag">Kontakt</p>
-      <h2 class="sg-h2">Navrhneme řešení pro váš areál.</h2>
-      <p class="sg-lead">Ozvěte se a projdeme spolu, co dává pro váš objekt smysl. Kamery, dron, nebo obojí.</p>
+      <div class="sg-head">
+        <p class="sg-tag">Kontakt</p>
+        <h2 class="sg-h2">Navrhneme řešení pro váš areál.</h2>
+        <p class="sg-lead">Ozvěte se a projdeme spolu, co dává pro váš objekt smysl. Kamery, dron, nebo obojí.</p>
+      </div>
       <ul class="sg-contact-direct">
         <li class="sg-glass"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/alert.svg)"></span></span><span class="sg-contact-label">Telefon<a href="tel:+420737373430">+420 737 373 430</a></span></li>
         <li class="sg-glass"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/hub.svg)"></span></span><span class="sg-contact-label">E-mail<a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a></span></li>
@@ -612,6 +609,6 @@
 </footer>
 
 <script defer src="/nova/nova.js?v=3"></script>
-<script defer src="/nova/nova-fx.js?v=1"></script>
+<script defer src="/nova/nova-fx.js?v=2"></script>
 </body>
 </html>
