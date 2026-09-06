@@ -305,7 +305,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .1);
 }
 .sg-chip-live .sg-i { color: #9CC4FF; }
-.sg-chip-a { left: 5%; top: -3%; animation: sg-bob 7s ease-in-out infinite; }
+.sg-chip-a { left: 17%; top: 3%; animation: sg-bob 7s ease-in-out infinite; }
 .sg-chip-b { right: 2%; top: 16%; animation: sg-bob 9s ease-in-out -3s infinite; }
 .sg-chip-c { left: 50%; top: -11%; transform: translateX(-50%); animation: sg-bob 8s ease-in-out -5s infinite; }
 .sg-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(55, 227, 154, .2); animation: sg-pulse 2s infinite; }
