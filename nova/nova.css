@@ -1,18 +1,18 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v46)
+   Sky Guard — /nova, samostatný stylesheet (v48)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg: #06070B;
-  --bg-2: #0A0C13;
+  --bg: #08070E;
+  --bg-2: #0B0A12;
   --text: #F5F6F8;
   --muted: #A6AFBD;
   --dim: #6F7887;
-  --line: rgba(255, 255, 255, .08);
-  --line-2: rgba(255, 255, 255, .15);
+  --line: rgba(255, 255, 255, .09);
+  --line-2: rgba(255, 255, 255, .16);
   --blue: #2F7BFF;
   --blue-2: #0B5FE0;
   --brand: #0249A8;
@@ -72,9 +72,13 @@ button { font: inherit; color: inherit; }
 /* ───────────────────────────────────────────────────── atmosféra */
 
 .sg-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.sg-bg-glow { position: absolute; border-radius: 50%; filter: blur(70px); }
-.sg-bg-glow-a { width: 1000px; height: 1000px; left: -380px; top: -420px; background: radial-gradient(circle, rgba(2, 73, 168, .55), transparent 62%); }
-.sg-bg-glow-b { width: 900px; height: 900px; right: -420px; top: 22%; background: radial-gradient(circle, rgba(47, 123, 255, .16), transparent 62%); }
+.sg-bg-glow { display: none; }
+/* architektonická mřížka jako na sky-guard.cz: svislé linky na okrajích kontejneru */
+.sg-lines {
+  position: absolute; inset: 0; margin: 0 auto; display: block;
+  width: min(var(--max), calc(100vw - 48px));
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+}
 .sg-bg-grid {
   position: absolute; inset: 0; transition: opacity .2s linear;
   background-image:
@@ -84,16 +88,12 @@ button { font: inherit; color: inherit; }
   -webkit-mask-image: radial-gradient(ellipse 60% 45% at 50% 0%, #000, transparent 100%);
   mask-image: radial-gradient(ellipse 60% 45% at 50% 0%, #000, transparent 100%);
 }
-.sg-bg::after {
-  content: ""; position: absolute; inset: 0; opacity: .05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
 main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 /* ───────────────────────────────────────────────────── typografie */
 
-.sg-container { width: min(var(--max), calc(100vw - 48px)); margin: 0 auto; }
-.sg-section { position: relative; padding: clamp(64px, 7vw, 104px) 0; }
+.sg-container { width: min(var(--max), calc(100vw - 48px)); margin: 0 auto; padding: 0 32px; }
+.sg-section { position: relative; padding: clamp(64px, 7vw, 104px) 0; border-top: 1px solid var(--line); }
 
 .sg-tag {
   display: inline-flex; align-items: center; gap: 8px;
@@ -162,8 +162,8 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 .sg-glass {
   position: relative; isolation: isolate;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .018));
-  border: 1px solid rgba(255, 255, 255, .07);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012));
+  border: 1px solid rgba(255, 255, 255, .08);
   border-radius: var(--r);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 40px 90px -40px rgba(0, 0, 0, .8);
   overflow: hidden;
@@ -188,15 +188,15 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 .sg-header {
   position: sticky; top: 0; z-index: 60;
-  background: rgba(6, 7, 11, .72); border-bottom: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(8, 7, 14, .78); border-bottom: 1px solid var(--line);
   -webkit-backdrop-filter: blur(20px) saturate(140%); backdrop-filter: blur(20px) saturate(140%);
   transition: background .3s, border-color .3s;
 }
 .sg-header-inner {
-  width: min(var(--max), calc(100vw - 48px)); margin: 0 auto;
+  width: min(var(--max), calc(100vw - 48px)); margin: 0 auto; padding: 0 32px;
   display: flex; align-items: center; gap: 24px; min-height: 68px;
 }
-.sg-header.is-scrolled { background: rgba(6, 7, 11, .86); border-bottom-color: rgba(255, 255, 255, .1); }
+.sg-header.is-scrolled { background: rgba(8, 7, 14, .9); }
 .sg-logo { display: inline-flex; align-items: center; flex-shrink: 0; }
 .sg-logo img { width: 150px; height: auto; }
 
@@ -273,7 +273,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 /* ────────────────────────────────────────────────────────── hero */
 
-.sg-hero { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; overflow: visible; }
+.sg-hero { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; overflow: visible; border-top: 0; }
 .sg-hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .sg-hero .sg-lead { margin-left: auto; margin-right: auto; max-width: 600px; font-size: 18px; }
 .sg-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
@@ -287,6 +287,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-stage::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(120, 170, 255, .5) 30%, rgba(120, 170, 255, .5) 70%, transparent);
+  display: none;
 }
 .sg-stage picture { position: absolute; }
 .sg-stage-hub { left: 17%; right: 20%; bottom: 3%; z-index: 2; }
@@ -439,7 +440,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 /* ────────────────────────────────────────────────────── modrý pás */
 
 .sg-band {
-  position: relative; overflow: hidden; padding: clamp(48px, 6vw, 80px) 0;
+  position: relative; z-index: 1; overflow: hidden; padding: clamp(48px, 6vw, 80px) 0;
   background: linear-gradient(120deg, #0B5FE0, #0249A8 55%, #063A85);
 }
 .sg-band::before {
@@ -665,7 +666,9 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 700px) {
-  .sg-container { width: min(var(--max), calc(100vw - 36px)); }
+  .sg-container { width: min(var(--max), calc(100vw - 36px)); padding: 0 2px; }
+  .sg-lines { display: none; }
+  .sg-header-inner { padding: 0 2px; }
   .sg-logo img { width: 124px; }
   .sg-hero-actions { flex-direction: column; align-items: stretch; }
   .sg-hero-actions .sg-btn, .sg-hero-actions .sg-btn-secondary { justify-content: center; }
