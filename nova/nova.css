@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v48)
+   Sky Guard — /nova, samostatný stylesheet (v49)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -492,28 +492,55 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-why h3 { margin-top: 22px; color: var(--text); font-size: 18px; font-weight: 500; letter-spacing: -.01em; }
 .sg-why p { margin-top: 8px; font-size: 15px; line-height: 1.55; }
 
-/* ──────────────────────────────────────────────────────── tabulka */
+/* ────────────────────────────────────────── porovnání (3 sloupce) */
 
-.sg-table-wrap { overflow-x: auto; border-radius: 20px; }
-.sg-table { width: 100%; border-collapse: collapse; min-width: 640px; table-layout: fixed; }
-.sg-table th:first-child, .sg-table tbody th { width: 40%; }
-.sg-table th:not(:first-child), .sg-table td { width: 20%; }
-.sg-table th, .sg-table td { padding: 16px 22px; text-align: left; }
-.sg-table thead th { color: var(--dim); font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; border-bottom: 1px solid var(--line-2); background: rgba(255, 255, 255, .02); }
-.sg-table thead th.is-fusion { color: #9CC4FF; background: rgba(47, 123, 255, .12); position: relative; }
-.sg-table thead th.is-fusion::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, #7FB4FF, #2F7BFF); }
-.sg-table tbody th { color: var(--text); font-size: 16px; font-weight: 500; }
-.sg-table tbody tr + tr th, .sg-table tbody tr + tr td { border-top: 1px solid var(--line); }
-.sg-table td { text-align: center; font-size: 15px; color: var(--muted); }
-.sg-table td.is-fusion { background: rgba(47, 123, 255, .07); }
-.sg-table td[data-v="ano"] > span[aria-hidden] {
-  display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(55, 227, 154, .14); color: var(--green); font-size: 15px; font-weight: 700;
+.sg-table-wrap { overflow-x: auto; padding-top: 16px; }
+.sg-table { width: 100%; border-collapse: separate; border-spacing: 14px 0; margin: 0 -14px; width: calc(100% + 28px); table-layout: fixed; }
+.sg-table th:first-child, .sg-table tbody th, .sg-cmp-label { width: 31%; }
+.sg-table th, .sg-table td { padding: 0; text-align: left; }
+/* produktové sloupce jako karty */
+.sg-cmp-col {
+  position: relative; padding: 28px 22px 22px !important; text-align: center; vertical-align: bottom;
+  border-radius: var(--r) var(--r) 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .02));
+  border: 1px solid var(--line); border-bottom: 0;
 }
-.sg-table td[data-v="ne"] { color: #4C5566; font-size: 18px; }
-.sg-table td[data-v="opt"] { color: #FFC27A; font-size: 13px; letter-spacing: .04em; }
+.sg-cmp-col picture { height: 110px; display: grid; place-items: center; margin-bottom: 18px; }
+.sg-cmp-col img { max-height: 110px; width: auto; max-width: 100%; }
+.sg-cmp-name { display: block; color: var(--text); font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
+.sg-cmp-sub { display: block; margin-top: 4px; color: var(--dim); font-size: 13px; font-weight: 400; }
+.sg-cmp-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+  background: linear-gradient(180deg, #2273F5, #0249A8); color: #fff; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  box-shadow: 0 8px 20px -8px rgba(30, 111, 240, .9);
+}
+.sg-cmp-col.is-fusion { background: linear-gradient(180deg, rgba(47, 123, 255, .22), rgba(47, 123, 255, .08)); border-color: rgba(47, 123, 255, .4); }
+.sg-cmp-col.is-fusion .sg-cmp-sub { color: #9CC4FF; }
+/* řádky vlastností */
+.sg-table tbody th { color: var(--text); font-size: 15px; font-weight: 500; padding: 15px 0; border-top: 1px solid var(--line); }
+.sg-table tbody td {
+  padding: 15px 12px; text-align: center; font-size: 14px; color: var(--muted);
+  background: rgba(255, 255, 255, .02); border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-top: 1px solid var(--line);
+}
+.sg-table tbody td.is-fusion { background: rgba(47, 123, 255, .08); border-color: rgba(47, 123, 255, .4); }
+.sg-table tbody tr:hover th { color: #fff; }
+.sg-table tbody tr:hover td { background: rgba(255, 255, 255, .04); }
+.sg-table tbody tr:hover td.is-fusion { background: rgba(47, 123, 255, .13); }
+.sg-table td[data-v="ano"] > span[aria-hidden] {
+  display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(55, 227, 154, .14); color: var(--green); font-size: 14px; font-weight: 700;
+}
+.sg-table td.is-fusion[data-v="ano"] > span[aria-hidden] { background: rgba(255, 255, 255, .12); color: #fff; }
+.sg-table td[data-v="ne"] { color: #3F4756; font-size: 16px; }
+.sg-table td[data-v="opt"] > span, .sg-table td[data-v="opt"] { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #FFC27A; }
+/* patka s akcemi */
+.sg-table tfoot td { padding: 22px 18px 24px; text-align: center; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: rgba(255, 255, 255, .02); }
+.sg-table tfoot td.is-fusion { background: rgba(47, 123, 255, .08); border-color: rgba(47, 123, 255, .4); }
+.sg-table tfoot .sg-cmp-label { border: 0; background: none; }
+.sg-btn-cmp { width: 100%; justify-content: center; min-height: 46px; font-size: 15px; padding: 0 16px; }
 .sg-fn { color: var(--blue); }
-.sg-footnote { margin-top: 16px; color: var(--dim); font-size: 13px; }
+.sg-footnote { margin-top: 18px; color: var(--dim); font-size: 13px; }
 
 /* ─────────────────────────────────────────────────────── reference */
 
@@ -704,13 +731,11 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-quote-mark { font-size: 140px; right: 12px; }
   .sg-band-inner .sg-btn { width: 100%; justify-content: center; }
 
-  /* Spec: pod 700 px žádná drobná tabulka — každý řádek jako karta. */
-  .sg-table-wrap { border: 0; background: none; overflow: visible; box-shadow: none; }
-  .sg-table-wrap::before, .sg-table-wrap::after { display: none; }
-  .sg-table { min-width: 0; table-layout: auto; }
-  .sg-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  /* Pod 700 px: každý řádek jako karta s popiskem sloupce u hodnoty. */
+  .sg-table { border-spacing: 0; margin: 0; width: 100%; table-layout: auto; }
+  .sg-table thead, .sg-table tfoot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .sg-table tbody tr { display: block; margin-bottom: 12px; padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255, 255, 255, .025); }
-  .sg-table tbody th, .sg-table th:first-child { display: block; width: auto; padding: 0 0 12px; font-size: 16px; border-bottom: 1px solid var(--line); }
+  .sg-table tbody th, .sg-table th:first-child { display: block; width: auto; padding: 0 0 12px; font-size: 16px; border: 0; border-bottom: 1px solid var(--line); }
   .sg-table tbody td { display: flex; align-items: center; justify-content: space-between; width: auto; padding: 10px 0 0; text-align: right; border: 0 !important; background: none !important; }
   .sg-table tbody td::before { content: attr(data-col); color: var(--dim); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; font-weight: 500; }
   .sg-table tbody td[data-col="Fusion"]::before { color: #9CC4FF; }

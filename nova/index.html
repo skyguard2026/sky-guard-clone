@@ -19,7 +19,7 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=48">
+    <link rel="stylesheet" href="/nova/nova.css?v=49">
 </head>
 <body>
 
@@ -373,15 +373,28 @@
       <h2 class="sg-h2">Vyberte správnou úroveň pokrytí.</h2>
     </div>
 
-    <div class="sg-glass sg-table-wrap" tabindex="0" role="region" aria-label="Tabulka porovnání konfigurací">
+    <div class="sg-table-wrap" tabindex="0" role="region" aria-label="Tabulka porovnání konfigurací">
       <table class="sg-table">
         <caption class="sg-visually-hidden">Porovnání možností Sky Camera, Sky Drone a Fusion</caption>
         <thead>
           <tr>
-            <th scope="col">Možnost</th>
-            <th scope="col">Sky Camera</th>
-            <th scope="col">Sky Drone</th>
-            <th scope="col" class="is-fusion">Fusion</th>
+            <th scope="col" class="sg-cmp-label"><span class="sg-visually-hidden">Možnost</span></th>
+            <th scope="col" class="sg-cmp-col">
+              <picture><source type="image/webp" srcset="/images/sky-camera-card.webp"><img src="/images/sky-camera-card.png" alt="" aria-hidden="true" width="342" height="800" loading="lazy" decoding="async"></picture>
+              <span class="sg-cmp-name">Sky Camera</span>
+              <span class="sg-cmp-sub">Pevný dohled kritických míst</span>
+            </th>
+            <th scope="col" class="sg-cmp-col">
+              <picture><source type="image/webp" srcset="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.webp"><img src="/images/KtreBxsWg0L9DPDy7kgcOOTMIc.png" alt="" aria-hidden="true" width="1230" height="741" loading="lazy" decoding="async"></picture>
+              <span class="sg-cmp-name">Sky Drone</span>
+              <span class="sg-cmp-sub">Mobilní dohled celého areálu</span>
+            </th>
+            <th scope="col" class="sg-cmp-col is-fusion">
+              <span class="sg-cmp-badge">Doporučeno</span>
+              <picture><source type="image/webp" srcset="/images/gQHwsT719Q0yDD2ggabqel8sc.webp"><img src="/images/gQHwsT719Q0yDD2ggabqel8sc.png" alt="" aria-hidden="true" width="3840" height="2160" loading="lazy" decoding="async"></picture>
+              <span class="sg-cmp-name">Fusion</span>
+              <span class="sg-cmp-sub">Kamery + dron + Sky Hub</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -396,6 +409,14 @@
           <tr><th scope="row">Termální pohled<span class="sg-fn">*</span></th><td data-col="Sky Camera" data-v="opt">Volitelné</td><td data-col="Sky Drone" data-v="opt">Volitelné</td><td data-col="Fusion" data-v="opt" class="is-fusion">Volitelné</td></tr>
           <tr><th scope="row">Propojení pevného a mobilního dohledu</th><td data-col="Sky Camera" data-v="ne"><span aria-hidden="true">–</span><span class="sg-visually-hidden">Ne</span></td><td data-col="Sky Drone" data-v="ne"><span aria-hidden="true">–</span><span class="sg-visually-hidden">Ne</span></td><td data-col="Fusion" data-v="ano" class="is-fusion"><span aria-hidden="true">✓</span><span class="sg-visually-hidden">Ano</span></td></tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td class="sg-cmp-label"></td>
+            <td><a class="sg-btn-secondary sg-btn-cmp" href="#sky-camera">Zjistit více</a></td>
+            <td><a class="sg-btn-secondary sg-btn-cmp" href="#sky-drone">Zjistit více</a></td>
+            <td class="is-fusion"><a class="sg-btn sg-btn-cmp" href="#kontakt">Navrhnout řešení <span aria-hidden="true">→</span></a></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
     <p class="sg-footnote"><span class="sg-fn">*</span> Rozsah funkcí závisí na konkrétní hardwarové konfiguraci navržené pro váš areál.</p>
