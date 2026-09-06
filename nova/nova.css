@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v45)
+   Sky Guard — /nova, samostatný stylesheet (v46)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -88,7 +88,7 @@ button { font: inherit; color: inherit; }
   content: ""; position: absolute; inset: 0; opacity: .05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
+main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 /* ───────────────────────────────────────────────────── typografie */
 
@@ -273,12 +273,12 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
 
 /* ────────────────────────────────────────────────────────── hero */
 
-.sg-hero { padding-top: clamp(40px, 5vw, 72px); padding-bottom: 0; overflow: visible; }
+.sg-hero { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; overflow: visible; }
 .sg-hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .sg-hero .sg-lead { margin-left: auto; margin-right: auto; max-width: 600px; font-size: 18px; }
 .sg-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 
-.sg-stage { position: relative; width: 100%; margin-top: clamp(64px, 6vw, 88px); height: clamp(320px, 38vw, 560px); }
+.sg-stage { position: relative; width: 100%; margin-top: clamp(40px, 4vw, 56px); height: clamp(320px, 38vw, 560px); }
 .sg-stage-ground {
   position: absolute; left: 6%; right: 6%; bottom: -8%; height: 52%; pointer-events: none;
   background: radial-gradient(ellipse at 50% 60%, rgba(47, 123, 255, .42), rgba(2, 73, 168, .16) 42%, transparent 70%);
@@ -288,8 +288,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(120, 170, 255, .5) 30%, rgba(120, 170, 255, .5) 70%, transparent);
 }
-.sg-stage picture { position: absolute; will-change: transform; }
-.sg-stage img { filter: drop-shadow(0 40px 60px rgba(0, 0, 0, .65)); }
+.sg-stage picture { position: absolute; }
 .sg-stage-hub { left: 17%; right: 20%; bottom: 3%; z-index: 2; }
 .sg-stage-hub img { width: 100%; }
 .sg-stage-camera { left: -1%; bottom: 0; height: 94%; z-index: 3; }
@@ -317,23 +316,6 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
 .sg-float { animation: sg-drift 8s ease-in-out infinite; }
 .sg-float-b { animation-duration: 10s; animation-delay: -3s; }
 
-/* ──────────────────────────────────────────────────── běžící pás */
-
-.sg-marquee {
-  margin-top: 0; padding: 16px 0; overflow: hidden;
-  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, .012);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-}
-.sg-marquee-track { display: flex; width: max-content; animation: sg-marquee 46s linear infinite; }
-.sg-marquee span {
-  display: inline-flex; align-items: center; gap: 44px; padding-right: 44px;
-  font-family: "Nippo", var(--font); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); white-space: nowrap;
-}
-.sg-marquee span::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 12px var(--blue); }
-@keyframes sg-marquee { to { transform: translateX(-50%); } }
-
 /* ───────────────────────────────────────────────── bento platforma */
 
 .sg-bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); }
@@ -342,7 +324,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
 .sg-tile h3 { margin-top: 10px; color: var(--text); font-size: clamp(22px, 2vw, 28px); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; }
 .sg-tile p:not(.sg-kicker) { margin-top: 10px; font-size: 15px; line-height: 1.6; }
 .sg-tile-art { position: absolute; pointer-events: none; z-index: 0; }
-.sg-tile-art img { filter: drop-shadow(0 30px 50px rgba(0, 0, 0, .6)); }
+
 
 .sg-tile-hub { grid-column: span 8; min-height: 460px; }
 .sg-tile-hub .sg-tile-copy { max-width: 34ch; }
@@ -384,7 +366,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
   background: radial-gradient(ellipse at 50% 70%, rgba(47, 123, 255, .45), rgba(2, 73, 168, .15) 45%, transparent 72%);
   filter: blur(30px);
 }
-.sg-hub-figure img { position: relative; width: 100%; filter: drop-shadow(0 40px 70px rgba(0, 0, 0, .7)); transition: opacity .28s; }
+.sg-hub-figure img { position: relative; width: 100%; transition: opacity .28s; }
 .sg-hub-figure.is-swapping img { opacity: .25; }
 
 .sg-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin-top: var(--head); }
@@ -433,7 +415,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
   filter: blur(34px);
 }
 .sg-showcase picture { z-index: 1; }
-.sg-showcase img { max-height: 500px; width: auto; filter: drop-shadow(0 40px 60px rgba(0, 0, 0, .7)); }
+.sg-showcase img { max-height: 500px; width: auto; }
 .sg-spec { position: absolute; left: 24px; right: 24px; bottom: 24px; display: flex; flex-wrap: wrap; gap: 8px; z-index: 2; }
 .sg-spec li {
   padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; color: #fff;
@@ -450,7 +432,9 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
               linear-gradient(180deg, var(--bg), transparent 18%, transparent 82%, var(--bg));
 }
 .sg-cine .sg-container { position: relative; z-index: 1; }
-.sg-cine-art img { width: 100%; filter: drop-shadow(0 40px 60px rgba(0, 0, 0, .8)); }
+.sg-cine-art { position: relative; }
+.sg-cine-art::before { content: ""; position: absolute; inset: 30% 10% 0; background: radial-gradient(ellipse at 50% 70%, rgba(47, 123, 255, .35), transparent 65%); filter: blur(30px); }
+.sg-cine-art img { position: relative; width: 100%; }
 
 /* ────────────────────────────────────────────────────── modrý pás */
 
@@ -471,17 +455,18 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
 
 .sg-solutions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
 .sg-solution {
-  position: relative; min-height: 520px; border-radius: var(--r); overflow: hidden;
-  border: 1px solid var(--line); display: flex; align-items: flex-end;
+  position: relative; border-radius: var(--r); overflow: hidden;
+  border: 1px solid var(--line); display: flex; flex-direction: column;
   transition: transform .4s var(--ease), border-color .3s;
 }
-.sg-solution-bg { position: absolute; inset: 0; z-index: 0; }
-.sg-solution-bg img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
-.sg-solution:hover .sg-solution-bg img { transform: scale(1.05); }
-.sg-solution::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(6, 7, 11, .05) 0%, rgba(6, 7, 11, .55) 45%, rgba(6, 7, 11, .96) 100%); }
-.sg-solution-construction::before { background: linear-gradient(180deg, rgba(2, 73, 168, .12) 0%, rgba(2, 73, 168, .6) 45%, rgba(2, 55, 130, .97) 100%); }
+.sg-solution-art { position: relative; height: 300px; display: grid; place-items: center; padding: 28px 28px 0; }
+.sg-solution-art::before { content: ""; position: absolute; inset: 35% 15% 0; background: radial-gradient(ellipse at 50% 80%, rgba(47, 123, 255, .35), transparent 65%); filter: blur(28px); }
+.sg-solution-art img { position: relative; max-height: 260px; width: auto; max-width: 100%; }
+.sg-solution-construction { background: linear-gradient(160deg, #0B5FE0, #0249A8 60%, #063A85); border-color: transparent; }
+.sg-solution-construction .sg-solution-art::before { background: radial-gradient(ellipse at 50% 80%, rgba(255, 255, 255, .22), transparent 65%); }
+.sg-solution-construction .sg-solution-art img { max-height: 240px; }
 .sg-solution-construction .sg-kicker { color: #FFC27A; }
-.sg-solution-body { position: relative; z-index: 2; padding: 32px; }
+.sg-solution-body { position: relative; z-index: 2; padding: 8px 32px 32px; }
 .sg-solution-body h3 { margin-top: 10px; color: #fff; font-size: clamp(22px, 2.1vw, 28px); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; max-width: 20ch; }
 .sg-solution-body p:not(.sg-kicker) { margin-top: 10px; color: rgba(255, 255, 255, .8); font-size: 15px; line-height: 1.6; max-width: 52ch; }
 .sg-solution-body .sg-textlink { color: #fff; }
@@ -643,7 +628,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .sg-reveal { opacity: 1; transform: none; }
-  .sg-float, .sg-chip-live, .sg-live-dot, .sg-marquee-track, .sg-flow::after, .sg-tile-orbit::before { animation: none !important; }
+  .sg-float, .sg-chip-live, .sg-live-dot, .sg-tile-orbit::before { animation: none !important; }
   .sg-btn, .sg-btn-secondary, .sg-solution, .sg-round-btn { transition: none; }
 }
 
@@ -675,10 +660,7 @@ main, .sg-header, .sg-footer, .sg-marquee { position: relative; z-index: 1; }
   .sg-showcase { min-height: 0; padding-bottom: 88px; }
   .sg-showcase img { max-height: 420px; }
   .sg-solutions { grid-template-columns: 1fr; }
-  .sg-solution { min-height: 440px; }
   .sg-features { grid-template-columns: 1fr 1fr; }
-  .sg-cine-bg img { object-position: 50% 30%; }
-  .sg-cine-bg::after { background: linear-gradient(180deg, rgba(6, 7, 11, .96) 0%, rgba(6, 7, 11, .85) 55%, rgba(6, 7, 11, .5) 100%); }
   .sg-cine-art { max-width: 460px; margin: -24px auto 0; }
   .sg-footer-grid { grid-template-columns: 1fr 1fr; }
 }
