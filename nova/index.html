@@ -19,7 +19,7 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=54">
+    <link rel="stylesheet" href="/nova/nova.css?v=55">
 </head>
 <body>
 
@@ -187,17 +187,13 @@
 </section>
 
 <!-- ══════════════════════ 04 — SKY HUB SHOWCASE ════════════════════ -->
-<section class="sg-section" id="sky-hub">
+<section class="sg-section sg-hub-section" id="sky-hub">
   <div class="sg-container">
     <div class="sg-head sg-head-center">
       <p class="sg-tag">Sky Guard Hub</p>
       <h2 class="sg-h2">Celý areál.<br>Jedna aplikace.</h2>
-      <p class="sg-lead">Sledujte kamery, drony, záznamy a události na jednom místě. Sky Hub dává vašemu týmu kompletní přehled nad bezpečností objektu.</p>
+      <p class="sg-lead">Kamery, drony, záznamy a události na jednom místě. V prohlížeči i v mobilní aplikaci, odkudkoliv.</p>
     </div>
-
-    <ul class="sg-areas" aria-label="Oblasti Sky Hubu">
-      <li>Přehled</li><li>Kamery</li><li>Drony</li><li>Události</li><li>Záznamy</li><li>Mapa</li>
-    </ul>
 
     <figure class="sg-hub-figure">
       <span class="sg-hub-ground" aria-hidden="true"></span>
@@ -207,16 +203,30 @@
       </picture>
     </figure>
 
-    <ul class="sg-features">
-      <li class="sg-glass sg-feature"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/camera.svg)"></span></span><h3>Živý náhled</h3><p>Obraz z kamer i dronu v reálném čase, odkudkoliv.</p></li>
-      <li class="sg-glass sg-feature"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/alert.svg)"></span></span><h3>Okamžité notifikace</h3><p>O každé události víte do pár vteřin.</p></li>
-      <li class="sg-glass sg-feature"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/storage.svg)"></span></span><h3>Historie záznamů</h3><p>Záznamy dostupné zpětně, přehledně podle zařízení a času.</p></li>
-      <li class="sg-glass sg-feature"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/map.svg)"></span></span><h3>Mapa objektu</h3><p>Kamery, dok i trasy dronu na jedné mapě areálu.</p></li>
-      <li class="sg-glass sg-feature"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/drone.svg)"></span></span><h3>Přehled zařízení</h3><p>Stav každého zařízení a jeho dostupnost na jeden pohled.</p></li>
-      <li class="sg-glass sg-feature"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/analytics.svg)"></span></span><h3>Reporty</h3><p>Souhrny událostí a provozu pro váš tým i vedení.</p></li>
+    <ul class="sg-hub-cells">
+      <li class="sg-hub-cell">
+        <picture class="sg-hub-shot"><source type="image/webp" srcset="/images/hub-map.webp"><img src="/images/hub-map.png" alt="Výřez z aplikace: mapa areálu s letovou trasou dronu a hranicí perimetru" width="520" height="430" loading="lazy" decoding="async"></picture>
+        <h3>Mapa areálu a letové trasy</h3>
+        <p>Kamery, dok i aktuální pozice dronu na jedné mapě. Perimetr a naplánované hlídky vidíte na první pohled.</p>
+      </li>
+      <li class="sg-hub-cell">
+        <picture class="sg-hub-shot"><source type="image/webp" srcset="/images/hub-thermal.webp"><img src="/images/hub-thermal.png" alt="Výřez z aplikace: živý obraz termokamery s detekovanou osobou" width="300" height="205" loading="lazy" decoding="async"></picture>
+        <h3>Živý náhled a termokamera</h3>
+        <p>Obraz z kamer i dronu v reálném čase, včetně termálního pohledu a AI detekce osob.</p>
+      </li>
+      <li class="sg-hub-cell">
+        <picture class="sg-hub-shot"><source type="image/webp" srcset="/images/hub-events.webp"><img src="/images/hub-events.png" alt="Výřez z aplikace: seznam posledních událostí s časem a prioritou" width="300" height="196" loading="lazy" decoding="async"></picture>
+        <h3>Události a notifikace</h3>
+        <p>Každá detekce, hlídka i závada v jednom přehledu. O tom důležitém víte do pár vteřin na telefonu.</p>
+      </li>
+    </ul>
+    <ul class="sg-hub-cells sg-hub-cells-sm">
+      <li class="sg-hub-cell sg-hub-cell-sm"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/storage.svg)"></span></span><div><h3>Historie záznamů</h3><p>Záznamy dostupné zpětně, podle zařízení a času.</p></div></li>
+      <li class="sg-hub-cell sg-hub-cell-sm"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/drone.svg)"></span></span><div><h3>Přehled zařízení</h3><p>Stav a dostupnost každé kamery, doku i dronu.</p></div></li>
+      <li class="sg-hub-cell sg-hub-cell-sm"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/analytics.svg)"></span></span><div><h3>Reporty</h3><p>Souhrny událostí a provozu pro váš tým i vedení.</p></div></li>
     </ul>
 
-    <p class="sg-actions sg-actions-center">
+    <p class="sg-actions sg-actions-center sg-hub-actions">
       <a class="sg-btn" href="#kontakt">Poznat Sky Hub <span aria-hidden="true">→</span></a>
       <a class="sg-btn-secondary" href="/hub/login">Přihlásit se <span aria-hidden="true">↗</span></a>
     </p>
