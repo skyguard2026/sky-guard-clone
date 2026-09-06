@@ -630,20 +630,6 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-faq-item.open .sg-faq-a { grid-template-rows: 1fr; }
 .sg-faq-a p { padding: 0 22px 22px; max-width: 64ch; color: var(--muted); font-size: 16px; line-height: 1.65; }
 
-/* ─────────────────────────────────────────────── závěrečné CTA */
-
-.sg-section-final { padding-top: 0; }
-.sg-final {
-  position: relative; overflow: hidden; text-align: center;
-  padding: clamp(64px, 8vw, 120px) 32px; border-radius: 36px;
-  border: 1px solid rgba(47, 123, 255, .3);
-  background: radial-gradient(80% 120% at 50% 120%, rgba(34, 115, 245, .55), rgba(2, 73, 168, .18) 48%, transparent 78%), var(--bg-2);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 60px 120px -60px rgba(30, 111, 240, .6);
-}
-.sg-final-mark { position: absolute; left: 50%; top: -6%; width: 110%; transform: translateX(-50%); opacity: .05; pointer-events: none; }
-.sg-final > * { position: relative; }
-.sg-final .sg-lead { margin-left: auto; margin-right: auto; }
-
 /* ───────────────────────────────────────────────────────── patička */
 
 .sg-footer { border-top: 1px solid var(--line); padding: 72px 0 0; background: linear-gradient(180deg, transparent, rgba(255, 255, 255, .015)); }
@@ -741,7 +727,6 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-form-grid { grid-template-columns: 1fr; }
   .sg-footer-grid { grid-template-columns: 1fr; gap: 36px; }
   .sg-footer-bottom { flex-direction: column; gap: 6px; }
-  .sg-final { border-radius: 24px; }
   .sg-quote-mark { font-size: 140px; right: 12px; }
   .sg-band-inner .sg-btn { width: 100%; justify-content: center; }
 
