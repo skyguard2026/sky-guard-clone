@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v55)
+   Sky Guard — /nova, samostatný stylesheet (v56)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -273,51 +273,25 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 /* ────────────────────────────────────────────────────────── hero */
 
-.sg-hero { padding-top: clamp(40px, 5vw, 64px); padding-bottom: 0; overflow: visible; border-top: 0; }
+.sg-hero { padding: clamp(48px, 6vw, 88px) 0 0; border-top: 0; overflow: visible; }
 .sg-hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.sg-hero-mark { width: min(560px, 72vw); margin: 8px auto 34px; }
+.sg-hero-mark { width: min(520px, 70vw); margin: 0 auto; }
 .sg-hero-mark img { width: 100%; height: auto; }
-.sg-hero .sg-lead { margin-left: auto; margin-right: auto; max-width: 600px; font-size: 18px; }
-.sg-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-
-.sg-stage { position: relative; width: 100%; margin-top: clamp(40px, 4vw, 56px); height: clamp(320px, 38vw, 560px); }
-.sg-stage-ground {
-  position: absolute; left: 6%; right: 6%; bottom: -8%; height: 52%; pointer-events: none;
-  background: radial-gradient(ellipse at 50% 60%, rgba(47, 123, 255, .42), rgba(2, 73, 168, .16) 42%, transparent 70%);
-  filter: blur(28px);
+.sg-h1 {
+  margin-top: 40px; max-width: 520px;
+  color: #fff; font-family: "Nippo", var(--font); font-weight: 400;
+  font-size: clamp(16px, 1.4vw, 20px); line-height: 1.45; letter-spacing: .01em;
 }
-.sg-stage::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(120, 170, 255, .5) 30%, rgba(120, 170, 255, .5) 70%, transparent);
-  display: none;
-}
-.sg-stage picture { position: absolute; }
-.sg-stage-hub { left: 17%; right: 20%; bottom: 3%; z-index: 2; }
-.sg-stage-hub img { width: 100%; }
-.sg-stage-camera { left: -1%; bottom: 0; height: 94%; z-index: 3; }
-.sg-stage-camera img { height: 100%; width: auto; }
-.sg-stage-drone { right: -2%; bottom: 0; width: 31%; z-index: 3; }
-.sg-stage-drone img { width: 100%; }
+.sg-hero-actions { display: flex; justify-content: center; margin-top: 28px; }
+.sg-hero-product { width: min(700px, 82vw); margin: clamp(24px, 3vw, 40px) auto 0; padding-bottom: 16px; }
+.sg-hero-product img { width: 100%; height: auto; }
 
-.sg-chip-live {
-  position: absolute; z-index: 4; display: inline-flex; align-items: center; gap: 10px;
-  padding: 11px 16px; border-radius: 999px;
-  background: rgba(10, 12, 19, .72); border: 1px solid rgba(255, 255, 255, .14);
-  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
-  color: #fff; font-size: 13px; font-weight: 500; white-space: nowrap;
-  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .1);
-}
-.sg-chip-live .sg-i { color: #9CC4FF; }
-.sg-chip-a { left: 17%; top: 3%; animation: sg-bob 7s ease-in-out infinite; }
-.sg-chip-b { right: 2%; top: 16%; animation: sg-bob 9s ease-in-out -3s infinite; }
-.sg-chip-c { left: 50%; top: -11%; transform: translateX(-50%); animation: sg-bob 8s ease-in-out -5s infinite; }
-.sg-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(55, 227, 154, .2); animation: sg-pulse 2s infinite; }
-
-@keyframes sg-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
-@keyframes sg-pulse { 0%, 100% { box-shadow: 0 0 0 3px rgba(55, 227, 154, .25); } 50% { box-shadow: 0 0 0 7px rgba(55, 227, 154, .08); } }
 @keyframes sg-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
 .sg-float { animation: sg-drift 8s ease-in-out infinite; }
-.sg-float-b { animation-duration: 10s; animation-delay: -3s; }
+
+/* claim: klidná věta v buňce mezi linkami */
+.sg-claim { padding: 44px 0; }
+.sg-claim-text { text-align: center; color: var(--text); font-size: clamp(20px, 2vw, 28px); font-weight: 400; letter-spacing: -.01em; }
 
 /* ───────────────────────────────────────────────── bento platforma */
 
@@ -636,7 +610,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .sg-reveal { opacity: 1; transform: none; }
-  .sg-float, .sg-chip-live, .sg-live-dot, .sg-tile-orbit::before { animation: none !important; }
+  .sg-float, .sg-tile-orbit::before { animation: none !important; }
   .sg-btn, .sg-btn-secondary, .sg-solution, .sg-round-btn { transition: none; }
 }
 
@@ -649,7 +623,6 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-tile-camera { grid-column: span 6; grid-row: span 1; min-height: 520px; }
   .sg-tile-drone { grid-column: span 6; }
   .sg-tile-fusion { grid-column: span 12; }
-  .sg-chip-live { display: none; }
   .sg-flow { grid-template-columns: 1fr; gap: 10px; }
   .sg-flow-step { display: grid; grid-template-columns: 64px 1fr; column-gap: 16px; align-items: start; padding: 20px 22px; }
   .sg-flow-step::before { left: 0; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: linear-gradient(180deg, var(--blue), rgba(47, 123, 255, .1)); border-radius: 0; }
@@ -685,17 +658,6 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-lines { display: none; }
   .sg-header-inner { padding: 0 2px; }
   .sg-logo img { width: 124px; }
-  .sg-hero-actions { flex-direction: column; align-items: stretch; }
-  .sg-hero-actions .sg-btn, .sg-hero-actions .sg-btn-secondary { justify-content: center; }
-  .sg-stage { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; padding-bottom: 8px; }
-  .sg-stage picture { position: static; }
-  .sg-stage-hub { grid-column: 1 / -1; order: -1; margin-bottom: 8px; }
-  .sg-stage-camera { height: auto; justify-self: start; }
-  .sg-stage-camera img { height: 250px; }
-  .sg-stage-drone { width: auto; justify-self: end; }
-  .sg-stage-drone img { width: 180px; }
-  .sg-stage-ground { bottom: 20%; height: 40%; }
-  .sg-chip-live { display: none; }
   .sg-tile { padding: 24px; min-height: 0; }
   .sg-tile-camera, .sg-tile-drone { grid-column: span 12; min-height: 460px; }
   .sg-tile-hub { padding-bottom: 46%; }
