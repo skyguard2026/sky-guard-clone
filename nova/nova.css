@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v56)
+   Sky Guard — /nova, samostatný stylesheet (v57)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -273,18 +273,33 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 /* ────────────────────────────────────────────────────────── hero */
 
-.sg-hero { padding: clamp(48px, 6vw, 88px) 0 0; border-top: 0; overflow: visible; }
+.sg-hero { padding: clamp(40px, 5vw, 64px) 0 0; border-top: 0; overflow: visible; }
 .sg-hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.sg-hero-mark { width: min(520px, 70vw); margin: 0 auto; }
+.sg-hero-mark { width: min(440px, 64vw); margin: 0 auto; }
 .sg-hero-mark img { width: 100%; height: auto; }
 .sg-h1 {
-  margin-top: 40px; max-width: 520px;
-  color: #fff; font-family: "Nippo", var(--font); font-weight: 400;
-  font-size: clamp(16px, 1.4vw, 20px); line-height: 1.45; letter-spacing: .01em;
+  margin-top: 28px; color: var(--text); font-weight: 500;
+  font-size: clamp(36px, 4vw, 56px); line-height: 1.04; letter-spacing: -.03em;
 }
-.sg-hero-actions { display: flex; justify-content: center; margin-top: 28px; }
-.sg-hero-product { width: min(700px, 82vw); margin: clamp(24px, 3vw, 40px) auto 0; padding-bottom: 16px; }
-.sg-hero-product img { width: 100%; height: auto; }
+.sg-grad {
+  background: linear-gradient(92deg, #7FB4FF 0%, #2F7BFF 45%, #9BDCFF 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.sg-hero .sg-lead { margin: 16px auto 0; max-width: 560px; font-size: 16px; line-height: 1.6; }
+.sg-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+
+/* jedna řada produktů: zarovnané na spodní hranu, pevné rozměry */
+.sg-hero-row {
+  width: 100%; margin-top: clamp(40px, 5vw, 64px);
+  display: flex; align-items: flex-end; justify-content: center; gap: clamp(20px, 3vw, 44px);
+}
+.sg-hero-row picture { flex: 0 0 auto; }
+.sg-hero-row img { height: auto; display: block; }
+.sg-hero-tower img { height: clamp(260px, 26vw, 380px); width: auto; }
+.sg-hero-hub { width: min(600px, 46vw); }
+.sg-hero-hub img { width: 100%; }
+.sg-hero-drone { width: min(340px, 23vw); padding-bottom: 4px; }
+.sg-hero-drone img { width: 100%; }
 
 @keyframes sg-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
 .sg-float { animation: sg-drift 8s ease-in-out infinite; }
@@ -658,6 +673,12 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-lines { display: none; }
   .sg-header-inner { padding: 0 2px; }
   .sg-logo img { width: 124px; }
+  .sg-hero-row { flex-wrap: wrap; gap: 16px 24px; }
+  .sg-hero-hub { width: 100%; order: -1; }
+  .sg-hero-tower img { height: 220px; }
+  .sg-hero-drone { width: 46%; }
+  .sg-hero-actions { flex-direction: column; align-items: stretch; }
+  .sg-hero-actions .sg-btn, .sg-hero-actions .sg-btn-secondary { justify-content: center; }
   .sg-tile { padding: 24px; min-height: 0; }
   .sg-tile-camera, .sg-tile-drone { grid-column: span 12; min-height: 460px; }
   .sg-tile-hub { padding-bottom: 46%; }
