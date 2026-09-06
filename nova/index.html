@@ -19,7 +19,7 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=52">
+    <link rel="stylesheet" href="/nova/nova.css?v=53">
 </head>
 <body>
 
@@ -426,44 +426,37 @@
 </section>
 
 <!-- ═════════════════════════ 12 — REFERENCE ════════════════════════ -->
-<section class="sg-section" id="reference">
+<section class="sg-section sg-compact" id="reference">
   <div class="sg-container">
-    <div class="sg-head">
-      <p class="sg-tag">Reference</p>
+    <div class="sg-head sg-head-center sg-head-sm">
       <h2 class="sg-h2">Naši službu aktivně využívají</h2>
+      <p class="sg-lead">Připojte se k dalším klientům Sky Guard a posuňte bezpečnost svého areálu na novou úroveň.</p>
     </div>
-
-    <div class="sg-glass sg-quote-card">
-      <span class="sg-quote-mark" aria-hidden="true">„</span>
-      <span class="sg-chip sg-quote-tag" id="sg-quote-tag">Sky Construction</span>
-      <blockquote class="sg-quote" id="sg-quote">„Na stavbě se nám v minulosti několikrát ztratily nářadí i materiál. Od té doby spolupracujeme se Sky Guard a rozdíl je obrovský. Kamerový systém a mobilní věže s dohledem nám dávají jistotu i v noci a o víkendech. Instalace byla rychlá, vše jsme zvládli bez zdržení výstavby.</blockquote>
-      <figcaption class="sg-quote-role" id="sg-quote-role">Construction Manager</figcaption>
-
+    <div class="sg-quote-grid">
+      <figure class="sg-quote-cell">
+        <span class="sg-chip sg-quote-tag" id="sg-quote-tag">Sky Construction</span>
+        <blockquote class="sg-quote" id="sg-quote">„Na stavbě se nám v minulosti několikrát ztratily nářadí i materiál. Od té doby spolupracujeme se Sky Guard a rozdíl je obrovský. Kamerový systém a mobilní věže s dohledem nám dávají jistotu i v noci a o víkendech. Instalace byla rychlá, vše jsme zvládli bez zdržení výstavby.</blockquote>
+        <div class="sg-quote-meta">
+          <figcaption class="sg-quote-role" id="sg-quote-role">Construction Manager</figcaption>
+          <span class="sg-quote-counter" id="sg-quote-counter" aria-live="polite">1/3</span>
+        </div>
+      </figure>
       <div class="sg-quote-nav">
-        <button type="button" class="sg-round-btn" id="sg-quote-prev" aria-label="Předchozí reference"><span aria-hidden="true">←</span></button>
-        <span class="sg-quote-counter" id="sg-quote-counter" aria-live="polite">1/3</span>
-        <button type="button" class="sg-round-btn" id="sg-quote-next" aria-label="Další reference"><span aria-hidden="true">→</span></button>
+        <button type="button" class="sg-quote-btn" id="sg-quote-prev"><span aria-hidden="true">←</span> Předchozí</button>
+        <button type="button" class="sg-quote-btn" id="sg-quote-next">Další <span aria-hidden="true">→</span></button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════ 13 — KONTAKTNÍ FORMULÁŘ ═══════════════ -->
-<section class="sg-section" id="kontakt">
+<section class="sg-section sg-compact" id="kontakt">
   <div class="sg-container sg-contact">
-    <div class="sg-contact-copy">
-      <div class="sg-head">
-        <p class="sg-tag">Kontakt</p>
-        <h2 class="sg-h2">Navrhneme řešení pro váš areál.</h2>
-        <p class="sg-lead">Ozvěte se a projdeme spolu, co dává pro váš objekt smysl. Kamery, dron, nebo obojí.</p>
-      </div>
-      <ul class="sg-contact-direct">
-        <li class="sg-glass"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/alert.svg)"></span></span><span class="sg-contact-label">Telefon<a href="tel:+420737373430">+420 737 373 430</a></span></li>
-        <li class="sg-glass"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/hub.svg)"></span></span><span class="sg-contact-label">E-mail<a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a></span></li>
-      </ul>
+    <div class="sg-head sg-head-center sg-head-sm">
+      <h2 class="sg-h2">Domluvte si s námi ukázku</h2>
+      <p class="sg-lead">Ozvěte se a projdeme spolu, co dává pro váš objekt smysl. Nebo rovnou <a href="tel:+420737373430">+420 737 373 430</a> · <a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a></p>
     </div>
-
-    <form class="sg-glass sg-form" id="sg-form" method="post" novalidate>
+    <form class="sg-form" id="sg-form" method="post" novalidate>
       <!-- Past na roboty: skutečný návštěvník pole nevidí a nevyplní. -->
       <div class="sg-hp" aria-hidden="true">
         <label for="f-company-url">Nevyplňujte</label>
@@ -522,12 +515,11 @@
 </section>
 
 <!-- ═══════════════════════════════ 14 — FAQ ════════════════════════ -->
-<section class="sg-section" id="faq">
+<section class="sg-section sg-compact" id="faq">
   <div class="sg-container sg-faq-layout">
-    <div class="sg-head">
-      <p class="sg-tag">Časté dotazy</p>
-      <h2 class="sg-h2">Na co se ptáte nejčastěji</h2>
-      <p class="sg-lead">Nenašli jste odpověď? Napište nám, ozveme se do druhého pracovního dne.</p>
+    <div class="sg-head sg-head-sm">
+      <h2 class="sg-h2">Nejčastěji kladené dotazy</h2>
+      <p class="sg-lead">Vše, co potřebujete o službě Sky Guard vědět na jednom místě.</p>
     </div>
     <div class="sg-faq" id="sg-faq"></div>
   </div>

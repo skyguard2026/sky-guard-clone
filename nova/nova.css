@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v50)
+   Sky Guard — /nova, samostatný stylesheet (v53)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -555,80 +555,85 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-fn { color: var(--blue); }
 .sg-footnote { margin-top: 18px; color: var(--dim); font-size: 13px; }
 
-/* ─────────────────────────────────────────────────────── reference */
+/* ─────────────────────────────────────── kompaktní spodní sekce */
 
-.sg-quote-card { padding: clamp(32px, 4vw, 56px); display: flex; flex-direction: column; align-items: flex-start; }
-.sg-quote-mark { display: none; }
-.sg-quote-tag { margin-bottom: 26px; }
-.sg-quote { color: var(--text); font-size: clamp(20px, 1.9vw, 26px); line-height: 1.45; letter-spacing: -.012em; max-width: 40em; }
-.sg-quote-role { margin-top: 24px; color: var(--dim); font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
-.sg-quote-nav { display: flex; align-items: center; gap: 12px; margin-top: 32px; }
-.sg-quote-counter { color: var(--dim); font-size: 13px; font-variant-numeric: tabular-nums; }
-.sg-round-btn {
-  width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%;
-  border: 1px solid var(--line-2); background: rgba(255, 255, 255, .03); color: var(--text); font-size: 16px; cursor: pointer;
-  transition: background .2s, border-color .2s, transform .2s var(--ease);
+.sg-compact { padding: 48px 0 56px; }
+.sg-head-sm { margin-bottom: 28px; }
+.sg-head-sm .sg-h2 { font-size: clamp(24px, 2.4vw, 32px); letter-spacing: -.02em; }
+.sg-head-sm .sg-lead { margin-top: 8px; font-size: 14px; line-height: 1.5; max-width: 560px; }
+.sg-head-sm .sg-lead a { color: var(--text); text-decoration: none; white-space: nowrap; }
+.sg-head-sm .sg-lead a:hover { color: #9CC4FF; }
+
+/* reference: buňka s citací + sloupec s tlačítky */
+.sg-quote-grid { display: grid; grid-template-columns: 2fr 1fr; border: 1px solid var(--line); }
+.sg-quote-cell { padding: 28px 32px 24px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+.sg-quote-tag { align-self: flex-start; margin-bottom: 16px; }
+.sg-quote { color: var(--text); font-size: 17px; line-height: 1.5; letter-spacing: -.005em; max-width: 60ch; }
+.sg-quote-meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 18px; }
+.sg-quote-role { color: var(--dim); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.sg-quote-counter { color: var(--dim); font-size: 12px; font-variant-numeric: tabular-nums; }
+.sg-quote-nav { display: flex; flex-direction: column; justify-content: flex-end; }
+.sg-quote-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px;
+  background: linear-gradient(180deg, #2273F5, #0249A8); color: #fff; border: 0; border-top: 1px solid rgba(255, 255, 255, .15);
+  font-size: 15px; font-weight: 500; cursor: pointer; transition: filter .2s;
 }
-.sg-round-btn:hover { background: rgba(47, 123, 255, .15); border-color: rgba(47, 123, 255, .5); transform: translateY(-1px); }
+.sg-quote-btn:hover { filter: brightness(1.12); }
+.sg-quote-btn:first-child { border-top: 1px solid var(--line); }
 
-/* ─────────────────────────────────────────────────────── kontakt */
+/* ─────────────────────────────────────────── kontakt: úzký formulář */
 
-.sg-contact .sg-head, .sg-faq-layout .sg-head, .sg-split-copy .sg-head { margin-bottom: 0; }
-.sg-contact { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(40px, 5vw, 80px); align-items: start; }
-.sg-contact-direct { display: grid; gap: 10px; margin-top: 32px; }
-.sg-contact-direct li { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 18px; }
-.sg-contact-label { display: flex; flex-direction: column; gap: 2px; color: var(--dim); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
-.sg-contact-label a { color: var(--text); font-size: 17px; font-weight: 500; letter-spacing: 0; text-transform: none; text-decoration: none; }
-.sg-contact-label a:hover { color: #9CC4FF; }
-
-.sg-form { padding: clamp(24px, 3vw, 36px); }
-.sg-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.sg-contact .sg-head { margin-left: auto; margin-right: auto; }
+.sg-form { max-width: 640px; margin: 0 auto; }
+.sg-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
 .sg-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.sg-field { display: grid; gap: 8px; }
-.sg-field label { color: var(--muted); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.sg-field { display: grid; gap: 6px; }
+.sg-field label { color: var(--muted); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
 .sg-req { color: var(--blue); }
 .sg-field input, .sg-field select {
-  min-height: 54px; padding: 0 16px; border-radius: 14px;
+  min-height: 44px; padding: 0 14px; border-radius: 10px;
   border: 1px solid var(--line-2); background: rgba(255, 255, 255, .03); color: var(--text);
-  font: inherit; font-size: 16px; transition: border-color .2s, background .2s, box-shadow .2s;
+  font: inherit; font-size: 15px; transition: border-color .2s, background .2s, box-shadow .2s;
 }
 .sg-field select {
-  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 44px;
+  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 40px;
   background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: calc(100% - 22px) 24px, calc(100% - 16px) 24px; background-size: 6px 6px; background-repeat: no-repeat;
+  background-position: calc(100% - 20px) 19px, calc(100% - 14px) 19px; background-size: 6px 6px; background-repeat: no-repeat;
 }
 .sg-field select option { background: #0E1018; color: #fff; }
 .sg-field input::placeholder { color: var(--dim); }
 .sg-field input:focus, .sg-field select:focus { outline: 0; border-color: rgba(47, 123, 255, .7); background: rgba(47, 123, 255, .06); box-shadow: 0 0 0 4px rgba(47, 123, 255, .15); }
 .sg-field input[aria-invalid="true"], .sg-field select[aria-invalid="true"] { border-color: #FF6B6B; }
-.sg-err { color: #FF8A8A; font-size: 13px; }
-.sg-form-submit { width: 100%; margin-top: 22px; }
+.sg-err { color: #FF8A8A; font-size: 12px; }
+.sg-form-submit { width: 100%; margin-top: 18px; min-height: 48px; }
 .sg-form-status:empty { display: none; }
 .sg-form-status {
-  margin-top: 16px; padding: 14px 16px; border-radius: 14px;
+  margin-top: 14px; padding: 12px 14px; border-radius: 10px;
   border: 1px solid rgba(255, 133, 10, .45); background: rgba(255, 133, 10, .09);
-  color: #f5f5f5; font-size: 14px; line-height: 1.55;
+  color: #f5f5f5; font-size: 14px; line-height: 1.5;
 }
 .sg-form-status a { color: #fff; font-weight: 500; }
 
-/* ─────────────────────────────────────────────────────────── FAQ */
+/* ─────────────────────────────────────────── FAQ: řádky s linkou */
 
-.sg-faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(40px, 5vw, 80px); align-items: start; }
-.sg-faq-item { border: 1px solid var(--line); border-radius: 18px; background: rgba(255, 255, 255, .02); margin-bottom: 10px; transition: border-color .2s, background .2s; }
-.sg-faq-item.open, .sg-faq-item:hover { border-color: rgba(47, 123, 255, .35); background: rgba(47, 123, 255, .05); }
+.sg-faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 24px 48px; align-items: start; }
+.sg-faq-layout .sg-head { margin-bottom: 0; }
+.sg-faq { border-top: 1px solid var(--line); }
+.sg-faq-item { border-bottom: 1px solid var(--line); transition: background .2s; }
+.sg-faq-item.open, .sg-faq-item:hover { background: rgba(255, 255, 255, .015); }
 .sg-faq-q {
-  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px;
-  min-height: 64px; padding: 18px 22px; background: none; border: 0; color: var(--text);
-  font-size: 17px; font-weight: 500; text-align: left; cursor: pointer; border-radius: 18px;
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 50px; padding: 12px 4px; background: none; border: 0; color: var(--text);
+  font-size: 15px; font-weight: 500; text-align: left; cursor: pointer;
 }
-.sg-faq-sign { position: relative; flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line-2); }
-.sg-faq-sign::before, .sg-faq-sign::after { content: ""; position: absolute; top: 15px; left: 9px; width: 12px; height: 1.5px; background: #9CC4FF; transition: transform .25s; }
+.sg-faq-sign { position: relative; flex-shrink: 0; width: 22px; height: 22px; }
+.sg-faq-sign::before, .sg-faq-sign::after { content: ""; position: absolute; top: 10px; left: 5px; width: 12px; height: 1.5px; background: #9CC4FF; transition: transform .25s; }
 .sg-faq-sign::after { transform: rotate(90deg); }
 .sg-faq-q[aria-expanded="true"] .sg-faq-sign::after { transform: rotate(0deg); }
 .sg-faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s var(--ease); }
 .sg-faq-a > div { overflow: hidden; }
 .sg-faq-item.open .sg-faq-a { grid-template-rows: 1fr; }
-.sg-faq-a p { padding: 0 22px 22px; max-width: 64ch; color: var(--muted); font-size: 16px; line-height: 1.65; }
+.sg-faq-a p { padding: 0 4px 16px; max-width: 64ch; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
 /* ───────────────────────────────────────────────────────── patička */
 
@@ -683,7 +688,12 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-why p { margin-top: 2px; }
 }
 @media (max-width: 900px) {
-  .sg-split, .sg-contact, .sg-faq-layout { grid-template-columns: 1fr; }
+  .sg-split, .sg-faq-layout { grid-template-columns: 1fr; }
+  .sg-quote-grid { grid-template-columns: 1fr; }
+  .sg-quote-cell { border-right: 0; border-bottom: 1px solid var(--line); }
+  .sg-quote-nav { flex-direction: row; }
+  .sg-quote-nav .sg-quote-btn { flex: 1; border-top: 0; }
+  .sg-quote-btn + .sg-quote-btn { border-left: 1px solid rgba(255, 255, 255, .15); }
   .sg-showcase { min-height: 0; padding-bottom: 88px; }
   .sg-showcase img { max-height: 420px; }
   .sg-solutions { grid-template-columns: 1fr; gap: 24px 0; padding: 24px 16px 0; }
@@ -727,7 +737,6 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-form-grid { grid-template-columns: 1fr; }
   .sg-footer-grid { grid-template-columns: 1fr; gap: 36px; }
   .sg-footer-bottom { flex-direction: column; gap: 6px; }
-  .sg-quote-mark { font-size: 140px; right: 12px; }
   .sg-band-inner .sg-btn { width: 100%; justify-content: center; }
 
   /* Pod 700 px: každý řádek jako karta s popiskem sloupce u hodnoty. */
