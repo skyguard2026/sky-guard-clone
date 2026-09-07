@@ -2,29 +2,59 @@
 
 /* =========================================================
    Barvy a tokeny — SPEC.md §6
-   Tmavá tmavomodrá základna, ne černá a ne šedá.
+   Dva režimy: tmavý (výchozí, tmavomodrá základna) a světlý.
+   Režim nese atribut data-theme na <html>; komponenty berou
+   barvy výhradně z těchto proměnných, takže grafy i formuláře
+   se přebarví samy.
    ========================================================= */
 :root {
-  --void: #05090f;
-  --bg: #080e18;
-  --panel: #0d1624;
-  --panel-2: #111d2f;
-  --raise: #16243a;
-  --line: #1b2b42;
-  --line-2: #24384f;
-  --tx: #e9f0fa;
-  --tx-2: #94a9c6;
-  --tx-3: #5d738f;
+  --void: #070b12;
+  --bg: #0a1019;
+  --panel: #101724;
+  --panel-2: #151e2d;
+  --raise: #1b2637;
+  --line: #1c2839;
+  --line-2: #29384d;
+  --tx: #eef3fa;
+  --tx-2: #9fb0c8;
+  --tx-3: #6b7d96;
   --blue: #3b8fff;
   --blue-d: #1b4f96;
+  --blue-soft: rgba(59, 143, 255, 0.14);
   --green: #3ddc97;
   --amber: #f5b544;
   --red: #ff6b6b;
   --violet: #8b7cf6;
   --pink: #ff8ba7;
-  --r: 11px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px -18px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --r: 14px;
+  --r-sm: 10px;
   --sb: 252px;
   color-scheme: dark;
+}
+html[data-theme="light"] {
+  --void: #ffffff;
+  --bg: #f4f5f8;
+  --panel: #ffffff;
+  --panel-2: #f6f7fa;
+  --raise: #eceff4;
+  --line: #e5e8ee;
+  --line-2: #d2d8e2;
+  --tx: #141922;
+  --tx-2: #4a5568;
+  --tx-3: #7b8595;
+  --blue: #1a6cf0;
+  --blue-d: #0e4fb8;
+  --blue-soft: rgba(26, 108, 240, 0.1);
+  --green: #159c5e;
+  --amber: #c9800b;
+  --red: #dc3c3c;
+  --violet: #6b5ce6;
+  --pink: #d7457a;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px -14px rgba(16, 24, 40, 0.16);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -45,7 +75,6 @@
   --color-violet: var(--violet);
   --color-pink: var(--pink);
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
-  --font-stencil: var(--font-stencil), sans-serif;
 }
 
 * {
@@ -89,15 +118,16 @@ dialog :focus-visible {
   outline-offset: -2px;
 }
 /* U přepínače by prstenec dovnitř splynul s kolečkem, proto vlastní odsazení. */
-.tgl:focus-visible {
-  outline-offset: 1px;
+.tgl:focus-visible,
+.theme-tgl:focus-visible {
+  outline-offset: 2px;
 }
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--line);
+  background: var(--line-2);
   border-radius: 99px;
   border: 3px solid var(--bg);
 }
@@ -133,20 +163,25 @@ input[type="number"] {
 }
 .brand img {
   width: 100%;
-  max-width: 172px;
+  max-width: 168px;
   height: auto;
   display: block;
   opacity: 0.96;
 }
+/* Logo je bílé — na světlém panelu se obrátí do černé. */
+html[data-theme="light"] .brand img {
+  filter: invert(1);
+  opacity: 0.9;
+}
 .brand small {
   display: block;
   color: var(--tx-3);
-  font-size: 11.5px;
+  font-size: 11px;
   margin-top: 9px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
 }
 .nav {
-  padding: 12px 10px;
+  padding: 12px 12px;
   flex: 1;
   overflow-y: auto;
 }
@@ -159,21 +194,22 @@ input[type="number"] {
   background: none;
   border: 0;
   color: var(--tx-2);
-  padding: 10px 12px;
-  border-radius: 8px;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
   cursor: pointer;
   font-size: 14.5px;
   margin-bottom: 2px;
   text-decoration: none;
+  transition: background 0.15s, color 0.15s;
 }
 .nav a:hover {
-  background: var(--panel);
+  background: var(--panel-2);
   color: var(--tx);
 }
 .nav a[aria-current="page"] {
-  background: var(--panel-2);
-  color: var(--tx);
-  font-weight: 500;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-weight: 600;
 }
 .nav a[aria-current="page"] .ico {
   color: var(--blue);
@@ -192,11 +228,16 @@ input[type="number"] {
   padding: 1px 7px;
   border-radius: 99px;
 }
+.nav a[aria-current="page"] .badge {
+  background: var(--blue);
+  color: #fff;
+}
 .nav .sep {
   color: var(--tx-3);
-  font-size: 11.5px;
-  padding: 16px 12px 7px;
-  letter-spacing: 0.05em;
+  font-size: 11px;
+  padding: 18px 12px 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .sb-foot {
   padding: 14px;
@@ -205,16 +246,17 @@ input[type="number"] {
 .sb-foot select {
   width: 100%;
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-2);
   color: var(--tx);
-  border-radius: 8px;
+  border-radius: var(--r-sm);
   padding: 9px 10px;
   font-size: 13.5px;
 }
 .sb-foot label {
   display: block;
   color: var(--tx-3);
-  font-size: 11.5px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
   margin-bottom: 6px;
 }
 .main {
@@ -225,51 +267,120 @@ input[type="number"] {
 }
 .topbar {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
-  padding: 20px 30px;
-  border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(59, 143, 255, 0.05), transparent);
+  padding: 26px 30px 6px;
   flex-wrap: wrap;
+}
+.topbar .tb-title {
+  min-width: 0;
 }
 .topbar h1 {
   margin: 0;
-  font-family: var(--font-stencil), sans-serif;
-  font-weight: 400;
-  font-size: 23px;
-  letter-spacing: 0.01em;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 .topbar .crumb {
+  display: block;
   color: var(--tx-3);
   font-size: 13.5px;
+  margin-top: 3px;
 }
 .topbar .acts {
   margin-left: auto;
   display: flex;
   gap: 9px;
+  align-items: center;
   flex-wrap: wrap;
 }
 .page {
-  padding: 26px 30px 80px;
+  padding: 18px 30px 80px;
   flex: 1;
+}
+
+/* ================= přepínač režimu ================= */
+/* Přepínač ve stylu iOS: pilulka, bílé kolečko, slunce a měsíc v dráze. */
+.theme-tgl {
+  position: relative;
+  width: 58px;
+  height: 30px;
+  border-radius: 99px;
+  border: 1px solid var(--line-2);
+  background: var(--raise);
+  cursor: pointer;
+  padding: 0;
+  flex: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.theme-tgl .ic {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  color: var(--tx-3);
+  transition: color 0.2s, opacity 0.2s;
+}
+.theme-tgl .ic.sun {
+  left: 8px;
+}
+.theme-tgl .ic.moon {
+  right: 8px;
+}
+.theme-tgl .knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1.2);
+}
+.theme-tgl[aria-checked="true"] .knob {
+  transform: translateX(28px);
+}
+.theme-tgl[aria-checked="true"] .ic.moon,
+.theme-tgl[aria-checked="false"] .ic.sun {
+  opacity: 0;
+}
+.theme-tgl[aria-checked="false"] .ic.moon {
+  color: var(--tx-2);
+}
+.theme-tgl[aria-checked="true"] {
+  background: #1e2a3d;
+  border-color: #33445c;
+}
+.theme-tgl[aria-checked="true"] .ic.sun {
+  color: var(--amber);
+}
+html[data-theme="light"] .theme-tgl[aria-checked="false"] {
+  background: #e8ecf3;
+  border-color: #d2d8e2;
 }
 
 /* ================= atomy ================= */
 .btn {
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-2);
   color: var(--tx-2);
   padding: 8px 14px;
-  border-radius: 8px;
+  border-radius: var(--r-sm);
   font-size: 13.5px;
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
   display: inline-block;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .btn:hover:not(:disabled) {
-  border-color: var(--line-2);
+  border-color: var(--tx-3);
   color: var(--tx);
+  background: var(--panel-2);
 }
 .btn:disabled {
   opacity: 0.5;
@@ -278,13 +389,14 @@ input[type="number"] {
 .btn.primary {
   background: var(--blue);
   border-color: var(--blue);
-  color: #05111f;
-  font-weight: 700;
+  color: #fff;
+  font-weight: 600;
 }
 .btn.primary:hover:not(:disabled) {
-  background: #5aa1ff;
-  border-color: #5aa1ff;
-  color: #05111f;
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  filter: brightness(1.08);
 }
 .btn.danger:hover:not(:disabled) {
   border-color: var(--red);
@@ -301,13 +413,14 @@ input[type="number"] {
   border-radius: var(--r);
   margin-bottom: 18px;
   overflow: hidden;
+  box-shadow: var(--shadow);
   /* aby se obsah mohl přeskládat podle šířky karty */
   container: card / inline-size;
 }
 .card > h2 {
   margin: 0;
   padding: 15px 20px;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
   border-bottom: 1px solid var(--line);
@@ -316,8 +429,8 @@ input[type="number"] {
   gap: 10px;
 }
 .card > h2 .tag {
-  width: 5px;
-  height: 15px;
+  width: 4px;
+  height: 16px;
   border-radius: 2px;
   background: var(--blue);
   flex: none;
@@ -402,8 +515,8 @@ input[type="number"] {
   display: flex;
   align-items: center;
   background: var(--void);
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
   flex: none;
 }
 .step button {
@@ -420,7 +533,7 @@ input[type="number"] {
   color: var(--blue);
 }
 .step button:disabled {
-  color: #26374f;
+  color: var(--line-2);
   cursor: not-allowed;
 }
 .step input {
@@ -437,8 +550,8 @@ input[type="number"] {
   display: flex;
   align-items: center;
   background: var(--void);
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
   padding: 0 11px;
   flex: none;
 }
@@ -463,11 +576,12 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* Segmentový přepínač jako v iOS: šedá dráha, zvolený díl jako vystouplá karta. */
 .seg {
   display: flex;
-  background: var(--void);
+  background: var(--raise);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--r-sm);
   padding: 3px;
   gap: 3px;
   flex: none;
@@ -478,50 +592,51 @@ input[type="number"]::-webkit-inner-spin-button {
   color: var(--tx-3);
   font-size: 13px;
   padding: 6px 13px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
 }
 .seg button:hover {
   color: var(--tx-2);
 }
 .seg button[aria-pressed="true"] {
-  background: var(--raise);
+  background: var(--panel);
   color: var(--tx);
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
 }
 
+/* Přepínač ano/ne ve stylu iOS. */
 .tgl {
   width: 44px;
-  height: 25px;
+  height: 26px;
   border-radius: 99px;
-  background: var(--void);
-  border: 1px solid var(--line);
+  background: var(--line-2);
+  border: 0;
   position: relative;
   cursor: pointer;
   flex: none;
   padding: 0;
+  transition: background 0.2s;
 }
 .tgl::after {
   content: "";
   position: absolute;
   top: 3px;
   left: 3px;
-  width: 17px;
-  height: 17px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: var(--tx-3);
-  transition:
-    transform 0.15s,
-    background 0.15s;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1.2);
 }
 .tgl[aria-pressed="true"] {
-  background: var(--blue-d);
-  border-color: var(--blue);
+  background: var(--blue);
 }
 .tgl[aria-pressed="true"]::after {
-  transform: translateX(19px);
-  background: #fff;
+  transform: translateX(18px);
 }
 .tgl.sm {
   transform: scale(0.72);
@@ -533,11 +648,17 @@ input[type="number"].plain,
 select,
 textarea {
   background: var(--void);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-2);
   color: var(--tx);
-  border-radius: 8px;
+  border-radius: var(--r-sm);
   padding: 9px 11px;
   width: 100%;
+}
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--blue);
 }
 textarea {
   resize: vertical;
@@ -549,6 +670,10 @@ input[type="range"] {
 
 /* ================= kpi ================= */
 /*
+ * Každé KPI je vlastní karta. Obalová .card kolem čtveřice se proto
+ * „rozpustí" a všechno, co v ní je pod KPI (skladba nákladů, poznámka),
+ * dostane vlastní kartu — jako řada dlaždic nad obsahem stránky.
+ *
  * KPI se lámou podle šířky karty, ne podle šířky okna. Stejná čtveřice čísel
  * je jednou v široké kartě přes celou stránku a jindy v úzkém sloupci, kde by
  * se ve čtyřech sloupcích lámala uvnitř hodnoty.
@@ -556,8 +681,7 @@ input[type="range"] {
 .kpis {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--line);
+  gap: 14px;
 }
 @container card (max-width: 700px) {
   .kpis {
@@ -571,23 +695,51 @@ input[type="range"] {
 }
 .kpi {
   background: var(--panel);
-  padding: 17px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 18px 20px 16px;
+  min-width: 0;
+}
+.card:has(> .kpis:first-child) {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+  border-radius: 0;
+}
+.card:has(> .kpis:first-child) > :not(.kpis) {
+  margin-top: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+}
+/* KPI uvnitř těla karty (marže, zisk, návratnost) jsou ploché dlaždice. */
+.body .kpis .kpi,
+.card > .body ~ .kpis .kpi {
+  background: var(--panel-2);
+  box-shadow: none;
+}
+.card > .kpis:not(:first-child) {
+  padding: 0 20px 18px;
 }
 .kpi label {
   display: block;
   color: var(--tx-3);
   font-size: 12.5px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .kpi .v {
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 .kpi .sub {
   color: var(--tx-3);
   font-size: 12px;
-  margin-top: 3px;
+  margin-top: 5px;
 }
 .v.blue {
   color: var(--blue);
@@ -604,18 +756,17 @@ input[type="range"] {
 
 .comp {
   padding: 17px 20px;
-  border-top: 1px solid var(--line);
 }
 .comp .bar {
   display: flex;
-  height: 10px;
-  border-radius: 99px;
-  overflow: hidden;
-  background: var(--void);
+  gap: 3px;
+  height: 12px;
   margin-bottom: 12px;
 }
 .comp .bar i {
   display: block;
+  border-radius: 99px;
+  min-width: 4px;
 }
 .legend {
   display: flex;
@@ -630,9 +781,9 @@ input[type="range"] {
   color: var(--tx-2);
 }
 .legend em {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
   font-style: normal;
   flex: none;
 }
@@ -643,20 +794,53 @@ input[type="range"] {
 }
 
 .chart {
-  padding: 8px 12px 4px;
+  padding: 10px 12px 4px;
 }
 .chart svg {
   width: 100%;
-  height: 170px;
+  height: auto;
   display: block;
   overflow: visible;
+}
+.chart svg text {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
 .chart .cap {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
   color: var(--tx-3);
   font-size: 12px;
-  padding: 2px 8px 10px;
+  padding: 6px 8px 10px;
+}
+/* Bublina nad grafem: stejná v obou režimech, vždy nad křivkou. */
+.chart-tip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  min-width: 170px;
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  box-shadow: var(--shadow);
+}
+.chart-tip .t {
+  color: var(--tx-3);
+  font-size: 11.5px;
+}
+.chart-tip .v {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.chart-tip .l {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  color: var(--tx-2);
 }
 
 /* ================= tabulky ================= */
@@ -668,10 +852,11 @@ table {
 th {
   text-align: left;
   color: var(--tx-3);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 12.5px;
   padding: 10px 14px;
   border-bottom: 1px solid var(--line);
+  background: var(--panel-2);
   white-space: nowrap;
 }
 th.n,
@@ -690,12 +875,12 @@ td.nw {
   white-space: nowrap;
 }
 tbody tr:hover {
-  background: rgba(59, 143, 255, 0.045);
+  background: var(--blue-soft);
 }
 tr.group td {
-  background: var(--void);
+  background: var(--panel-2);
   color: var(--tx-2);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 12.5px;
   padding: 8px 14px;
 }
@@ -748,9 +933,9 @@ td.acts > span {
 
 .cell-in {
   background: var(--void);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-2);
   color: var(--tx);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 5px 8px;
   width: 104px;
   text-align: right;
@@ -796,8 +981,8 @@ td.acts > span {
   background:
     linear-gradient(to right, var(--panel) 30%, transparent),
     linear-gradient(to left, var(--panel) 30%, transparent) 100% 0,
-    radial-gradient(farthest-side at 0 50%, rgba(3, 7, 13, 0.55), transparent),
-    radial-gradient(farthest-side at 100% 50%, rgba(3, 7, 13, 0.55), transparent)
+    radial-gradient(farthest-side at 0 50%, rgba(3, 7, 13, 0.25), transparent),
+    radial-gradient(farthest-side at 100% 50%, rgba(3, 7, 13, 0.25), transparent)
       100% 0;
   background-repeat: no-repeat;
   background-size: 46px 100%, 46px 100%, 16px 100%, 16px 100%;
@@ -826,9 +1011,12 @@ td.acts > span {
   line-height: 1.6;
   border-top: 1px solid var(--line);
 }
+.note a {
+  color: var(--blue);
+}
 .note.alarm {
   color: var(--amber);
-  background: rgba(245, 181, 68, 0.06);
+  background: rgba(245, 181, 68, 0.08);
 }
 .note.alarm ul {
   margin: 6px 0 0;
@@ -850,13 +1038,15 @@ dialog {
   border: 1px solid var(--line-2);
   background: var(--panel);
   color: var(--tx);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 0;
   width: min(540px, 92vw);
   margin: auto;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.6);
 }
 dialog::backdrop {
-  background: rgba(3, 7, 13, 0.75);
+  background: rgba(3, 7, 13, 0.55);
+  backdrop-filter: blur(3px);
 }
 dialog h3 {
   margin: 0;
@@ -901,15 +1091,16 @@ dialog .dfoot {
   bottom: 22px;
   left: 50%;
   transform: translateX(-50%) translateY(80px);
-  background: var(--raise);
-  border: 1px solid var(--line-2);
-  color: var(--tx);
+  background: var(--tx);
+  border: 1px solid var(--tx);
+  color: var(--bg);
   padding: 11px 18px;
-  border-radius: 9px;
+  border-radius: 12px;
   font-size: 13.5px;
   transition: transform 0.22s;
   z-index: 99;
   pointer-events: none;
+  box-shadow: var(--shadow);
 }
 .toast.on {
   transform: translateX(-50%) translateY(0);
@@ -979,7 +1170,9 @@ dialog .dfoot {
     margin: 14mm;
   }
 
-  :root {
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
     --void: #ffffff;
     --bg: #ffffff;
     --panel: #ffffff;
@@ -991,11 +1184,14 @@ dialog .dfoot {
     --tx-2: #38445a;
     --tx-3: #5d6b80;
     --blue: #1256b8;
+    --blue-soft: #eaf1fc;
     --green: #10794f;
     --amber: #8a5b00;
     --red: #b02020;
     --violet: #5a45c4;
     --pink: #b03a5c;
+    --shadow: none;
+    --shadow-sm: none;
   }
 
   html,
@@ -1027,13 +1223,17 @@ dialog .dfoot {
     font-size: 19px;
   }
 
-  .card {
+  .card,
+  .kpi {
     border: 1px solid #c9d3e0;
     box-shadow: none;
     /* krátká karta se nesmí rozseknout přes stránky */
     break-inside: avoid;
     page-break-inside: avoid;
     margin-bottom: 10px;
+  }
+  .card:has(> .kpis:first-child) {
+    border: 0;
   }
   /*
    * Dlouhá tabulka se na jednu stránku nevejde, takže se rozdělit musí.
@@ -1050,11 +1250,12 @@ dialog .dfoot {
   }
   .kpis {
     grid-template-columns: repeat(4, 1fr);
-    background: #c9d3e0;
+    gap: 8px;
   }
   .kpi {
     background: #fff;
     padding: 10px 12px;
+    margin-bottom: 0;
   }
   .kpi .v {
     font-size: 18px;
@@ -1066,6 +1267,9 @@ dialog .dfoot {
   }
   thead {
     display: table-header-group;
+  }
+  th {
+    background: none;
   }
   tr {
     break-inside: avoid;
@@ -1087,11 +1291,13 @@ dialog .dfoot {
   /* grafy musí být vidět, ne jako bílé na bílém */
   .chart svg {
     width: 100%;
-    height: 150px;
   }
   .chart {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+  .chart-tip {
+    display: none !important;
   }
 
   /* editovatelná pole vytisknout jako text, ne jako formulář */
@@ -1108,6 +1314,7 @@ dialog .dfoot {
   .step button,
   .tgl,
   .btn,
+  .theme-tgl,
   input[type="range"],
   .seg button[aria-pressed="false"] {
     display: none !important;
@@ -1123,6 +1330,7 @@ dialog .dfoot {
     color: #10151d;
     font-weight: 700;
     padding: 0;
+    box-shadow: none;
   }
   /* vypnuté položky se na papír netisknou jako prázdné řádky */
   .cell-static {
@@ -1141,7 +1349,7 @@ dialog .dfoot {
   display: inline-block;
   width: 9px;
   height: 9px;
-  border-radius: 2px;
+  border-radius: 3px;
   margin-right: 6px;
   vertical-align: baseline;
 }
@@ -1171,16 +1379,17 @@ dialog .dfoot {
   flex: none;
 }
 .drop {
-  border: 1px dashed var(--line);
+  border: 1px dashed var(--line-2);
   border-radius: var(--r);
   padding: 30px 20px;
   text-align: center;
   color: var(--tx-3);
-  background: var(--raise);
+  background: var(--panel-2);
 }
 .drop.on {
   border-color: var(--blue);
   color: var(--tx-2);
+  background: var(--blue-soft);
 }
 .problems {
   margin: 0;
@@ -1233,7 +1442,8 @@ dialog .dfoot {
   .legend-dot,
   .bar-track,
   .bar-fill,
-  .kpis {
+  .kpis,
+  .comp .bar i {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }

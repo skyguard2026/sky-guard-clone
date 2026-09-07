@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   byCategory,
   filterRange,
+  monthKey,
+  monthLabel,
   monthlySeries,
   recurringPayments,
   summarize,
@@ -58,10 +60,31 @@ export function FinanceOverviewClient({
   );
 
   const sum = useMemo(() => summarize(shown, categories), [shown, categories]);
-  const series = useMemo(
+  const rawSeries = useMemo(
     () => monthlySeries(shown, categories),
     [shown, categories],
   );
+  /** Graf ukazuje celé zvolené okno, i měsíce bez jediné transakce —
+   * jinak by „12 měsíců" s daty za jeden měsíc vypadalo jako jeden sloupec
+   * uprostřed prázdna a nebylo by poznat, že jedenáct měsíců chybí. */
+  const series = useMemo(() => {
+    if (span === "all" || !anchor) return rawSeries;
+    const by = new Map(rawSeries.map((p) => [p.key, p]));
+    const keys: string[] = [];
+    let [y, m] = monthKey(anchor).split("-").map(Number);
+    for (let i = 0; i < Number(span); i++) {
+      keys.unshift(`${y}-${String(m).padStart(2, "0")}`);
+      m--;
+      if (m < 1) {
+        m = 12;
+        y--;
+      }
+    }
+    return keys.map(
+      (k) =>
+        by.get(k) ?? { key: k, label: monthLabel(k), expense: 0, income: 0, net: 0 },
+    );
+  }, [rawSeries, span, anchor]);
   const cats = useMemo(() => byCategory(shown, categories), [shown, categories]);
   const top = useMemo(
     () => topCounterparties(shown, categories, 8),

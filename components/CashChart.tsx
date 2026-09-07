@@ -2,32 +2,37 @@
 
 import { useState } from "react";
 import type { CalcResult } from "@/lib/calc";
+import { niceTicks } from "@/lib/chart-scale";
 import { money, moneyK } from "@/lib/format";
 
 /**
  * Kumulativní hotovost za horizont.
  *
- * Svislé čáry jsou obnovy. Měsíce, kde se sejdou dvě a víc naráz, jsou
- * odlišené silněji — u dronu to jsou 25., 43. a 61. měsíc a jsou to
- * nejtenčí místa celého průběhu.
+ * Osa Y má hezké hodnoty a mřížku, osa X měsíce po půlrocích. Svislé čáry
+ * jsou obnovy; měsíce, kde se sejdou dvě a víc naráz, jsou odlišené silněji
+ * — u dronu to jsou 25., 43. a 61. měsíc a jsou to nejtenčí místa celého
+ * průběhu. Najetím na kterýkoli měsíc se ukáže hotovost v něm.
  */
 export function CashChart({ r }: { r: CalcResult }) {
   const [hover, setHover] = useState<number | null>(null);
 
   const H = r.horizon;
   const f = r.flow;
-  const min = Math.min(...f);
-  const max = Math.max(...f, 0);
-  const W = 560;
-  const Ht = 150;
-  const pad = 6;
-  const x = (i: number) => pad + (i * (W - 2 * pad)) / H;
-  const y = (v: number) => {
-    const span = max - min || 1;
-    return Ht - ((v - min) / span) * (Ht - 16) - 8;
-  };
+  // užší plátno než u celostránkových grafů — v polovičním sloupci se text nesmí zmenšit pod čitelnost
+  const W = 600;
+  const Ht = 250;
+  const pad = { l: 70, r: 14, t: 16, b: 30 };
+
+  const { ticks, lo, hi } = niceTicks(Math.min(...f, 0), Math.max(...f, 0), 4);
+  const innerW = W - pad.l - pad.r;
+  const innerH = Ht - pad.t - pad.b;
+  const x = (i: number) => pad.l + (i * innerW) / H;
+  const y = (v: number) => pad.t + innerH - ((v - lo) / (hi - lo || 1)) * innerH;
   const pts = f.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
   const zeroY = y(0);
+  const xStep = H > 48 ? 12 : 6;
+  const xTicks: number[] = [];
+  for (let m = 0; m <= H; m += xStep) xTicks.push(m);
 
   const events = Object.entries(r.eventDetails)
     .map(([m, list]) => ({
@@ -37,8 +42,9 @@ export function CashChart({ r }: { r: CalcResult }) {
       multi: list.length > 1,
     }))
     .filter((e) => e.month <= H);
+  const eventAt = (m: number) => events.find((e) => e.month === m) ?? null;
 
-  const aktivni = hover === null ? null : events.find((e) => e.month === hover);
+  const aktivni = hover === null ? null : { month: hover, event: eventAt(hover) };
 
   const shrnuti =
     `Kumulativní hotovost za ${H} měsíců. Start ${money(f[0])}, ` +
@@ -54,139 +60,193 @@ export function CashChart({ r }: { r: CalcResult }) {
 
   return (
     <div className="chart" style={{ position: "relative" }}>
-      <svg
-        viewBox={`0 0 ${W} ${Ht}`}
-        preserveAspectRatio="none"
-        role="img"
-        aria-label={shrnuti}
-      >
+      <svg viewBox={`0 0 ${W} ${Ht}`} role="img" aria-label={shrnuti}>
         <title>{shrnuti}</title>
         <defs>
           <linearGradient id="cashGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--blue)" stopOpacity=".28" />
-            <stop offset="100%" stopColor="var(--blue)" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--blue)" stopOpacity=".16" />
+            <stop offset="100%" stopColor="var(--blue)" stopOpacity=".04" />
           </linearGradient>
+          <clipPath id="cashClip">
+            <rect x={pad.l} y={pad.t} width={innerW} height={innerH} />
+          </clipPath>
         </defs>
 
+        {/* mřížka a osa Y */}
+        {ticks.map((t) => (
+          <g key={t}>
+            <line
+              x1={pad.l}
+              y1={y(t)}
+              x2={W - pad.r}
+              y2={y(t)}
+              stroke={t === 0 ? "var(--line-2)" : "var(--line)"}
+              strokeWidth={1}
+            />
+            <text
+              x={pad.l - 10}
+              y={y(t) + 3.5}
+              textAnchor="end"
+              fontSize="11"
+              fill="var(--tx-3)"
+            >
+              {t === 0 ? "0" : moneyK(t)}
+            </text>
+          </g>
+        ))}
+        {/* osa X */}
+        {xTicks.map((m) => (
+          <text
+            key={m}
+            x={x(m)}
+            y={Ht - 9}
+            textAnchor="middle"
+            fontSize="10.5"
+            fill="var(--tx-3)"
+          >
+            {m}
+          </text>
+        ))}
+
+        {/* obnovy */}
         {events.map((e) => (
           <line
             key={e.month}
             x1={x(e.month)}
-            y1={6}
+            y1={pad.t}
             x2={x(e.month)}
-            y2={Ht - 2}
+            y2={pad.t + innerH}
             stroke="var(--amber)"
             strokeWidth={e.multi ? 2 : 1}
-            strokeDasharray={e.multi ? undefined : "2 3"}
-            opacity={hover === e.month ? 1 : e.multi ? 0.75 : 0.5}
+            strokeDasharray={e.multi ? undefined : "3 3"}
+            opacity={hover === e.month ? 1 : e.multi ? 0.7 : 0.45}
           />
         ))}
 
-        <line
-          x1={0}
-          y1={zeroY}
-          x2={W}
-          y2={zeroY}
-          stroke="var(--line-2)"
-          strokeWidth={1}
-        />
-        <polygon
-          points={`${pts} ${x(H)},${zeroY} ${x(0)},${zeroY}`}
-          fill="url(#cashGrad)"
-        />
+        <g clipPath="url(#cashClip)">
+          <polygon
+            points={`${pts} ${x(H)},${zeroY} ${x(0)},${zeroY}`}
+            fill="url(#cashGrad)"
+          />
+        </g>
         <polyline
           points={pts}
           fill="none"
           stroke="var(--blue)"
-          strokeWidth={2}
+          strokeWidth={2.2}
           strokeLinejoin="round"
+          strokeLinecap="round"
         />
-        {r.payback !== null ? (
-          <circle
-            cx={x(r.payback)}
-            cy={y(f[r.payback])}
-            r={4}
-            fill="var(--green)"
-          />
+
+        {/* vodítko pod myší */}
+        {hover !== null ? (
+          <g>
+            <line
+              x1={x(hover)}
+              y1={pad.t}
+              x2={x(hover)}
+              y2={pad.t + innerH}
+              stroke="var(--tx-3)"
+              strokeWidth={1}
+              strokeDasharray="2 3"
+            />
+            <circle
+              cx={x(hover)}
+              cy={y(f[hover])}
+              r={4.5}
+              fill="var(--panel)"
+              stroke="var(--blue)"
+              strokeWidth={2}
+            />
+          </g>
         ) : null}
 
-        {/* široké neviditelné pruhy, ať se dá čára trefit myší i prstem */}
-        {events.map((e) => (
+        {r.payback !== null ? (
+          <g>
+            <circle
+              cx={x(r.payback)}
+              cy={y(f[r.payback])}
+              r={5}
+              fill="var(--green)"
+              stroke="var(--panel)"
+              strokeWidth={2}
+            />
+            <text
+              x={x(r.payback)}
+              y={y(f[r.payback]) - 10}
+              textAnchor="middle"
+              fontSize="10.5"
+              fontWeight="600"
+              fill="var(--green)"
+            >
+              návratnost {r.payback}. měs
+            </text>
+          </g>
+        ) : null}
+
+        {/* neviditelné pruhy na každý měsíc, ať se dá trefit myší i prstem */}
+        {f.map((_, i) => (
           <rect
-            key={`hit-${e.month}`}
-            x={x(e.month) - 7}
-            y={0}
-            width={14}
-            height={Ht}
+            key={`hit-${i}`}
+            x={x(i) - innerW / H / 2}
+            y={pad.t}
+            width={innerW / H}
+            height={innerH}
             fill="transparent"
-            style={{ cursor: "pointer" }}
-            onMouseEnter={() => setHover(e.month)}
+            onMouseEnter={() => setHover(i)}
             onMouseLeave={() => setHover(null)}
-            onClick={() => setHover(hover === e.month ? null : e.month)}
+            onClick={() => setHover(hover === i ? null : i)}
           />
         ))}
       </svg>
 
       {aktivni ? (
         <div
+          className="chart-tip"
           role="tooltip"
           style={{
-            position: "absolute",
             top: 4,
             left: `${(x(aktivni.month) / W) * 100}%`,
             transform:
               aktivni.month > H * 0.6
-                ? "translateX(-100%) translateX(-10px)"
-                : "translateX(10px)",
-            background: "var(--raise)",
-            border: "1px solid var(--line-2)",
-            borderRadius: 8,
-            padding: "9px 12px",
-            fontSize: 12.5,
-            lineHeight: 1.5,
-            zIndex: 5,
-            pointerEvents: "none",
-            minWidth: 170,
-            boxShadow: "0 8px 24px rgba(3,7,13,.5)",
+                ? "translateX(-100%) translateX(-12px)"
+                : "translateX(12px)",
           }}
         >
-          <div style={{ color: "var(--tx-3)", fontSize: 11.5 }}>
+          <div className="t">
             {aktivni.month}. měsíc
-            {aktivni.multi ? " · souběh obnov" : ""}
+            {aktivni.event?.multi ? " · souběh obnov" : aktivni.event ? " · obnova" : ""}
           </div>
-          <div
-            style={{
-              fontWeight: 700,
-              color: "var(--amber)",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
-            {money(aktivni.amount)}
+          <div className="l">
+            <span>Hotovost</span>
+            <span
+              className="v"
+              style={{ color: f[aktivni.month] >= 0 ? "var(--green)" : "var(--red)" }}
+            >
+              {money(f[aktivni.month])}
+            </span>
           </div>
-          <div style={{ marginTop: 4, color: "var(--tx-2)" }}>
-            {aktivni.list.map((e) => (
-              <div
-                key={e.label}
-                style={{ display: "flex", gap: 10, justifyContent: "space-between" }}
-              >
-                <span>{e.label}</span>
-                <span
-                  className="muted"
-                  style={{ fontVariantNumeric: "tabular-nums" }}
-                >
-                  {money(e.amount)}
+          {aktivni.event ? (
+            <div style={{ marginTop: 5 }}>
+              {aktivni.event.list.map((e) => (
+                <div key={e.label} className="l">
+                  <span>{e.label}</span>
+                  <span className="muted tnum">{money(e.amount)}</span>
+                </div>
+              ))}
+              <div className="l" style={{ marginTop: 3 }}>
+                <span className="t">Obnovy celkem</span>
+                <span className="v" style={{ color: "var(--amber)" }}>
+                  {money(aktivni.event.amount)}
                 </span>
               </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 5, color: "var(--tx-3)", fontSize: 11.5 }}>
-            hotovost po obnově {money(f[aktivni.month])}
-          </div>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
       <div className="cap">
-        <span>Kumulativní hotovost — start {moneyK(f[0])}</span>
+        <span>Kumulativní hotovost · start {moneyK(f[0])}</span>
         <span>
           {events.some((e) => e.multi)
             ? "silná čára = souběh obnov"

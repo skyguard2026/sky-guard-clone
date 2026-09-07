@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import type { MonthPoint } from "@/lib/bank/analytics";
+import { niceTicks, roundedTopRect, shortMonth } from "@/lib/chart-scale";
 import { money, moneyK } from "@/lib/format";
 
 /**
  * Měsíční výdaje a příjmy vedle sebe.
  *
- * Osa Y má tři hodnoty a mřížku, poměr stran je pevný — jinak se při úzké
- * kartě popisky měsíců slijí. Měsíce bez transakcí sem chodí jako nuly
- * (viz monthlySeries), takže mezera ve výpisu je v grafu vidět jako mezera,
- * ne jako rovnoměrné utrácení.
+ * Osa Y má „hezké" hodnoty a mřížku, poměr stran je pevný — jinak se při
+ * úzké kartě popisky měsíců slijí. Měsíce bez transakcí sem chodí jako nuly,
+ * takže mezera ve výpisu je v grafu vidět jako mezera, ne jako rovnoměrné
+ * utrácení. Najetím na měsíc se ukáže bublina s přesnými částkami.
  */
 export function MonthsChart({ series }: { series: MonthPoint[] }) {
   const [hover, setHover] = useState<number | null>(null);
@@ -24,21 +25,23 @@ export function MonthsChart({ series }: { series: MonthPoint[] }) {
     );
   }
 
-  const W = 560;
-  const H = 170;
-  const padL = 52;
-  const padR = 8;
-  const padT = 10;
-  const padB = 26;
+  const W = 720;
+  const H = 230;
+  const padL = 56;
+  const padR = 12;
+  const padT = 14;
+  const padB = 30;
 
-  const max = Math.max(...series.map((p) => Math.max(p.expense, p.income)), 1);
+  const rawMax = Math.max(...series.map((p) => Math.max(p.expense, p.income)), 1);
+  const { ticks, hi } = niceTicks(0, rawMax, 4);
   const innerW = W - padL - padR;
   const innerH = H - padT - padB;
   const step = innerW / series.length;
-  const barW = Math.max(3, Math.min(18, step / 2 - 3));
+  const barW = Math.max(4, Math.min(26, step * 0.3));
+  const gap = 3;
 
-  const y = (v: number) => padT + innerH - (v / max) * innerH;
-  const ticks = [0, max / 2, max];
+  const y = (v: number) => padT + innerH - (v / hi) * innerH;
+  const base = padT + innerH;
 
   // Popisek měsíce jen tam, kde se vejde — u dvou let by se jinak slily.
   const labelEvery = Math.ceil(series.length / 12);
@@ -53,6 +56,7 @@ export function MonthsChart({ series }: { series: MonthPoint[] }) {
     `Nejvyšší měsíční výdaj ${money(Math.max(...series.map((p) => p.expense)))}.`;
 
   const active = hover === null ? null : series[hover];
+  const activeX = hover === null ? 0 : padL + hover * step + step / 2;
 
   return (
     <div className="chart" style={{ position: "relative" }}>
@@ -66,15 +70,14 @@ export function MonthsChart({ series }: { series: MonthPoint[] }) {
               y1={y(t)}
               x2={W - padR}
               y2={y(t)}
-              stroke="var(--line)"
+              stroke={t === 0 ? "var(--line-2)" : "var(--line)"}
               strokeWidth="1"
-              opacity={i === 0 ? 0.9 : 0.45}
             />
             <text
-              x={padL - 8}
+              x={padL - 10}
               y={y(t) + 3.5}
               textAnchor="end"
-              fontSize="10"
+              fontSize="10.5"
               fill="var(--tx-3)"
             >
               {t === 0 ? "0" : moneyK(t)}
@@ -84,6 +87,7 @@ export function MonthsChart({ series }: { series: MonthPoint[] }) {
 
         {series.map((p, i) => {
           const cx = padL + i * step + step / 2;
+          const dim = hover !== null && hover !== i;
           return (
             <g
               key={p.key}
@@ -95,41 +99,74 @@ export function MonthsChart({ series }: { series: MonthPoint[] }) {
                 y={padT}
                 width={step}
                 height={innerH}
-                fill="transparent"
+                fill={hover === i ? "var(--blue-soft)" : "transparent"}
+                rx="4"
               />
-              <rect
-                x={cx - barW - 1}
-                y={y(p.expense)}
-                width={barW}
-                height={Math.max(0, padT + innerH - y(p.expense))}
+              <path
+                d={roundedTopRect(cx - barW - gap / 2, y(p.expense), barW, base - y(p.expense), 4)}
                 fill="var(--amber)"
-                opacity={hover === null || hover === i ? 0.92 : 0.4}
-                rx="1.5"
+                opacity={dim ? 0.35 : 0.95}
               />
-              <rect
-                x={cx + 1}
-                y={y(p.income)}
-                width={barW}
-                height={Math.max(0, padT + innerH - y(p.income))}
+              <path
+                d={roundedTopRect(cx + gap / 2, y(p.income), barW, base - y(p.income), 4)}
                 fill="var(--green)"
-                opacity={hover === null || hover === i ? 0.85 : 0.35}
-                rx="1.5"
+                opacity={dim ? 0.35 : 0.9}
               />
               {i % labelEvery === 0 ? (
                 <text
                   x={cx}
-                  y={H - 8}
+                  y={H - 9}
                   textAnchor="middle"
-                  fontSize="10"
-                  fill="var(--tx-3)"
+                  fontSize="10.5"
+                  fill={hover === i ? "var(--tx)" : "var(--tx-3)"}
                 >
-                  {p.key.slice(5)}/{p.key.slice(2, 4)}
+                  {shortMonth(p.key)}
                 </text>
               ) : null}
             </g>
           );
         })}
       </svg>
+
+      {active ? (
+        <div
+          className="chart-tip"
+          role="tooltip"
+          style={{
+            top: 0,
+            left: `${(activeX / W) * 100}%`,
+            transform:
+              activeX > W * 0.6
+                ? "translateX(-100%) translateX(-12px)"
+                : "translateX(12px)",
+          }}
+        >
+          <div className="t">{active.label}</div>
+          <div className="l">
+            <span>
+              <span className="legend-dot" style={{ background: "var(--amber)" }} />
+              Výdaje
+            </span>
+            <span className="v">{money(active.expense)}</span>
+          </div>
+          <div className="l">
+            <span>
+              <span className="legend-dot" style={{ background: "var(--green)" }} />
+              Příjmy
+            </span>
+            <span className="v">{money(active.income)}</span>
+          </div>
+          <div className="l" style={{ marginTop: 4 }}>
+            <span className="t">Saldo</span>
+            <span
+              className="v"
+              style={{ color: active.net >= 0 ? "var(--green)" : "var(--red)" }}
+            >
+              {money(active.net)}
+            </span>
+          </div>
+        </div>
+      ) : null}
 
       <div className="cap">
         <span>
@@ -142,9 +179,7 @@ export function MonthsChart({ series }: { series: MonthPoint[] }) {
           Příjmy
         </span>
         <span className="tnum">
-          {active
-            ? `${active.label}: výdaje ${money(active.expense)}, příjmy ${money(active.income)}`
-            : `${series[0].label} – ${series[series.length - 1].label}`}
+          {series[0].label} – {series[series.length - 1].label}
         </span>
       </div>
     </div>
