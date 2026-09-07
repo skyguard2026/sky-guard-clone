@@ -819,7 +819,8 @@ input[type="range"] {
   position: absolute;
   z-index: 5;
   pointer-events: none;
-  min-width: 170px;
+  min-width: 230px;
+  max-width: 320px;
   background: var(--panel);
   border: 1px solid var(--line-2);
   border-radius: 10px;
@@ -840,7 +841,13 @@ input[type="range"] {
   display: flex;
   gap: 12px;
   justify-content: space-between;
+  align-items: baseline;
   color: var(--tx-2);
+}
+/* částka se nikdy nesmí zalomit uprostřed čísla; zalomí se popisek vlevo */
+.chart-tip .l > :last-child {
+  white-space: nowrap;
+  flex: none;
 }
 
 /* ================= tabulky ================= */
