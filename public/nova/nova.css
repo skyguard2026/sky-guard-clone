@@ -435,6 +435,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-cine-art { position: relative; }
 .sg-cine-art::before { content: ""; position: absolute; inset: 30% 10% 0; background: radial-gradient(ellipse at 50% 70%, rgba(47, 123, 255, .35), transparent 65%); filter: blur(30px); }
 .sg-cine-art img { position: relative; width: 100%; }
+.sg-cine-art .sg-hero-drone { width: 100%; max-width: none; } /* dok + vznášející se dron jako v heru, přes celou šířku sloupce */
 
 /* ────────────────────────────────────────────────────── modrý pás */
 
@@ -668,7 +669,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-hub-cells { grid-template-columns: 1fr 1fr; }
   .sg-hub-cell:nth-child(3) { border-left: 0; grid-column: 1 / -1; }
   .sg-hub-cells-sm .sg-hub-cell:nth-child(3) { grid-column: auto; }
-  .sg-cine-art { max-width: 460px; margin: -24px auto 0; }
+  .sg-cine-art { width: 100%; max-width: 460px; margin: -24px auto 0; } /* width: 100% — s margin:auto by se figura s absolutním obsahem smrskla na 0 */
   .sg-footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 700px) {
