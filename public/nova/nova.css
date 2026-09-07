@@ -473,10 +473,10 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-sol-section .sg-container { padding: 0; }
 .sg-sol-head { display: grid; place-items: center; padding: 56px 32px; border-bottom: 1px solid var(--line); }
 .sg-sol-head img { width: min(420px, 60vw); height: auto; }
-.sg-solutions { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; padding: 0 32px 0; }
+.sg-solutions { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; padding: 0 32px 0; }
 .sg-solution {
   position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 88px 32px 48px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 96px 32px 56px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
   transition: background .3s;
 }
 .sg-solution:hover { background: rgba(255, 255, 255, .015); }
@@ -486,11 +486,16 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 }
 .sg-sol-icon img { width: 36px; height: 36px; }
 .sg-solution-construction .sg-sol-icon { background: #FF8605; }
-.sg-sol-art { display: grid; place-items: center; height: 220px; margin-bottom: 36px; }
-.sg-sol-art img { max-height: 220px; width: auto; max-width: 100%; }
-.sg-solution-construction .sg-sol-art img { max-height: 200px; }
-.sg-sol-title { color: var(--text); font-size: 30px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; line-height: 1.1; }
-.sg-sol-sub { margin-top: 8px; color: var(--muted); font-size: 14px; }
+/* ilustrace jako na původním webu: větší, na měkkém šedém oválu */
+.sg-sol-art { position: relative; display: grid; place-items: center; height: 300px; margin-bottom: 36px; width: 100%; }
+.sg-sol-art::before {
+  content: ""; position: absolute; left: 10%; right: 10%; top: -6%; bottom: -6%; pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, .10), rgba(255, 255, 255, .035) 48%, transparent 72%);
+}
+.sg-sol-art img { position: relative; max-height: 300px; width: auto; max-width: 100%; }
+.sg-solution-construction .sg-sol-art img { max-height: 290px; }
+.sg-sol-title { color: var(--text); font-size: 30px; font-weight: 500; letter-spacing: 0; text-transform: uppercase; line-height: 1.1; }
+.sg-sol-sub { margin-top: 10px; color: #D5D5D5; font-size: 16px; line-height: 1.5; }
 .sg-solution .sg-btn { margin-top: 32px; }
 .sg-btn-orange {
   background: linear-gradient(180deg, #FF9A2E, #E0700A); border-color: rgba(255, 190, 120, .45);
