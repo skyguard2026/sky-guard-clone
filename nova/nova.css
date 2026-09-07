@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v57)
+   Sky Guard — /nova, samostatný stylesheet (v58)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -290,15 +290,13 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 /* jedna řada produktů: zarovnané na spodní hranu, pevné rozměry */
 .sg-hero-row {
-  width: 100%; margin-top: clamp(40px, 5vw, 64px);
-  display: flex; align-items: flex-end; justify-content: center; gap: clamp(20px, 3vw, 44px);
+  width: 100%; margin-top: clamp(16px, 2vw, 28px);
+  display: flex; align-items: flex-end; justify-content: center; gap: clamp(24px, 5vw, 72px);
 }
 .sg-hero-row picture { flex: 0 0 auto; }
 .sg-hero-row img { height: auto; display: block; }
-.sg-hero-tower img { height: clamp(260px, 26vw, 380px); width: auto; }
-.sg-hero-hub { width: min(600px, 46vw); }
-.sg-hero-hub img { width: 100%; }
-.sg-hero-drone { width: min(340px, 23vw); padding-bottom: 4px; }
+.sg-hero-tower img { height: clamp(220px, 24vw, 340px); width: auto; }
+.sg-hero-drone { width: min(680px, 56vw); }
 .sg-hero-drone img { width: 100%; }
 
 @keyframes sg-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
@@ -673,10 +671,9 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-lines { display: none; }
   .sg-header-inner { padding: 0 2px; }
   .sg-logo img { width: 124px; }
-  .sg-hero-row { flex-wrap: wrap; gap: 16px 24px; }
-  .sg-hero-hub { width: 100%; order: -1; }
-  .sg-hero-tower img { height: 220px; }
-  .sg-hero-drone { width: 46%; }
+  .sg-hero-row { gap: 12px; }
+  .sg-hero-tower img { height: 170px; }
+  .sg-hero-drone { width: 66%; }
   .sg-hero-actions { flex-direction: column; align-items: stretch; }
   .sg-hero-actions .sg-btn, .sg-hero-actions .sg-btn-secondary { justify-content: center; }
   .sg-tile { padding: 24px; min-height: 0; }
