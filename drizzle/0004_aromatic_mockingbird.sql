@@ -1,0 +1,1 @@
+ALTER TYPE "public"."driver" ADD VALUE 'tripKm' BEFORE 'pctHw';

@@ -1,0 +1,16 @@
+Èíslo úètu;1234567890/5500
+Období;01.08.2026 - 31.08.2026
+
+Datum provedení;Datum zaúètování;Èíslo úètu;Název úètu;Èíslo protiúètu;Název protiúètu;Typ transakce;Variabilní symbol;Konstantní symbol;Specifickı symbol;Zpráva pro pøíjemce;Poznámka pro mne;Zaúètovaná èástka;Mìna úètu;Poplatek;ID transakce
+05.08.2026;05.08.2026;1234567890/5500;Sky Guard s.r.o.;2700123456/2010;Alza.cz a.s.;Platba kartou;1234;0308;;Nákup hardwaru;;-12 500,00;CZK;0,00;TX0001
+07.08.2026;07.08.2026;1234567890/5500;Sky Guard s.r.o.;600300/0600;T-Mobile Czech Republic a.s.;Odchozí platba;20260807;0308;;Datové tarify;;-1 250,50;CZK;0,00;TX0002
+10.08.2026;10.08.2026;1234567890/5500;Sky Guard s.r.o.;778899/0100;Kerosin s.r.o.;Pøíchozí platba;2026001;0308;;Úhrada faktury 2026001;;50 000,00;CZK;0,00;TX0003
+12.08.2026;12.08.2026;1234567890/5500;Sky Guard s.r.o.;111222/0800;Správa nemovitostí Brno;Trvalı pøíkaz;880011;0558;;Nájem kanceláøe srpen;;-18 000,00;CZK;0,00;TX0004
+14.08.2026;32.13.2026;1234567890/5500;Sky Guard s.r.o.;444555/0300;Neznámı pøíjemce;Odchozí platba;;;;Rozbité datum;;-500,00;CZK;0,00;TX0005
+18.08.2026;18.08.2026;1234567890/5500;Sky Guard s.r.o.;123456/0800;Vodafone Czech Republic a.s.;Odchozí platba;778899;0558;;"Faktura 2026/0812; SIM karty";;-2 480,00;CZK;0,00;TX0006
+20.08.2026;20.08.2026;1234567890/5500;Sky Guard s.r.o.;321321/2700;Èeská pojišovna a.s.;Odchozí platba;5566;3558;;"Pojistné za dron
+období 08/2026";;-3 200,00;CZK;12,00;TX0007
+25.08.2026;25.08.2026;1234567890/5500;Sky Guard s.r.o.;555666/0300;Benzina s.r.o.;Platba kartou;;;;Pohonné hmoty;;-1 800,00;CZK;0,00;
+25.08.2026;25.08.2026;1234567890/5500;Sky Guard s.r.o.;555666/0300;Benzina s.r.o.;Platba kartou;;;;Pohonné hmoty;;-1 800,00;CZK;0,00;
+28.08.2026;28.08.2026;1234567890/5500;Sky Guard s.r.o.;999888/0100;Useknutı øádek;Odchozí platba;;;;Chybí konec øádku;;-999,00;CZK
+Celkem;-1 234,00

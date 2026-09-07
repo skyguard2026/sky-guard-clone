@@ -1,6 +1,12 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null,
-  "cleanUrls": true
+  "headers": [
+    {
+      "source": "/(images|sites|third-party-assets|assets)/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/(carousel|faq|i18n|script)\\.js",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }]
+    }
+  ]
 }

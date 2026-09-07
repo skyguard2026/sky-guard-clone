@@ -1,0 +1,38 @@
+name: CI
+
+# Testy hlídají dvě věci, které se špatně hlídají očima:
+# že výpočetní jádro dává stejná čísla jako prototyp, a že se do klientské
+# nabídky nedostane nákupní cena ani značka výrobce.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  kontrola:
+    name: Testy, lint a build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalace závislostí
+        run: npm ci
+
+      - name: Testy
+        # jádro, seed, zálohy, brána, nabídky a obsah PDF
+        run: npm test
+
+      - name: Lint
+        # varování se nepřehlíží, ať se v repozitáři nehromadí
+        run: npx eslint . --max-warnings 0
+
+      - name: Build
+        # build nesmí potřebovat databázi ani tajemství
+        run: npx next build

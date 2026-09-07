@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Vzorový výpis camt.053 se strukturou, jakou posílá Raiffeisenbank.
+  Všechna data jsou vymyšlená — protistrany, čísla účtů i částky.
+  Skutečné výpisy do repozitáře nepatří, viz vypisy/ v .gitignore.
+-->
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>CZ0000000000001234567890-20260831-M</MsgId>
+      <CreDtTm>2026-09-01T02:11:04</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>CZ0000000000001234567890-20260831-M</Id>
+      <ElctrncSeqNb>8</ElctrncSeqNb>
+      <CreDtTm>2026-09-01T02:11:04</CreDtTm>
+      <Acct>
+        <Id><IBAN>CZ0000000000001234567890</IBAN></Id>
+        <Ccy>CZK</Ccy>
+        <Nm>Běžný účet</Nm>
+        <Ownr><Nm>Sky Guard s.r.o.</Nm></Ownr>
+      </Acct>
+
+      <!-- příchozí platba od klienta: jméno je v Dbtr -->
+      <Ntry>
+        <NtryRef>9000000001</NtryRef>
+        <Amt Ccy="CZK">50000</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-10T10:56:20</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-10T10:56:19</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>10000107000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>1</MsgId><AcctSvcrRef>9000000001</AcctSvcrRef></Refs>
+          <RltdPties>
+            <Dbtr><Nm>Kerosin s.r.o.</Nm></Dbtr>
+            <DbtrAcct><Id><Othr><Id>778899000</Id></Othr></Id><Nm>Kerosin s.r.o.</Nm></DbtrAcct>
+          </RltdPties>
+          <RltdAgts><DbtrAgt><FinInstnId><Othr><Id>0100</Id></Othr></FinInstnId></DbtrAgt></RltdAgts>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- odchozí platba s variabilním i konstantním symbolem -->
+      <Ntry>
+        <NtryRef>9000000002</NtryRef>
+        <Amt Ccy="CZK">38361</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-12T11:02:35</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-12T11:02:35</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>10000101000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>3</MsgId><AcctSvcrRef>9000000002</AcctSvcrRef><EndToEndId>260101624</EndToEndId></Refs>
+          <RltdPties>
+            <CdtrAcct><Id><Othr><Id>9034331001</Id></Othr></Id><Nm>DronPro s.r.o</Nm></CdtrAcct>
+          </RltdPties>
+          <RltdAgts><CdtrAgt><FinInstnId><Othr><Id>5500</Id></Othr></FinInstnId></CdtrAgt></RltdAgts>
+          <RmtInf>
+            <Strd><CdtrRefInf><Ref>VS:260101624</Ref></CdtrRefInf></Strd>
+            <Strd><CdtrRefInf><Ref>KS:0308</Ref></CdtrRefInf></Strd>
+          </RmtInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- odchozí platba, kde protistrana nemá jméno, jen účet -->
+      <Ntry>
+        <NtryRef>9000000003</NtryRef>
+        <Amt Ccy="CZK">5100</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-13T09:00:00</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-13T09:00:00</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>10000101000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>4</MsgId><AcctSvcrRef>9000000003</AcctSvcrRef></Refs>
+          <RltdPties><CdtrAcct><Id><Othr><Id>115-8579770237</Id></Othr></Id></CdtrAcct></RltdPties>
+          <RltdAgts><CdtrAgt><FinInstnId><Othr><Id>0100</Id></Othr></FinInstnId></CdtrAgt></RltdAgts>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- platba kartou: protistrana chybí, obchodník je jen ve volném textu -->
+      <Ntry>
+        <NtryRef>9000000004</NtryRef>
+        <Amt Ccy="CZK">387</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-14T05:06:29</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-12T12:00:00</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>30000201000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>5</MsgId><AcctSvcrRef>9000000004</AcctSvcrRef><InstrId>1178</InstrId><ChqNb>408361XXXXXX0464</ChqNb></Refs>
+          <RmtInf><Strd><CdtrRefInf><Ref>KS:1178</Ref></CdtrRefInf></Strd></RmtInf>
+          <AddtlTxInf>PAPIRNICTVI NOVAK s.r.o.; Praha 5; CZE</AddtlTxInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- platba kartou v cizí měně: před obchodníkem stojí původní částka -->
+      <Ntry>
+        <NtryRef>9000000005</NtryRef>
+        <Amt Ccy="CZK">288.87</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-16T06:22:46</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-14T12:00:00</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>30000201000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>28</MsgId><AcctSvcrRef>9000000005</AcctSvcrRef><InstrId>1178</InstrId><ChqNb>547872XXXXXX8660</ChqNb></Refs>
+          <AmtDtls>
+            <InstdAmt><Amt Ccy="USD">13.31</Amt></InstdAmt>
+            <CntrValAmt><Amt Ccy="CZK">288.87</Amt><CcyXchg><SrcCcy>USD</SrcCcy><TrgtCcy>CZK</TrgtCcy><XchgRate>21.703231</XchgRate></CcyXchg></CntrValAmt>
+          </AmtDtls>
+          <RmtInf><Strd><CdtrRefInf><Ref>KS:1178</Ref></CdtrRefInf></Strd></RmtInf>
+          <AddtlTxInf>13,31 USD;CLOUDSLUZBA.IO; NEW YORK; USA</AddtlTxInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- směnárenský poplatek: v textu je jen částka a kurz, obchodník žádný -->
+      <Ntry>
+        <NtryRef>9000000006</NtryRef>
+        <Amt Ccy="CZK">42.50</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-16T06:22:47</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-16T06:22:47</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>10000301000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>29</MsgId><AcctSvcrRef>9000000006</AcctSvcrRef></Refs>
+          <RltdPties><CdtrAcct><Id><Othr><Id>2908586004</Id></Othr></Id></CdtrAcct></RltdPties>
+          <AddtlTxInf>270,00 USD;KURZ: 20,977</AddtlTxInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- storno karetní platby: vrací se zpátky, proto CRDT -->
+      <Ntry>
+        <NtryRef>9000000007</NtryRef>
+        <Amt Ccy="CZK">884</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <RvslInd>true</RvslInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-20T05:05:57</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-18T12:00:00</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>10000301000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>4</MsgId><AcctSvcrRef>9000000007</AcctSvcrRef><ChqNb>408361XXXXXX0464</ChqNb></Refs>
+          <AddtlTxInf>ESHOP*DronyLevne.cz; Praha; CZE</AddtlTxInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- bankovní poplatek jako samostatná transakce -->
+      <Ntry>
+        <NtryRef>9000000008</NtryRef>
+        <Amt Ccy="CZK">99</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-31T23:59:59</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-31T23:59:59</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>40000605000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>15</MsgId><AcctSvcrRef>9000000008</AcctSvcrRef><InstrId>898</InstrId></Refs>
+          <RmtInf><Strd><CdtrRefInf><Ref>KS:898</Ref></CdtrRefInf></Strd></RmtInf>
+          <AddtlTxInf>Souhrnná položka k účtu 1234567890.</AddtlTxInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+
+      <!-- rozbitý záznam: chybí směr platby, nesmí projít -->
+      <Ntry>
+        <NtryRef>9000000009</NtryRef>
+        <Amt Ccy="CZK">1234</Amt>
+        <Sts>BOOK</Sts>
+        <BookgDt><DtTm>2026-08-31T12:00:00</DtTm></BookgDt>
+        <ValDt><DtTm>2026-08-31T12:00:00</DtTm></ValDt>
+        <BkTxCd><Prtry><Cd>10000101000</Cd></Prtry></BkTxCd>
+        <NtryDtls><TxDtls>
+          <Refs><MsgId>16</MsgId><AcctSvcrRef>9000000009</AcctSvcrRef></Refs>
+          <AddtlTxInf>Bez směru platby</AddtlTxInf>
+        </TxDtls></NtryDtls>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>
