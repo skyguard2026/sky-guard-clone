@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sky Guard — Kalkulace nákladů a cen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#05090f;
+  --bg:#080e18;
+  --panel:#0d1624;
+  --panel-2:#111d2f;
+  --raise:#16243a;
+  --line:#1b2b42;
+  --line-2:#24384f;
+  --tx:#e9f0fa;
+  --tx-2:#94a9c6;
+  --tx-3:#5d738f;
+  --blue:#3b8fff;
+  --blue-d:#1b4f96;
+  --green:#3ddc97;
+  --amber:#f5b544;
+  --red:#ff6b6b;
+  --violet:#8b7cf6;
+  --pink:#ff8ba7;
+  --r:11px;
+  --sb:252px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{
+  background:var(--bg);color:var(--tx);
+  font-family:'DM Sans',system-ui,sans-serif;font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;border:3px solid var(--bg)}
+
+/* ================= shell ================= */
+.app{display:flex;min-height:100vh}
+
+aside{
+  width:var(--sb);flex:none;background:var(--void);
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;
+}
+.brand{padding:22px 20px 18px;border-bottom:1px solid var(--line)}
+.brand img{width:100%;max-width:172px;display:block;opacity:.96}
+.brand small{display:block;color:var(--tx-3);font-size:11.5px;margin-top:9px;letter-spacing:.04em}
+
+nav{padding:12px 10px;flex:1;overflow-y:auto}
+nav button{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  background:none;border:0;color:var(--tx-2);padding:10px 12px;border-radius:8px;
+  cursor:pointer;font-size:14.5px;margin-bottom:2px;
+}
+nav button:hover{background:var(--panel);color:var(--tx)}
+nav button[aria-current="page"]{background:var(--panel-2);color:var(--tx);font-weight:500}
+nav button[aria-current="page"] .ico{color:var(--blue)}
+nav .ico{width:17px;flex:none;color:var(--tx-3);display:flex}
+nav .badge{margin-left:auto;background:var(--raise);color:var(--tx-3);font-size:11.5px;padding:1px 7px;border-radius:99px}
+nav .sep{color:var(--tx-3);font-size:11.5px;padding:16px 12px 7px;letter-spacing:.05em}
+
+.sb-foot{padding:14px;border-top:1px solid var(--line)}
+.sb-foot .lsel{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--tx);
+  border-radius:8px;padding:9px 10px;font-size:13.5px}
+.sb-foot label{display:block;color:var(--tx-3);font-size:11.5px;margin-bottom:6px}
+
+main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{
+  display:flex;align-items:center;gap:14px;padding:20px 30px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(59,143,255,.05),transparent);flex-wrap:wrap;
+}
+.topbar h1{
+  margin:0;font-family:'Saira Stencil One',sans-serif;font-weight:400;
+  font-size:23px;letter-spacing:.01em;
+}
+.topbar .crumb{color:var(--tx-3);font-size:13.5px}
+.topbar .acts{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+.page{padding:26px 30px 80px;flex:1}
+.page[hidden]{display:none}
+
+/* ================= atoms ================= */
+.btn{
+  background:var(--panel);border:1px solid var(--line);color:var(--tx-2);
+  padding:8px 14px;border-radius:8px;font-size:13.5px;cursor:pointer;white-space:nowrap;
+}
+.btn:hover{border-color:var(--line-2);color:var(--tx)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#05111f;font-weight:700}
+.btn.primary:hover{background:#5aa1ff;border-color:#5aa1ff;color:#05111f}
+.btn.danger:hover{border-color:var(--red);color:var(--red)}
+.btn.sm{padding:5px 10px;font-size:12.5px}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin-bottom:18px;overflow:hidden}
+.card>h2{
+  margin:0;padding:15px 20px;font-size:14.5px;font-weight:700;letter-spacing:-.01em;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;
+}
+.card>h2 .tag{width:5px;height:15px;border-radius:2px;background:var(--blue);flex:none}
+.card>h2 small{margin-left:auto;font-weight:400;color:var(--tx-3);font-size:12.5px}
+.card>h2 .btn{margin-left:auto}
+.card .body{padding:4px 20px 16px}
+.card .body.pad{padding:18px 20px}
+
+.cols{display:grid;gap:18px}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:1180px){.c2,.c3{grid-template-columns:1fr}}
+
+.row{display:flex;align-items:center;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .lbl{flex:1;min-width:0}
+.row .lbl b{display:block;font-weight:500;font-size:14.5px}
+.row .lbl i{font-style:normal;display:block;color:var(--tx-3);font-size:12.5px;margin-top:1px}
+
+.step{display:flex;align-items:center;background:var(--void);border:1px solid var(--line);border-radius:8px;flex:none}
+.step button{width:34px;height:34px;background:none;border:0;color:var(--tx-2);font-size:19px;cursor:pointer;line-height:1}
+.step button:hover:not(:disabled){color:var(--blue)}
+.step button:disabled{color:#26374f;cursor:not-allowed}
+.step input{width:54px;height:34px;background:none;border:0;color:var(--tx);text-align:center;
+  font-weight:700;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.step input::-webkit-outer-spin-button,.step input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+.num{display:flex;align-items:center;background:var(--void);border:1px solid var(--line);border-radius:8px;padding:0 11px;flex:none}
+.num input{width:86px;height:34px;background:none;border:0;color:var(--tx);text-align:right;
+  font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.num input::-webkit-outer-spin-button,.num input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.num span{color:var(--tx-3);font-size:12.5px;padding-left:7px;white-space:nowrap}
+
+.seg{display:flex;background:var(--void);border:1px solid var(--line);border-radius:8px;padding:3px;gap:3px;flex:none}
+.seg button{background:none;border:0;color:var(--tx-3);font-size:13px;padding:6px 13px;border-radius:6px;cursor:pointer;white-space:nowrap}
+.seg button:hover{color:var(--tx-2)}
+.seg button[aria-pressed="true"]{background:var(--raise);color:var(--tx);font-weight:500}
+
+.tgl{width:44px;height:25px;border-radius:99px;background:var(--void);border:1px solid var(--line);position:relative;cursor:pointer;flex:none;padding:0}
+.tgl::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:var(--tx-3);transition:transform .15s,background .15s}
+.tgl[aria-pressed="true"]{background:var(--blue-d);border-color:var(--blue)}
+.tgl[aria-pressed="true"]::after{transform:translateX(19px);background:#fff}
+
+input[type=text],input[type=number].plain,select,textarea{
+  background:var(--void);border:1px solid var(--line);color:var(--tx);
+  border-radius:8px;padding:9px 11px;width:100%;
+}
+textarea{resize:vertical;min-height:64px}
+
+/* ================= kpi ================= */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--panel);padding:17px 20px}
+.kpi label{display:block;color:var(--tx-3);font-size:12.5px;margin-bottom:4px}
+.kpi .v{font-size:25px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi .sub{color:var(--tx-3);font-size:12px;margin-top:3px}
+.v.blue{color:var(--blue)}.v.good{color:var(--green)}.v.warn{color:var(--amber)}.v.bad{color:var(--red)}
+
+/* composition */
+.comp{padding:17px 20px;border-top:1px solid var(--line)}
+.comp .bar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--void);margin-bottom:12px}
+.comp .bar i{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px}
+.legend div{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--tx-2)}
+.legend em{width:8px;height:8px;border-radius:2px;font-style:normal;flex:none}
+.legend b{color:var(--tx-3);font-weight:400;font-variant-numeric:tabular-nums}
+
+/* chart */
+.chart{padding:8px 12px 4px}
+.chart svg{width:100%;height:170px;display:block;overflow:visible}
+.chart .cap{display:flex;justify-content:space-between;color:var(--tx-3);font-size:12px;padding:2px 8px 10px}
+
+/* ================= tables ================= */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;color:var(--tx-3);font-weight:400;font-size:12.5px;padding:10px 20px;border-bottom:1px solid var(--line);white-space:nowrap}
+th.n,td.n{text-align:right;font-variant-numeric:tabular-nums}
+td{padding:9px 20px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:hover{background:rgba(59,143,255,.045)}
+tr.group td{background:var(--void);color:var(--tx-2);font-weight:500;font-size:12.5px;padding:8px 20px}
+tfoot td{font-weight:700;border-top:1px solid var(--line-2);border-bottom:0;padding:12px 20px}
+td.name{display:flex;align-items:center;gap:10px}
+td.name em{width:3px;height:16px;border-radius:2px;flex:none}
+.muted{color:var(--tx-3)}
+.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11.5px;background:var(--raise);color:var(--tx-2)}
+.pill.off{background:transparent;border:1px solid var(--line);color:var(--tx-3)}
+.cell-in{background:var(--void);border:1px solid var(--line);color:var(--tx);border-radius:6px;
+  padding:5px 8px;width:104px;text-align:right;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.cell-in::-webkit-outer-spin-button,.cell-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.cell-in.w60{width:64px}
+
+/* ================= misc ================= */
+.note{padding:14px 20px;color:var(--tx-3);font-size:12.5px;line-height:1.6;border-top:1px solid var(--line)}
+.note.alarm{color:var(--amber);background:rgba(245,181,68,.06)}
+.note.alarm ul{margin:6px 0 0;padding-left:18px}
+.empty{padding:46px 20px;text-align:center;color:var(--tx-3)}
+.empty b{display:block;color:var(--tx-2);font-weight:500;margin-bottom:5px}
+
+dialog{
+  border:1px solid var(--line-2);background:var(--panel);color:var(--tx);
+  border-radius:14px;padding:0;width:min(540px,92vw);
+}
+dialog::backdrop{background:rgba(3,7,13,.75)}
+dialog h3{margin:0;padding:18px 22px;border-bottom:1px solid var(--line);font-size:16px}
+dialog .dbody{padding:8px 22px 18px;max-height:66vh;overflow-y:auto}
+dialog .dfoot{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end}
+.field{margin:14px 0}
+.field label{display:block;color:var(--tx-2);font-size:13px;margin-bottom:6px}
+.field .hint{color:var(--tx-3);font-size:12px;margin-top:5px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.toast{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--raise);border:1px solid var(--line-2);color:var(--tx);
+  padding:11px 18px;border-radius:9px;font-size:13.5px;transition:transform .22s;z-index:99;
+}
+.toast.on{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:820px){
+  .app{flex-direction:column}
+  aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center}
+  .brand{border-bottom:0;border-right:1px solid var(--line);padding:14px 18px}
+  .brand small{display:none}
+  nav{display:flex;gap:4px;padding:10px;overflow-x:auto}
+  nav button{width:auto;white-space:nowrap;margin:0}
+  nav .sep,nav .badge{display:none}
+  .sb-foot{border-top:0;width:100%}
+  .page,.topbar{padding-left:18px;padding-right:18px}
+}
+@media print{
+  aside,.topbar .acts,nav{display:none}
+  body{background:#fff;color:#000}
+  .card,.kpi{background:#fff;border-color:#bbb}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+<aside>
+  <div class="brand">
+    <img src="data:image/png;base64,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" alt="Sky Guard">
+    <small>Kalkulace nákladů a cen</small>
+  </div>
+  <nav id="nav">
+    <button data-page="prehled" aria-current="page"><span class="ico">◧</span>Přehled</button>
+    <button data-page="kalkulace"><span class="ico">◈</span>Kalkulace</button>
+    <button data-page="srovnani"><span class="ico">◫</span>Srovnání lokalit</button>
+    <div class="sep">Správa</div>
+    <button data-page="klienti"><span class="ico">◇</span>Klienti a lokality<span class="badge" id="nb-loc">0</span></button>
+    <button data-page="katalog"><span class="ico">◆</span>Katalog nákladů<span class="badge" id="nb-cat">0</span></button>
+    <button data-page="nastaveni"><span class="ico">◌</span>Nastavení</button>
+  </nav>
+  <div class="sb-foot">
+    <label for="locSel">Aktivní lokalita</label>
+    <select class="lsel" id="locSel"></select>
+  </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main>
+  <div class="topbar">
+    <h1 id="pgTitle">Přehled</h1>
+    <span class="crumb" id="pgCrumb"></span>
+    <div class="acts" id="pgActs"></div>
+  </div>
+
+  <!-- ---------- PŘEHLED ---------- -->
+  <section class="page" id="p-prehled">
+    <div class="card">
+      <div class="kpis" id="pfKpis"></div>
+      <div class="note" id="pfNote"></div>
+    </div>
+
+    <div class="cols c2">
+      <div class="card">
+        <h2><span class="tag" style="background:var(--green)"></span>Sky Cam<small>kamerový systém</small>
+        </h2>
+        <table><thead><tr>
+          <th>Položka</th><th class="n">Cena</th><th class="n">Životnost</th><th>Účtování</th>
+        </tr></thead><tbody id="lp-cam"></tbody></table>
+      </div>
+      <div class="card">
+        <h2><span class="tag"></span>Sky Guard<small>dron a dokovací stanice</small></h2>
+        <table><thead><tr>
+          <th>Položka</th><th class="n">Cena</th><th class="n">Životnost</th><th>Účtování</th>
+        </tr></thead><tbody id="lp-drone"></tbody></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="tag" style="background:var(--violet)"></span>Společné pro oba produkty</h2>
+      <table><thead><tr>
+        <th>Položka</th><th class="n">Cena</th><th class="n">Životnost</th><th>Účtování</th>
+      </tr></thead><tbody id="lp-shared"></tbody></table>
+    </div>
+  </section>
+
+  <!-- ---------- KALKULACE ---------- -->
+  <section class="page" id="p-kalkulace" hidden>
+    <div id="calcWrap"></div>
+  </section>
+
+  <!-- ---------- SROVNÁNÍ ---------- -->
+  <section class="page" id="p-srovnani" hidden>
+    <div class="card">
+      <h2><span class="tag"></span>Všechny lokality</h2>
+      <div style="overflow-x:auto">
+        <table><thead><tr>
+          <th>Lokalita</th><th>Klient</th><th>Konfigurace</th>
+          <th class="n">Jednorázově</th><th class="n">Měsíčně cash</th>
+          <th class="n">Plný náklad</th><th class="n">Cena</th>
+          <th class="n">Marže</th><th class="n">Návratnost</th><th class="n">36 měs</th>
+        </tr></thead><tbody id="cmpBody"></tbody><tfoot id="cmpFoot"></tfoot></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- KLIENTI ---------- -->
+  <section class="page" id="p-klienti" hidden>
+    <div id="clientsWrap"></div>
+  </section>
+
+  <!-- ---------- KATALOG ---------- -->
+  <section class="page" id="p-katalog" hidden>
+    <div class="card">
+      <h2><span class="tag"></span>Katalog nákladů
+        <small id="catCount"></small>
+      </h2>
+      <div class="body pad" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line)">
+        <div class="seg" id="catFilter">
+          <button data-f="all" aria-pressed="true">Vše</button>
+          <button data-f="cam" aria-pressed="false">Sky Cam</button>
+          <button data-f="drone" aria-pressed="false">Sky Guard</button>
+          <button data-f="shared" aria-pressed="false">Společné</button>
+        </div>
+        <input type="text" id="catSearch" placeholder="Hledat položku" style="max-width:230px">
+        <button class="btn primary" onclick="openItem()" style="margin-left:auto">Přidat položku</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table><thead><tr>
+          <th>Položka</th><th>Skupina</th><th>Kategorie</th>
+          <th class="n">Cena</th><th>Násobí se</th><th>Účtování</th>
+          <th class="n">Život.</th><th>Sdílené</th><th>Dopředu</th><th></th>
+        </tr></thead><tbody id="catBody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- NASTAVENÍ ---------- -->
+  <section class="page" id="p-nastaveni" hidden>
+    <div class="cols c2">
+      <div class="card">
+        <h2><span class="tag"></span>Model</h2>
+        <div class="body">
+          <div class="row">
+            <div class="lbl"><b>Sdílené náklady dělit mezi lokality</b><i>Server, Hub, platforma za organizaci</i></div>
+            <button class="tgl" id="setShare"></button>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Roční předplatky platit dopředu</b><i>Vypnuto = rozloženo měsíčně</i></div>
+            <button class="tgl" id="setPrepay"></button>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Obnovovat hardware po konci životnosti</b><i>Baterie, karty a další krátkoživotné položky</i></div>
+            <button class="tgl" id="setRenew"></button>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Sazba daně z příjmu</b></div>
+            <div class="num"><input type="number" id="setTax"><span>%</span></div>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Horizont modelu</b><i>Kolik měsíců simulovat</i></div>
+            <div class="num"><input type="number" id="setHorizon"><span>měs</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span class="tag"></span>Data</h2>
+        <div class="body">
+          <div class="row">
+            <div class="lbl"><b>Zálohovat</b><i>Stáhne JSON se všemi klienty i katalogem</i></div>
+            <button class="btn" onclick="exportJSON()">Export</button>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Obnovit ze zálohy</b><i>Přepíše aktuální data</i></div>
+            <button class="btn" onclick="document.getElementById('impFile').click()">Import</button>
+            <input type="file" id="impFile" accept="application/json" hidden>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Výchozí katalog</b><i>Vrátí ceník do stavu z Excelu, klienty nechá být</i></div>
+            <button class="btn danger" onclick="resetCatalog()">Obnovit ceník</button>
+          </div>
+          <div class="row">
+            <div class="lbl"><b>Smazat vše</b><i>Klienti, lokality i katalog</i></div>
+            <button class="btn danger" onclick="wipeAll()">Smazat</button>
+          </div>
+        </div>
+        <div class="note" id="storeNote"></div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<!-- ================= DIALOGS ================= -->
+<dialog id="dlgItem">
+  <h3 id="dlgItemTitle">Nová položka</h3>
+  <div class="dbody">
+    <div class="field"><label for="i-label">Název</label><input type="text" id="i-label"></div>
+    <div class="f2">
+      <div class="field"><label for="i-group">Skupina</label>
+        <select id="i-group"><option value="cam">Sky Cam</option><option value="drone">Sky Guard</option><option value="shared">Společné</option></select></div>
+      <div class="field"><label for="i-cat">Kategorie</label>
+        <select id="i-cat"></select></div>
+    </div>
+    <div class="f2">
+      <div class="field"><label for="i-price">Cena v Kč</label><input type="number" class="plain" id="i-price" step="0.01"></div>
+      <div class="field"><label for="i-life">Životnost v měsících</label><input type="number" class="plain" id="i-life" placeholder="prázdné = neamortizuje se"></div>
+    </div>
+    <div class="f2">
+      <div class="field"><label for="i-billing">Účtování</label>
+        <select id="i-billing"><option value="oneoff">Jednorázově</option><option value="monthly">Měsíčně</option><option value="yearly">Ročně</option></select>
+        <div class="hint">Jednorázově se životností = hardware, který se rozpouští do měsíčního nákladu.</div></div>
+      <div class="field"><label for="i-driver">Násobí se</label>
+        <select id="i-driver"></select>
+        <div class="hint" id="i-driverHint"></div></div>
+    </div>
+    <div class="field" style="display:flex;align-items:center;gap:12px">
+      <button class="tgl" id="i-shared"></button>
+      <div><label style="margin:0">Sdílený náklad</label>
+        <div class="hint">Dělí se mezi všechny lokality v portfoliu.</div></div>
+    </div>
+    <div class="field" style="display:flex;align-items:center;gap:12px">
+      <button class="tgl" id="i-prepay"></button>
+      <div><label style="margin:0">Platí se dopředu na celý rok</label>
+        <div class="hint">Zapnuto u předplatného. Vypnuto u nákladů, které vznikají průběžně — cesty, mzdy, rezerva.</div></div>
+    </div>
+    <div class="field"><label for="i-note">Poznámka</label><input type="text" id="i-note"></div>
+  </div>
+  <div class="dfoot">
+    <button class="btn" onclick="dlgItem.close()">Zrušit</button>
+    <button class="btn primary" onclick="saveItem()">Uložit položku</button>
+  </div>
+</dialog>
+
+<dialog id="dlgClient">
+  <h3 id="dlgClientTitle">Nový klient</h3>
+  <div class="dbody">
+    <div class="field"><label for="c-name">Název klienta</label><input type="text" id="c-name" placeholder="např. DEK Stavebniny"></div>
+    <div class="field"><label for="c-contact">Kontaktní osoba</label><input type="text" id="c-contact"></div>
+    <div class="field"><label for="c-note">Poznámka</label><textarea id="c-note"></textarea></div>
+  </div>
+  <div class="dfoot">
+    <button class="btn" onclick="dlgClient.close()">Zrušit</button>
+    <button class="btn primary" onclick="saveClient()">Uložit klienta</button>
+  </div>
+</dialog>
+
+<dialog id="dlgLoc">
+  <h3 id="dlgLocTitle">Nová lokalita</h3>
+  <div class="dbody">
+    <div class="field"><label for="l-name">Název lokality</label><input type="text" id="l-name" placeholder="např. Hostivař"></div>
+    <div class="field"><label for="l-client">Klient</label><select id="l-client"></select></div>
+    <div class="field"><label for="l-product">Produkt</label>
+      <select id="l-product"><option value="cam">Sky Cam</option><option value="drone">Sky Guard</option><option value="both">Kombinace</option></select></div>
+    <div class="f2">
+      <div class="field"><label for="l-price">Měsíční cena v Kč</label><input type="number" class="plain" id="l-price" step="1000"></div>
+      <div class="field"><label for="l-km">Vzdálenost tam a zpět</label><input type="number" class="plain" id="l-km"></div>
+    </div>
+    <div class="field"><label for="l-note">Poznámka</label><input type="text" id="l-note"></div>
+  </div>
+  <div class="dfoot">
+    <button class="btn" onclick="dlgLoc.close()">Zrušit</button>
+    <button class="btn primary" onclick="saveLoc()">Uložit lokalitu</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   1. ČÍSELNÍKY
+   ========================================================= */
+const CAT = {
+  hw: {n:"Hardware",              c:"var(--blue)"},
+  sw: {n:"Software a platforma",  c:"var(--violet)"},
+  net:{n:"Konektivita",           c:"var(--green)"},
+  ops:{n:"Servis a pojištění",    c:"var(--amber)"},
+  lab:{n:"Práce a cesty",         c:"var(--pink)"},
+};
+const GROUP = {cam:"Sky Cam", drone:"Sky Guard", shared:"Společné"};
+const BILL  = {oneoff:"Jednorázově", monthly:"Měsíčně", yearly:"Ročně"};
+const DRIVER = {
+  site:  {n:"Za lokalitu",        h:"Účtuje se jednou bez ohledu na počet zařízení."},
+  camera:{n:"Za kameru",          h:"Násobí se počtem kamer."},
+  pole:  {n:"Za sloup",           h:"Násobí se počtem sloupů."},
+  dock:  {n:"Za dokovací stanici",h:"Násobí se počtem stanic."},
+  km:    {n:"Za kilometr",        h:"Násobí se vzdáleností na lokalitu."},
+  hour:  {n:"Za hodinu práce",    h:"Násobí se hodinami instalace."},
+  trip:  {n:"Za výjezd",          h:"Ročně podle výjezdů roku 2+, v roce 1 se přidá rozdíl."},
+  pctHw: {n:"% z hodnoty HW",     h:"Cena se zadává v procentech, ne v korunách."},
+  qty:   {n:"Ruční množství",     h:"Množství se zadává u každé lokality zvlášť."},
+};
+
+const uid = () => Math.random().toString(36).slice(2,10);
+
+/* =========================================================
+   2. VÝCHOZÍ KATALOG
+   ========================================================= */
+function seedCatalog(){
+  const I=(id,label,group,cat,price,life,billing,driver,shared,note,prepay)=>
+    ({id,label,group,cat,price,life,billing,driver,shared:!!shared,enabled:true,
+      note:note||"", prepay: prepay!==false});
+  return [
+    // --- Sky Cam ---
+    I("cam_camera","Kamera","cam","hw",5570,60,"oneoff","camera"),
+    I("cam_mezikus","Mezikus","cam","hw",335,60,"oneoff","camera"),
+    I("cam_backplate","Backplate","cam","hw",296,60,"oneoff","camera"),
+    I("cam_pruchodka","Průchodka","cam","hw",60,60,"oneoff","camera"),
+    I("cam_material","Instalační materiál","cam","hw",300,60,"oneoff","camera"),
+    I("cam_card","Paměťová karta 256 GB","cam","hw",1500,24,"oneoff","camera",false,"Při nahrávání na server často zbytečná."),
+    I("cam_pole","Sloup","cam","hw",6000,30,"oneoff","pole"),
+    I("cam_box","Instalační box","cam","hw",500,24,"oneoff","site"),
+    I("cam_switch","Switch 8 portů","cam","hw",800,24,"oneoff","site"),
+    I("cam_socket","Zásuvka","cam","hw",100,24,"oneoff","site"),
+    I("cam_starlink","Starlink","cam","net",745,null,"monthly","site",false,"Největší jednotlivá měsíční položka Sky Cam."),
+    I("cam_install_km","Doprava na instalaci","cam","lab",10.33,null,"oneoff","km"),
+    I("cam_install_hr","Práce na instalaci","cam","lab",300,null,"oneoff","hour"),
+    // --- Sky Guard ---
+    I("dr_dock","Dokovací stanice","drone","hw",268587,42,"oneoff","dock"),
+    I("dr_drone","Dron","drone","hw",127264,30,"oneoff","dock",false,"Bez Care refresh, ten je samostatně."),
+    I("dr_dongle","Dongle","drone","hw",3298,42,"oneoff","dock"),
+    I("dr_battery","Sada baterií","drone","hw",6603,24,"oneoff","dock"),
+    I("dr_discount","Sleva dealera","drone","hw",-22808,42,"oneoff","dock"),
+    I("dr_setup","Setup dokovací stanice","drone","lab",10000,null,"oneoff","dock"),
+    I("dr_install","Prvotní instalace","drone","lab",10000,null,"oneoff","dock"),
+    I("dr_infra","Router, box, kabeláž, beton","drone","hw",5000,null,"oneoff","dock"),
+    I("dr_sensors","Perimetrové senzory","drone","hw",0,60,"oneoff","qty",false,"Jablotron, LoRaWAN, OPTEX."),
+    I("dr_flytbase","FlytBase","drone","sw",61845,null,"yearly","dock",false,"Účtuje se za každou stanici."),
+    I("dr_flighthub","FlightHub 2 Business","drone","sw",45000,null,"yearly","site",true,"Plochá cena za organizaci. Cenu ověřit u DronPro."),
+    I("dr_care","Care refresh","drone","ops",20000,null,"yearly","dock"),
+    I("dr_insurance","Pojištění dronu","drone","ops",7576,null,"yearly","dock"),
+    I("dr_service","Servis doku a dronu","drone","ops",5000,null,"yearly","dock"),
+    I("dr_rotors","Rotory a ventilátor","drone","ops",2000,null,"yearly","dock"),
+    I("dr_sim","SIM karta","drone","net",7200,null,"yearly","dock"),
+    I("dr_rtk","RTK korekce CZEPOS","drone","net",10000,null,"yearly","dock"),
+    // --- Společné ---
+    I("sh_server","Nahrávací server","shared","sw",500,null,"monthly","site",true),
+    I("sh_hub","Sky Guard Hub a API","shared","sw",1000,null,"monthly","site",true),
+    I("sh_storage","Cloud storage pro záznamy","shared","sw",0,null,"monthly","site",false,"GDPR retence záznamů."),
+    I("sh_trip","Výjezd na lokalitu","shared","lab",3300,null,"yearly","trip",false,"Auto 1800 a palivo 1500.",false),
+    I("sh_dispatch","Dispatch","shared","lab",0,null,"yearly","site",false,"Roční mzdový náklad podílu úvazku. Nula znamená bez lidského dohledu.",false),
+    I("sh_reserve","Rezerva na neplánované opravy","shared","ops",5,null,"yearly","pctHw",false,"Zadává se v procentech z hodnoty hardwaru.",false),
+    I("sh_marketing","Marketing na lokalitu","shared","ops",2000,null,"yearly","site",false,"",false),
+  ].map(i => i.id==="dr_flighthub" ? {...i, enabled:false} : i);
+}
+
+function seedData(){
+  const cid = uid(), lid = uid();
+  return {
+    catalog: seedCatalog(),
+    clients: [{id:cid, name:"Ukázkový klient", contact:"", note:"Smaž, až založíš vlastní.", locations:[
+      {id:lid, name:"Vzorová lokalita", clientId:cid, product:"drone", note:"",
+       cameras:5, poles:3, docks:1, km:260, hours:8, trips1:10, trips2:8,
+       price:50000, qty:{}, off:{}, over:{}}
+    ]}],
+    settings:{share:true, prepay:true, renew:true, tax:21, horizon:36},
+    activeLoc: lid,
+  };
+}
+
+/* =========================================================
+   3. STAV A ULOŽENÍ
+   ========================================================= */
+let D = seedData();
+let PAGE = "prehled";
+let catFilter = "all", catQuery = "";
+let editItemId = null, editClientId = null, editLocId = null;
+
+const KEY = "skyguard-pricing-v1";
+const hasStore = typeof window.storage === "object" && window.storage && typeof window.storage.get === "function";
+
+async function load(){
+  if(!hasStore) return false;
+  try{
+    const r = await window.storage.get(KEY);
+    if(r && r.value){ D = JSON.parse(r.value); return true; }
+  }catch(e){}
+  return false;
+}
+let saveTimer=null;
+function save(){
+  if(!hasStore) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    try{ await window.storage.set(KEY, JSON.stringify(D)); }catch(e){}
+  }, 350);
+}
+
+/* =========================================================
+   4. POMOCNÉ
+   ========================================================= */
+const money = n => (Math.round(n)).toLocaleString("cs-CZ").replace(/\u00A0/g," ") + " Kč";
+const moneyK = n => Math.abs(n)>=100000
+  ? (n/1000).toLocaleString("cs-CZ",{maximumFractionDigits:0}).replace(/\u00A0/g," ")+" tis. Kč" : money(n);
+const perc = x => (x*100).toLocaleString("cs-CZ",{maximumFractionDigits:1})+" %";
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const allLocs = () => D.clients.flatMap(c => c.locations.map(l => ({...l, clientName:c.name})));
+const getLoc = id => allLocs().find(l => l.id===id) || allLocs()[0] || null;
+const rawLoc = id => { for(const c of D.clients){ const l=c.locations.find(x=>x.id===id); if(l) return l; } return null; };
+
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("on");
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("on"),2100);
+}
+
+/* =========================================================
+   5. VÝPOČETNÍ JÁDRO
+   ========================================================= */
+function qtyFor(item, loc){
+  switch(item.driver){
+    case "site":   return 1;
+    case "camera": return loc.cameras||0;
+    case "pole":   return loc.poles||0;
+    case "dock":   return loc.docks||0;
+    case "km":     return loc.km||0;
+    case "hour":   return loc.hours||0;
+    case "trip":   return item.billing==="yearly" ? (loc.trips2||0) : Math.max(0,(loc.trips1||0)-(loc.trips2||0));
+    case "qty":    return (loc.qty && loc.qty[item.id]) || 0;
+    case "pctHw":  return 1;
+    default:       return 1;
+  }
+}
+
+function calc(loc){
+  const st = D.settings;
+  const divisor = st.share ? Math.max(1, allLocs().length) : 1;
+  const inScope = it => it.enabled && !(loc.off||{})[it.id] &&
+    (it.group==="shared" || (loc.product==="both") ||
+     (loc.product==="cam" && it.group==="cam") || (loc.product==="drone" && it.group==="drone"));
+
+  const items = D.catalog.filter(inScope);
+  const priceOf = it => (loc.over && loc.over[it.id]!=null) ? loc.over[it.id] : it.price;
+
+  // první průchod bez procentních položek
+  const lines = [];
+  let hwValue = 0;
+  for(const it of items){
+    if(it.driver==="pctHw") continue;
+    const q = qtyFor(it, loc);
+    if(!q) continue;
+    let amount = priceOf(it) * q;
+    if(it.shared) amount /= divisor;
+    if(!amount) continue;
+    lines.push({it, q, amount, divided: it.shared && divisor>1});
+    if(it.billing==="oneoff" && it.life) hwValue += amount;
+  }
+  // procentní položky
+  for(const it of items.filter(i=>i.driver==="pctHw")){
+    const amount = hwValue * priceOf(it)/100;
+    if(amount) lines.push({it, q:1, amount, divided:false});
+  }
+
+  const capex   = lines.filter(l=>l.it.billing==="oneoff" && l.it.life);
+  const startup = lines.filter(l=>l.it.billing==="oneoff" && !l.it.life);
+  const yearly  = lines.filter(l=>l.it.billing==="yearly");
+  const monthly = lines.filter(l=>l.it.billing==="monthly");
+
+  const sum = a => a.reduce((s,l)=>s+l.amount,0);
+  const capexTotal=sum(capex), startupTotal=sum(startup),
+        yearlyTotal=sum(yearly), monthlyTotal=sum(monthly);
+
+  const yearlyPre = yearly.filter(l=>l.it.prepay!==false);
+  const yearlyAcc = yearly.filter(l=>l.it.prepay===false);
+  const preTotal = sum(yearlyPre), accTotal = sum(yearlyAcc);
+
+  const amortMonthly = capex.reduce((s,l)=> s + l.amount/l.it.life, 0);
+  const monthlyCash  = monthlyTotal + yearlyTotal/12;
+  const fullMonthly  = monthlyCash + amortMonthly;
+  const prepaid = st.prepay ? preTotal : 0;
+  const day0 = capexTotal + startupTotal + prepaid;
+
+  // rozpad podle kategorií z plného měsíčního nákladu
+  const byCat = {};
+  const add=(c,v)=>byCat[c]=(byCat[c]||0)+v;
+  capex.forEach(l=>add(l.it.cat, l.amount/l.it.life));
+  startup.forEach(()=>{});
+  yearly.forEach(l=>add(l.it.cat, l.amount/12));
+  monthly.forEach(l=>add(l.it.cat, l.amount));
+
+  // cash flow
+  const H = st.horizon||36;
+  const baseOut = monthlyTotal + accTotal/12 + (prepaid ? 0 : preTotal/12);
+  const flow=[], events={};
+  let cum = -day0; flow.push(cum);
+  for(let m=1;m<=H;m++){
+    let out = baseOut, ev=[];
+    if(prepaid && m>1 && (m-1)%12===0){ out += preTotal; ev.push("předplatky"); }
+    if(st.renew){
+      for(const l of capex){
+        const L=l.it.life;
+        if(L<H && m>L && (m-1)%L===0){ out += l.amount; ev.push(l.it.label.toLowerCase()); }
+      }
+    }
+    if(ev.length) events[m]=ev;
+    cum += (loc.price||0) - out;
+    flow.push(cum);
+  }
+  const neg = flow.map((v,i)=>v<0?i:-1).filter(i=>i>=0);
+  const payback = (neg.length && Math.max(...neg)<H) ? Math.max(...neg)+1 : null;
+
+  const profit = (loc.price||0) - fullMonthly;
+  const margin = loc.price>0 ? profit/loc.price : 0;
+
+  return {lines,capex,startup,yearly,monthly,capexTotal,startupTotal,yearlyTotal,monthlyTotal,
+          amortMonthly,monthlyCash,fullMonthly,day0,prepaid,preTotal,accTotal,byCat,flow,events,payback,
+          profit,margin,hwValue,divisor,horizon:H};
+}
+
+/* =========================================================
+   6. NAVIGACE
+   ========================================================= */
+const TITLES = {prehled:["Přehled","portfolio a ceník obou produktů"],
+  kalkulace:["Kalkulace","náklady a cena jedné lokality"],
+  srovnani:["Srovnání lokalit","všechny lokality vedle sebe"],
+  klienti:["Klienti a lokality","správa portfolia"],
+  katalog:["Katalog nákladů","přidání, úprava a mazání položek"],
+  nastaveni:["Nastavení","parametry modelu a data"]};
+
+function go(page){
+  PAGE = page;
+  document.querySelectorAll("nav button").forEach(b=>
+    b.setAttribute("aria-current", b.dataset.page===page ? "page":"false"));
+  document.querySelectorAll(".page").forEach(s=> s.hidden = s.id!=="p-"+page);
+  document.getElementById("pgTitle").textContent = TITLES[page][0];
+  document.getElementById("pgCrumb").textContent = TITLES[page][1];
+  const acts=document.getElementById("pgActs"); acts.innerHTML="";
+  if(page==="klienti"){
+    acts.innerHTML=`<button class="btn" onclick="openClient()">Nový klient</button>
+      <button class="btn primary" onclick="openLoc()">Nová lokalita</button>`;
+  } else if(page==="katalog"){
+    acts.innerHTML=`<button class="btn" onclick="resetCatalog()">Obnovit ceník</button>`;
+  } else if(page==="kalkulace"||page==="srovnani"||page==="prehled"){
+    acts.innerHTML=`<button class="btn" onclick="window.print()">Tisk</button>`;
+  }
+  renderAll();
+}
+
+/* =========================================================
+   7. RENDER — přehled
+   ========================================================= */
+function renderPrehled(){
+  const locs = allLocs();
+  const rs = locs.map(l=>({l, r:calc(l)}));
+  const t = {day0:0, cash:0, full:0, rev:0};
+  rs.forEach(({l,r})=>{ t.day0+=r.day0; t.cash+=r.monthlyCash; t.full+=r.fullMonthly; t.rev+=l.price||0; });
+  const margin = t.rev>0 ? (t.rev-t.full)/t.rev : 0;
+
+  document.getElementById("pfKpis").innerHTML = `
+    <div class="kpi"><label>Lokalit v portfoliu</label><div class="v">${locs.length}</div>
+      <div class="sub">${D.clients.length} klientů</div></div>
+    <div class="kpi"><label>Investováno jednorázově</label><div class="v">${moneyK(t.day0)}</div>
+      <div class="sub">hardware, instalace, předplatky</div></div>
+    <div class="kpi"><label>Tržba měsíčně</label><div class="v blue">${money(t.rev)}</div>
+      <div class="sub">plný náklad ${money(t.full)}</div></div>
+    <div class="kpi"><label>Marže portfolia</label>
+      <div class="v ${margin>=.4?"good":margin>=.2?"warn":"bad"}">${t.rev>0?perc(margin):"—"}</div>
+      <div class="sub">${money(t.rev-t.full)} měsíčně</div></div>`;
+
+  document.getElementById("pfNote").textContent = D.settings.share && locs.length>1
+    ? `Sdílené položky se dělí mezi ${locs.length} lokalit. Každá další lokalita zlevní režii těm ostatním.`
+    : "Sdílené položky nesou plnou váhu na každé lokalitě. Přepni dělení v Nastavení, jakmile budeš mít víc lokalit.";
+
+  ["cam","drone","shared"].forEach(g=>{
+    const tb=document.getElementById("lp-"+g); tb.innerHTML="";
+    const rows = D.catalog.filter(i=>i.group===g);
+    if(!rows.length){ tb.innerHTML=`<tr><td colspan="4" class="empty">Žádné položky</td></tr>`; return; }
+    rows.forEach(it=>{
+      const tr=document.createElement("tr");
+      const unit = it.driver==="pctHw" ? "%" : "Kč";
+      tr.innerHTML = `
+        <td class="name"><em style="background:${CAT[it.cat].c}"></em>
+          <div><div>${esc(it.label)}${it.enabled?"":' <span class="pill off">vypnuto</span>'}${it.shared?' <span class="pill">sdílené</span>':""}</div>
+          <div class="muted" style="font-size:12px">${DRIVER[it.driver].n}${it.note?" · "+esc(it.note):""}</div></div></td>
+        <td class="n"><input class="cell-in" type="number" step="0.01" value="${it.price}" data-pr="${it.id}"> <span class="muted">${unit}</span></td>
+        <td class="n"><input class="cell-in w60" type="number" value="${it.life??""}" placeholder="—" data-lf="${it.id}"></td>
+        <td><span class="pill">${BILL[it.billing]}</span></td>`;
+      tb.appendChild(tr);
+    });
+  });
+
+  document.querySelectorAll("[data-pr]").forEach(inp=>{
+    inp.oninput=()=>{ const it=D.catalog.find(i=>i.id===inp.dataset.pr);
+      if(it){ it.price=+inp.value||0; save(); softRefresh(); } };
+  });
+  document.querySelectorAll("[data-lf]").forEach(inp=>{
+    inp.oninput=()=>{ const it=D.catalog.find(i=>i.id===inp.dataset.lf);
+      if(it){ it.life = inp.value===""?null:Math.max(1,+inp.value||1); save(); softRefresh(); } };
+  });
+}
+function softRefresh(){
+  if(PAGE==="prehled"){ /* KPI only, aby nekmital focus */
+    const locs=allLocs(); const t={day0:0,full:0,rev:0};
+    locs.forEach(l=>{const r=calc(l); t.day0+=r.day0; t.full+=r.fullMonthly; t.rev+=l.price||0;});
+    const k=document.getElementById("pfKpis").children;
+    if(k[1]) k[1].querySelector(".v").textContent = moneyK(t.day0);
+    if(k[2]){ k[2].querySelector(".v").textContent = money(t.rev);
+      k[2].querySelector(".sub").textContent = "plný náklad "+money(t.full); }
+    if(k[3]){ const m=t.rev>0?(t.rev-t.full)/t.rev:0; const v=k[3].querySelector(".v");
+      v.textContent = t.rev>0?perc(m):"—";
+      v.className="v "+(m>=.4?"good":m>=.2?"warn":"bad");
+      k[3].querySelector(".sub").textContent = money(t.rev-t.full)+" měsíčně"; }
+  } else renderAll();
+}
+
+/* =========================================================
+   8. RENDER — kalkulace
+   ========================================================= */
+function renderKalkulace(){
+  const wrap=document.getElementById("calcWrap");
+  const loc = getLoc(D.activeLoc);
+  if(!loc){ wrap.innerHTML=`<div class="card"><div class="empty"><b>Zatím žádná lokalita</b>
+    Založ klienta a lokalitu v sekci Klienti a lokality.</div></div>`; return; }
+  const r = calc(loc);
+  const isCam = loc.product==="cam"||loc.product==="both";
+  const isDr  = loc.product==="drone"||loc.product==="both";
+
+  wrap.innerHTML = `
+  <div class="card">
+    <div class="kpis">
+      <div class="kpi"><label>Jednorázově při spuštění</label><div class="v">${money(r.day0)}</div>
+        <div class="sub">HW ${moneyK(r.capexTotal)} · instalace ${moneyK(r.startupTotal)}${r.prepaid?" · předplatky "+moneyK(r.prepaid):""}</div></div>
+      <div class="kpi"><label>Měsíčně hotovost</label><div class="v">${money(r.monthlyCash)}</div>
+        <div class="sub">ročně ${moneyK(r.monthlyCash*12)}</div></div>
+      <div class="kpi"><label>Amortizace hardwaru</label><div class="v">${money(r.amortMonthly)}</div>
+        <div class="sub">měsíčně, účetně</div></div>
+      <div class="kpi"><label>Plný měsíční náklad</label><div class="v blue">${money(r.fullMonthly)}</div>
+        <div class="sub">cenová podlaha</div></div>
+    </div>
+    <div class="comp"><div class="bar" id="cBar"></div><div class="legend" id="cLeg"></div></div>
+  </div>
+
+  <div class="cols c2">
+    <div>
+      <div class="card">
+        <h2><span class="tag"></span>Konfigurace<small>${esc(loc.clientName||"")} · ${esc(loc.name)}</small></h2>
+        <div class="body">
+          <div class="row"><div class="lbl"><b>Produkt</b></div>
+            <div class="seg" id="kProd">
+              <button data-v="cam" aria-pressed="${loc.product==="cam"}">Sky Cam</button>
+              <button data-v="drone" aria-pressed="${loc.product==="drone"}">Sky Guard</button>
+              <button data-v="both" aria-pressed="${loc.product==="both"}">Kombinace</button>
+            </div></div>
+          ${isCam?`
+          <div class="row"><div class="lbl"><b>Počet kamer</b></div><div class="step" data-k="cameras" data-min="0" data-max="60"></div></div>
+          <div class="row"><div class="lbl"><b>Počet sloupů</b><i>${loc.poles>0&&loc.cameras>0?(loc.cameras/loc.poles).toLocaleString("cs-CZ",{maximumFractionDigits:2})+" kamery na sloup":"nosné konstrukce"}</i></div><div class="step" data-k="poles" data-min="0" data-max="30"></div></div>`:""}
+          ${isDr?`
+          <div class="row"><div class="lbl"><b>Dokovacích stanic</b></div><div class="step" data-k="docks" data-min="0" data-max="8"></div></div>`:""}
+          <div class="row"><div class="lbl"><b>Vzdálenost tam a zpět</b></div><div class="num"><input type="number" data-n="km"><span>km</span></div></div>
+          <div class="row"><div class="lbl"><b>Hodin práce na instalaci</b></div><div class="num"><input type="number" data-n="hours"><span>hod</span></div></div>
+          <div class="row"><div class="lbl"><b>Výjezdů v roce 1</b></div><div class="step" data-k="trips1" data-min="0" data-max="40"></div></div>
+          <div class="row"><div class="lbl"><b>Výjezdů v roce 2 a dál</b></div><div class="step" data-k="trips2" data-min="0" data-max="40"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="tag" style="background:var(--green)"></span>Cena klientovi</h2>
+        <div class="body pad">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+            <div class="num" style="flex:none"><input type="number" id="kPrice" step="1000" style="width:120px;font-size:20px;font-weight:700;color:var(--blue)"><span>Kč / měsíc</span></div>
+            <div class="muted" style="font-size:12.5px">bez DPH</div>
+          </div>
+          <input type="range" id="kRange" min="0" max="250000" step="1000" style="width:100%">
+        </div>
+        <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kpi"><label>Hrubá marže</label>
+            <div class="v ${r.margin>=.4?"good":r.margin>=.2?"warn":"bad"}">${loc.price>0?perc(r.margin):"—"}</div></div>
+          <div class="kpi"><label>Zisk měsíčně</label>
+            <div class="v ${r.profit>0?"good":"bad"}">${money(r.profit)}</div></div>
+          <div class="kpi"><label>Návratnost</label>
+            <div class="v ${r.payback===null?(r.flow[r.horizon]>=0?"good":"bad"):(r.payback<=18?"good":r.payback<=30?"warn":"bad")}">${
+              r.payback===null ? (r.flow[r.horizon]>=0?"hned":"nad "+r.horizon+" měs") : r.payback+" měs"}</div></div>
+          <div class="kpi"><label>Kumulativ ${r.horizon} měs</label>
+            <div class="v ${r.flow[r.horizon]>0?"good":"bad"}">${moneyK(r.flow[r.horizon])}</div>
+            <div class="sub">po dani ${moneyK(r.flow[r.horizon] - Math.max(0,r.flow[r.horizon])*(D.settings.tax/100))}</div></div>
+        </div>
+        <div class="chart" id="kChart"></div>
+        <div class="note" id="kWarn"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="tag" style="background:var(--violet)"></span>Rozpad položek
+        <small>klikni na cenu a přepiš ji jen pro tuhle lokalitu</small></h2>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th></th><th>Položka</th><th class="n">Ks</th><th class="n">Cena za lokalitu</th><th class="n">Měsíčně</th></tr></thead>
+        <tbody id="kDetail"></tbody>
+        <tfoot><tr><td></td><td>Plný měsíční náklad</td><td></td>
+          <td class="n">${money(r.day0)} jednorázově</td><td class="n">${money(r.fullMonthly)}</td></tr></tfoot>
+      </table></div>
+    </div>
+  </div>`;
+
+  // rozpad barev
+  const bar=document.getElementById("cBar"), leg=document.getElementById("cLeg");
+  const tot = Object.values(r.byCat).reduce((s,v)=>s+Math.max(0,v),0)||1;
+  Object.keys(CAT).forEach(k=>{
+    const v=r.byCat[k]||0; if(v<=0) return;
+    const i=document.createElement("i"); i.style.width=(v/tot*100)+"%"; i.style.background=CAT[k].c; bar.appendChild(i);
+    const d=document.createElement("div");
+    d.innerHTML=`<em style="background:${CAT[k].c}"></em>${CAT[k].n} <b>${perc(v/tot)}</b>`; leg.appendChild(d);
+  });
+
+  drawChart(r, loc);
+  renderDetail(r, loc);
+  bindCalc(loc, r);
+
+  // varování
+  const w=[];
+  const disp = D.catalog.find(i=>i.id==="sh_dispatch");
+  if(disp && disp.enabled && (loc.over?.sh_dispatch ?? disp.price)===0)
+    w.push("Dispatch je na nule. U služby prodávané jako nepřetržitý dohled to marži nadhodnocuje.");
+  if(loc.price>0 && loc.price<r.fullMonthly) w.push("Cena je pod plným měsíčním nákladem.");
+  const plats = r.lines.filter(l=>["dr_flytbase","dr_flighthub"].includes(l.it.id));
+  if(plats.length>1) w.push("FlytBase i FlightHub 2 jsou zapnuté zároveň. Vyber jednu platformu v katalogu, jinak se počítají obě.");
+  if(isCam && loc.poles>0 && loc.cameras>0 && loc.cameras/loc.poles<1.5)
+    w.push("Méně než 1,5 kamery na sloup. Sloup stojí měsíčně víc než kamera na něm.");
+  const wl=document.getElementById("kWarn");
+  wl.className = "note" + (w.length?" alarm":"");
+  wl.innerHTML = w.length
+    ? "Na co si dát pozor:<ul>"+w.map(x=>`<li>${x}</li>`).join("")+"</ul>"
+    : `Návratnost je poslední měsíc se zápornou hotovostí plus jedna, takže obnovy předplatků i výměny hardwaru jsou v ní započítané.`;
+}
+
+function drawChart(r, loc){
+  const H=r.horizon, f=r.flow;
+  const min=Math.min(...f), max=Math.max(...f,0);
+  const W=560, Ht=150, pad=6;
+  const x=i=>pad + i*(W-2*pad)/H;
+  const y=v=>{ const span=(max-min)||1; return Ht - ((v-min)/span)*(Ht-16) - 8; };
+  const pts=f.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const zeroY=y(0);
+  const evMarks = Object.keys(r.events).map(m=>
+    `<line x1="${x(+m)}" y1="6" x2="${x(+m)}" y2="${Ht-2}" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 3" opacity=".55"/>`).join("");
+  document.getElementById("kChart").innerHTML = `
+    <svg viewBox="0 0 ${W} ${Ht}" preserveAspectRatio="none" role="img" aria-label="Kumulativní hotovost v čase">
+      <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--blue)" stop-opacity=".28"/>
+        <stop offset="100%" stop-color="var(--blue)" stop-opacity="0"/></linearGradient></defs>
+      ${evMarks}
+      <line x1="0" y1="${zeroY}" x2="${W}" y2="${zeroY}" stroke="var(--line-2)" stroke-width="1"/>
+      <polygon points="${pts} ${x(H)},${zeroY} ${x(0)},${zeroY}" fill="url(#g1)"/>
+      <polyline points="${pts}" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round"/>
+      ${r.payback!==null?`<circle cx="${x(r.payback)}" cy="${y(f[r.payback])}" r="4" fill="var(--green)"/>`:""}
+    </svg>
+    <div class="cap"><span>Kumulativní hotovost — start ${moneyK(f[0])}</span>
+      <span>${H}. měsíc ${moneyK(f[H])}</span></div>`;
+}
+
+function renderDetail(r, loc){
+  const tb=document.getElementById("kDetail"); tb.innerHTML="";
+  const groups=[["Hardware — amortizuje se", r.capex],["Uvedení do provozu", r.startup],
+                ["Ročně", r.yearly],["Měsíčně", r.monthly]];
+  groups.forEach(([title,arr])=>{
+    if(!arr.length) return;
+    const g=document.createElement("tr"); g.className="group";
+    g.innerHTML=`<td colspan="5">${title}</td>`; tb.appendChild(g);
+    arr.forEach(l=>{
+      const it=l.it;
+      const mon = it.billing==="oneoff" ? (it.life? l.amount/it.life : 0)
+                : it.billing==="yearly" ? l.amount/12 : l.amount;
+      const cur = (loc.over && loc.over[it.id]!=null) ? loc.over[it.id] : it.price;
+      const tr=document.createElement("tr");
+      tr.innerHTML=`
+        <td><button class="tgl" data-off="${it.id}" aria-pressed="${!(loc.off||{})[it.id]}" style="transform:scale(.72)"></button></td>
+        <td class="name"><em style="background:${CAT[it.cat].c}"></em>
+          <div><div>${esc(it.label)}${l.divided?` <span class="pill">1/${r.divisor}</span>`:""}</div>
+          <div class="muted" style="font-size:12px">${it.life?it.life+" měs · ":""}${DRIVER[it.driver].n}</div></div></td>
+        <td class="n">${it.driver==="qty"
+            ? `<input class="cell-in w60" type="number" min="0" value="${l.q}" data-qty="${it.id}">`
+            : `<span class="muted">${l.q.toLocaleString("cs-CZ",{maximumFractionDigits:2})}</span>`}</td>
+        <td class="n"><input class="cell-in" type="number" step="0.01" value="${cur}" data-ov="${it.id}"></td>
+        <td class="n">${money(mon)}</td>`;
+      tb.appendChild(tr);
+    });
+  });
+  // vypnuté položky
+  const offIds=Object.keys(loc.off||{}).filter(k=>loc.off[k]);
+  if(offIds.length){
+    const g=document.createElement("tr"); g.className="group";
+    g.innerHTML=`<td colspan="5">Vypnuto na této lokalitě</td>`; tb.appendChild(g);
+    offIds.forEach(id=>{
+      const it=D.catalog.find(i=>i.id===id); if(!it) return;
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td><button class="tgl" data-off="${id}" aria-pressed="false" style="transform:scale(.72)"></button></td>
+        <td class="name muted"><em style="background:var(--line-2)"></em>${esc(it.label)}</td>
+        <td colspan="3" class="n muted">nezapočítáno</td>`;
+      tb.appendChild(tr);
+    });
+  }
+}
+
+function bindCalc(loc, r){
+  const L = rawLoc(loc.id);
+  const upd=()=>{ save(); renderKalkulace(); };
+
+  document.querySelectorAll("#kProd button").forEach(b=>
+    b.onclick=()=>{ L.product=b.dataset.v; upd(); });
+
+  document.querySelectorAll("[data-k]").forEach(el=>{
+    const k=el.dataset.k, min=+el.dataset.min, max=+el.dataset.max;
+    el.innerHTML=`<button type="button" aria-label="Ubrat">−</button>
+      <input type="number" value="${L[k]||0}" aria-label="${k}">
+      <button type="button" aria-label="Přidat">+</button>`;
+    const [m,i,p]=el.children;
+    m.disabled = (L[k]||0)<=min; p.disabled=(L[k]||0)>=max;
+    m.onclick=()=>{ L[k]=Math.max(min,(L[k]||0)-1); upd(); };
+    p.onclick=()=>{ L[k]=Math.min(max,(L[k]||0)+1); upd(); };
+    i.onchange=()=>{ L[k]=Math.min(max,Math.max(min,+i.value||0)); upd(); };
+  });
+
+  document.querySelectorAll("[data-n]").forEach(inp=>{
+    inp.value = L[inp.dataset.n]||0;
+    inp.onchange=()=>{ L[inp.dataset.n]=Math.max(0,+inp.value||0); upd(); };
+  });
+
+  const pi=document.getElementById("kPrice"), pr=document.getElementById("kRange");
+  pi.value=L.price||0; pr.value=Math.min(250000,L.price||0);
+  const setP=v=>{ L.price=Math.max(0,v||0); save(); renderKalkulace(); };
+  pi.onchange=()=>setP(+pi.value);
+  pr.oninput =()=>{ pi.value=pr.value; };
+  pr.onchange=()=>setP(+pr.value);
+
+  document.querySelectorAll("[data-off]").forEach(b=>
+    b.onclick=()=>{ L.off=L.off||{}; L.off[b.dataset.off]=!L.off[b.dataset.off]; upd(); });
+
+  document.querySelectorAll("[data-ov]").forEach(inp=>
+    inp.onchange=()=>{ L.over=L.over||{};
+      const it=D.catalog.find(i=>i.id===inp.dataset.ov);
+      const v=+inp.value;
+      if(it && v===it.price) delete L.over[inp.dataset.ov]; else L.over[inp.dataset.ov]=v;
+      upd(); });
+
+  document.querySelectorAll("[data-qty]").forEach(inp=>
+    inp.onchange=()=>{ L.qty=L.qty||{}; L.qty[inp.dataset.qty]=Math.max(0,+inp.value||0); upd(); });
+}
+
+/* =========================================================
+   9. RENDER — srovnání
+   ========================================================= */
+function renderSrovnani(){
+  const tb=document.getElementById("cmpBody"), tf=document.getElementById("cmpFoot");
+  const locs=allLocs();
+  tb.innerHTML="";
+  if(!locs.length){ tb.innerHTML=`<tr><td colspan="10" class="empty"><b>Zatím žádná lokalita</b>Založ ji v sekci Klienti a lokality.</td></tr>`; tf.innerHTML=""; return; }
+  const t={day0:0,cash:0,full:0,rev:0};
+  locs.forEach(l=>{
+    const r=calc(l);
+    t.day0+=r.day0; t.cash+=r.monthlyCash; t.full+=r.fullMonthly; t.rev+=l.price||0;
+    const cfg=[l.product!=="drone"&&l.cameras?l.cameras+"× kamera":"",
+               l.product!=="drone"&&l.poles?l.poles+"× sloup":"",
+               l.product!=="cam"&&l.docks?l.docks+"× stanice":""].filter(Boolean).join(", ");
+    const tr=document.createElement("tr");
+    tr.style.cursor="pointer";
+    tr.onclick=()=>{ D.activeLoc=l.id; save(); syncLocSel(); go("kalkulace"); };
+    tr.innerHTML=`<td><b>${esc(l.name)}</b></td><td class="muted">${esc(l.clientName)}</td>
+      <td class="muted">${esc(cfg||"—")}</td>
+      <td class="n">${moneyK(r.day0)}</td><td class="n">${money(r.monthlyCash)}</td>
+      <td class="n">${money(r.fullMonthly)}</td><td class="n">${money(l.price||0)}</td>
+      <td class="n"><span class="${r.margin>=.4?"":"muted"}" style="color:${r.margin>=.4?"var(--green)":r.margin>=.2?"var(--amber)":"var(--red)"}">${l.price>0?perc(r.margin):"—"}</span></td>
+      <td class="n">${r.payback===null?(r.flow[r.horizon]>=0?"hned":"—"):r.payback+" m"}</td>
+      <td class="n" style="color:${r.flow[r.horizon]>0?"var(--green)":"var(--red)"}">${moneyK(r.flow[r.horizon])}</td>`;
+    tb.appendChild(tr);
+  });
+  const m=t.rev>0?(t.rev-t.full)/t.rev:0;
+  tf.innerHTML=`<tr><td colspan="3">Celkem ${locs.length} lokalit</td>
+    <td class="n">${moneyK(t.day0)}</td><td class="n">${money(t.cash)}</td>
+    <td class="n">${money(t.full)}</td><td class="n">${money(t.rev)}</td>
+    <td class="n">${t.rev>0?perc(m):"—"}</td><td></td><td></td></tr>`;
+}
+
+/* =========================================================
+   10. RENDER — klienti
+   ========================================================= */
+function renderKlienti(){
+  const w=document.getElementById("clientsWrap");
+  if(!D.clients.length){
+    w.innerHTML=`<div class="card"><div class="empty"><b>Zatím žádný klient</b>
+      Začni tlačítkem Nový klient nahoře vpravo.</div></div>`; return;
+  }
+  w.innerHTML = D.clients.map(c=>{
+    const rows = c.locations.map(l=>{
+      const r=calc({...l, clientName:c.name});
+      return `<tr>
+        <td><b>${esc(l.name)}</b>${l.note?`<div class="muted" style="font-size:12px">${esc(l.note)}</div>`:""}</td>
+        <td><span class="pill">${l.product==="cam"?"Sky Cam":l.product==="drone"?"Sky Guard":"Kombinace"}</span></td>
+        <td class="n">${moneyK(r.day0)}</td>
+        <td class="n">${money(r.fullMonthly)}</td>
+        <td class="n">${money(l.price||0)}</td>
+        <td class="n" style="color:${r.margin>=.4?"var(--green)":r.margin>=.2?"var(--amber)":"var(--red)"}">${l.price>0?perc(r.margin):"—"}</td>
+        <td class="n" style="white-space:nowrap">
+          <button class="btn sm" onclick="pickLoc('${l.id}')">Počítat</button>
+          <button class="btn sm" onclick="openLoc('${l.id}')">Upravit</button>
+          <button class="btn sm danger" onclick="delLoc('${l.id}')">Smazat</button></td></tr>`;
+    }).join("");
+    return `<div class="card">
+      <h2><span class="tag"></span>${esc(c.name)}
+        <small>${c.contact?esc(c.contact)+" · ":""}${c.locations.length} lokalit</small>
+        <button class="btn sm" onclick="openClient('${c.id}')">Upravit</button>
+        <button class="btn sm danger" onclick="delClient('${c.id}')" style="margin-left:8px">Smazat</button>
+      </h2>
+      ${c.note?`<div class="note">${esc(c.note)}</div>`:""}
+      ${c.locations.length? `<div style="overflow-x:auto"><table>
+        <thead><tr><th>Lokalita</th><th>Produkt</th><th class="n">Jednorázově</th>
+        <th class="n">Plný náklad</th><th class="n">Cena</th><th class="n">Marže</th><th></th></tr></thead>
+        <tbody>${rows}</tbody></table></div>`
+       : `<div class="empty">Žádná lokalita. <button class="btn sm" onclick="openLoc(null,'${c.id}')">Přidat lokalitu</button></div>`}
+    </div>`;
+  }).join("");
+}
+function pickLoc(id){ D.activeLoc=id; save(); syncLocSel(); go("kalkulace"); }
+
+/* =========================================================
+   11. RENDER — katalog
+   ========================================================= */
+function renderKatalog(){
+  const tb=document.getElementById("catBody"); tb.innerHTML="";
+  const q=catQuery.toLowerCase();
+  const rows=D.catalog.filter(i=>
+    (catFilter==="all"||i.group===catFilter) &&
+    (!q || i.label.toLowerCase().includes(q) || (i.note||"").toLowerCase().includes(q)));
+  document.getElementById("catCount").textContent = `${rows.length} z ${D.catalog.length} položek`;
+  document.getElementById("nb-cat").textContent = D.catalog.length;
+  if(!rows.length){ tb.innerHTML=`<tr><td colspan="10" class="empty">Nic nenalezeno</td></tr>`; return; }
+  rows.forEach(it=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td class="name"><em style="background:${CAT[it.cat].c}"></em>
+        <div><div>${esc(it.label)}</div>${it.note?`<div class="muted" style="font-size:12px">${esc(it.note)}</div>`:""}</div></td>
+      <td><span class="pill">${GROUP[it.group]}</span></td>
+      <td class="muted">${CAT[it.cat].n}</td>
+      <td class="n"><input class="cell-in" type="number" step="0.01" value="${it.price}" data-cp="${it.id}">
+        <span class="muted">${it.driver==="pctHw"?"%":"Kč"}</span></td>
+      <td class="muted">${DRIVER[it.driver].n}</td>
+      <td>${BILL[it.billing]}</td>
+      <td class="n muted">${it.life?it.life+" m":"—"}</td>
+      <td>${it.shared?'<span class="pill">ano</span>':'<span class="muted">ne</span>'}</td>
+      <td>${it.billing!=="yearly"?'<span class="muted">—</span>':(it.prepay!==false?'<span class="pill">ano</span>':'<span class="muted">průběžně</span>')}</td>
+      <td class="n" style="white-space:nowrap">
+        <button class="tgl" data-en="${it.id}" aria-pressed="${it.enabled}" style="transform:scale(.72)"></button>
+        <button class="btn sm" onclick="openItem('${it.id}')">Upravit</button>
+        <button class="btn sm danger" onclick="delItem('${it.id}')">Smazat</button></td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll("[data-cp]").forEach(inp=>
+    inp.oninput=()=>{ const it=D.catalog.find(i=>i.id===inp.dataset.cp);
+      if(it){ it.price=+inp.value||0; save(); } });
+  tb.querySelectorAll("[data-en]").forEach(b=>
+    b.onclick=()=>{ const it=D.catalog.find(i=>i.id===b.dataset.en);
+      it.enabled=!it.enabled; save(); renderKatalog(); });
+}
+
+/* =========================================================
+   12. DIALOGY
+   ========================================================= */
+const dlgItem=document.getElementById("dlgItem");
+const dlgClient=document.getElementById("dlgClient");
+const dlgLoc=document.getElementById("dlgLoc");
+
+function fillSelect(el, obj, val){
+  el.innerHTML = Object.entries(obj).map(([k,v])=>
+    `<option value="${k}">${typeof v==="string"?v:v.n}</option>`).join("");
+  if(val) el.value=val;
+}
+
+function openItem(id){
+  editItemId = id||null;
+  const it = id ? D.catalog.find(i=>i.id===id) : null;
+  document.getElementById("dlgItemTitle").textContent = it?"Úprava položky":"Nová položka";
+  fillSelect(document.getElementById("i-cat"), CAT, it?it.cat:"hw");
+  fillSelect(document.getElementById("i-driver"), DRIVER, it?it.driver:"site");
+  document.getElementById("i-label").value = it?it.label:"";
+  document.getElementById("i-group").value = it?it.group:"shared";
+  document.getElementById("i-price").value = it?it.price:0;
+  document.getElementById("i-life").value  = it&&it.life?it.life:"";
+  document.getElementById("i-billing").value = it?it.billing:"yearly";
+  document.getElementById("i-note").value  = it?it.note:"";
+  document.getElementById("i-shared").setAttribute("aria-pressed", it?!!it.shared:false);
+  document.getElementById("i-prepay").setAttribute("aria-pressed", it?(it.prepay!==false):true);
+  hintDriver();
+  dlgItem.showModal();
+}
+function hintDriver(){
+  const d=document.getElementById("i-driver").value;
+  document.getElementById("i-driverHint").textContent = DRIVER[d].h;
+}
+document.getElementById("i-driver").onchange=hintDriver;
+["i-shared","i-prepay"].forEach(id=>{
+  document.getElementById(id).onclick=e=>{
+    const b=e.currentTarget;
+    b.setAttribute("aria-pressed", b.getAttribute("aria-pressed")!=="true");
+  };
+});
+function saveItem(){
+  const label=document.getElementById("i-label").value.trim();
+  if(!label){ toast("Vyplň název položky"); return; }
+  const lifeV=document.getElementById("i-life").value;
+  const obj={
+    label, group:document.getElementById("i-group").value,
+    cat:document.getElementById("i-cat").value,
+    price:+document.getElementById("i-price").value||0,
+    life: lifeV===""?null:Math.max(1,+lifeV||1),
+    billing:document.getElementById("i-billing").value,
+    driver:document.getElementById("i-driver").value,
+    shared:document.getElementById("i-shared").getAttribute("aria-pressed")==="true",
+    prepay:document.getElementById("i-prepay").getAttribute("aria-pressed")==="true",
+    note:document.getElementById("i-note").value.trim(),
+  };
+  if(editItemId){ Object.assign(D.catalog.find(i=>i.id===editItemId), obj); toast("Položka upravena"); }
+  else { D.catalog.push({id:uid(), enabled:true, ...obj}); toast("Položka přidána"); }
+  save(); dlgItem.close(); renderAll();
+}
+function delItem(id){
+  const it=D.catalog.find(i=>i.id===id);
+  if(!confirm(`Smazat položku „${it.label}“? Zmizí ze všech lokalit.`)) return;
+  D.catalog=D.catalog.filter(i=>i.id!==id);
+  D.clients.forEach(c=>c.locations.forEach(l=>{
+    if(l.off) delete l.off[id]; if(l.over) delete l.over[id]; if(l.qty) delete l.qty[id]; }));
+  save(); renderAll(); toast("Položka smazána");
+}
+
+function openClient(id){
+  editClientId=id||null;
+  const c = id ? D.clients.find(x=>x.id===id) : null;
+  document.getElementById("dlgClientTitle").textContent = c?"Úprava klienta":"Nový klient";
+  document.getElementById("c-name").value=c?c.name:"";
+  document.getElementById("c-contact").value=c?c.contact||"":"";
+  document.getElementById("c-note").value=c?c.note||"":"";
+  dlgClient.showModal();
+}
+function saveClient(){
+  const name=document.getElementById("c-name").value.trim();
+  if(!name){ toast("Vyplň název klienta"); return; }
+  const obj={name, contact:document.getElementById("c-contact").value.trim(),
+             note:document.getElementById("c-note").value.trim()};
+  if(editClientId) Object.assign(D.clients.find(c=>c.id===editClientId), obj);
+  else D.clients.push({id:uid(), ...obj, locations:[]});
+  save(); dlgClient.close(); renderAll(); toast(editClientId?"Klient upraven":"Klient založen");
+}
+function delClient(id){
+  const c=D.clients.find(x=>x.id===id);
+  if(!confirm(`Smazat klienta „${c.name}“ i s ${c.locations.length} lokalitami?`)) return;
+  D.clients=D.clients.filter(x=>x.id!==id);
+  if(!getLoc(D.activeLoc)) D.activeLoc = (allLocs()[0]||{}).id;
+  save(); renderAll(); toast("Klient smazán");
+}
+
+function openLoc(id, presetClient){
+  editLocId=id||null;
+  const l = id ? rawLoc(id) : null;
+  document.getElementById("dlgLocTitle").textContent = l?"Úprava lokality":"Nová lokalita";
+  const sel=document.getElementById("l-client");
+  sel.innerHTML = D.clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
+  if(!D.clients.length){ toast("Nejdřív založ klienta"); openClient(); return; }
+  sel.value = l ? l.clientId : (presetClient || D.clients[0].id);
+  document.getElementById("l-name").value=l?l.name:"";
+  document.getElementById("l-product").value=l?l.product:"drone";
+  document.getElementById("l-price").value=l?l.price:50000;
+  document.getElementById("l-km").value=l?l.km:0;
+  document.getElementById("l-note").value=l?l.note||"":"";
+  dlgLoc.showModal();
+}
+function saveLoc(){
+  const name=document.getElementById("l-name").value.trim();
+  if(!name){ toast("Vyplň název lokality"); return; }
+  const clientId=document.getElementById("l-client").value;
+  const base={name, clientId, product:document.getElementById("l-product").value,
+    price:+document.getElementById("l-price").value||0,
+    km:+document.getElementById("l-km").value||0,
+    note:document.getElementById("l-note").value.trim()};
+  if(editLocId){
+    const cur=rawLoc(editLocId);
+    const oldClient=D.clients.find(c=>c.locations.some(x=>x.id===editLocId));
+    Object.assign(cur, base);
+    if(oldClient.id!==clientId){
+      oldClient.locations=oldClient.locations.filter(x=>x.id!==editLocId);
+      D.clients.find(c=>c.id===clientId).locations.push(cur);
+    }
+    toast("Lokalita upravena");
+  } else {
+    const nl={id:uid(), ...base, cameras:0, poles:0, docks:base.product==="cam"?0:1,
+      hours:8, trips1:10, trips2:8, qty:{}, off:{}, over:{}};
+    D.clients.find(c=>c.id===clientId).locations.push(nl);
+    D.activeLoc=nl.id;
+    toast("Lokalita založena");
+  }
+  save(); dlgLoc.close(); syncLocSel(); renderAll();
+}
+function delLoc(id){
+  const l=rawLoc(id);
+  if(!confirm(`Smazat lokalitu „${l.name}“?`)) return;
+  D.clients.forEach(c=>c.locations=c.locations.filter(x=>x.id!==id));
+  if(D.activeLoc===id) D.activeLoc=(allLocs()[0]||{}).id;
+  save(); syncLocSel(); renderAll(); toast("Lokalita smazána");
+}
+
+/* =========================================================
+   13. NASTAVENÍ A DATA
+   ========================================================= */
+function renderNastaveni(){
+  const s=D.settings;
+  document.getElementById("setShare").setAttribute("aria-pressed", !!s.share);
+  document.getElementById("setPrepay").setAttribute("aria-pressed", !!s.prepay);
+  document.getElementById("setRenew").setAttribute("aria-pressed", !!s.renew);
+  document.getElementById("setTax").value=s.tax;
+  document.getElementById("setHorizon").value=s.horizon;
+  document.getElementById("storeNote").textContent = hasStore
+    ? "Data se ukládají automaticky. Zálohu si přesto občas stáhni."
+    : "V tomhle náhledu se data neukládají mezi relacemi. Před zavřením okna stáhni zálohu. V ostré verzi to vyřeší databáze.";
+}
+function bindNastaveni(){
+  const tg=(id,key)=>document.getElementById(id).onclick=()=>{
+    D.settings[key]=!D.settings[key]; save(); renderAll(); };
+  tg("setShare","share"); tg("setPrepay","prepay"); tg("setRenew","renew");
+  document.getElementById("setTax").onchange=e=>{ D.settings.tax=Math.max(0,+e.target.value||0); save(); renderAll(); };
+  document.getElementById("setHorizon").onchange=e=>{ D.settings.horizon=Math.max(12,Math.min(120,+e.target.value||36)); save(); renderAll(); };
+  document.getElementById("impFile").onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    const rd=new FileReader();
+    rd.onload=()=>{ try{ const j=JSON.parse(rd.result);
+      if(!j.catalog||!j.clients) throw 0;
+      D=j; if(!getLoc(D.activeLoc)) D.activeLoc=(allLocs()[0]||{}).id;
+      save(); syncLocSel(); renderAll(); toast("Data načtena");
+    }catch(err){ toast("Soubor se nepodařilo načíst"); } };
+    rd.readAsText(f); e.target.value="";
+  };
+}
+function exportJSON(){
+  const blob=new Blob([JSON.stringify(D,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`skyguard-kalkulace-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(a.href); toast("Záloha stažena");
+}
+function resetCatalog(){
+  if(!confirm("Vrátit katalog do výchozího stavu? Klienti a lokality zůstanou.")) return;
+  D.catalog=seedCatalog(); save(); renderAll(); toast("Ceník obnoven");
+}
+function wipeAll(){
+  if(!confirm("Smazat úplně všechno? Nejde vrátit zpět.")) return;
+  D=seedData(); save(); syncLocSel(); renderAll(); toast("Vymazáno");
+}
+
+/* =========================================================
+   14. BOOT
+   ========================================================= */
+function syncLocSel(){
+  const sel=document.getElementById("locSel");
+  const locs=allLocs();
+  sel.innerHTML = locs.length
+    ? locs.map(l=>`<option value="${l.id}">${esc(l.clientName)} — ${esc(l.name)}</option>`).join("")
+    : `<option>Žádná lokalita</option>`;
+  if(locs.length){
+    if(!locs.some(l=>l.id===D.activeLoc)) D.activeLoc=locs[0].id;
+    sel.value=D.activeLoc;
+  }
+  document.getElementById("nb-loc").textContent = locs.length;
+}
+
+function renderAll(){
+  syncLocSel();
+  if(PAGE==="prehled")   renderPrehled();
+  if(PAGE==="kalkulace") renderKalkulace();
+  if(PAGE==="srovnani")  renderSrovnani();
+  if(PAGE==="klienti")   renderKlienti();
+  if(PAGE==="katalog")   renderKatalog();
+  if(PAGE==="nastaveni") renderNastaveni();
+  document.getElementById("nb-cat").textContent = D.catalog.length;
+}
+
+document.querySelectorAll("nav button").forEach(b=> b.onclick=()=>go(b.dataset.page));
+document.getElementById("locSel").onchange=e=>{ D.activeLoc=e.target.value; save(); renderAll(); };
+document.getElementById("catSearch").oninput=e=>{ catQuery=e.target.value; renderKatalog(); };
+document.querySelectorAll("#catFilter button").forEach(b=>
+  b.onclick=()=>{ catFilter=b.dataset.f;
+    document.querySelectorAll("#catFilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    renderKatalog(); });
+bindNastaveni();
+
+window.__dbg={get D(){return D},calc,getLoc,allLocs};
+(async()=>{ await load(); syncLocSel(); go("prehled"); })();
+</script>
+</body>
+</html>

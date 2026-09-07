@@ -1,0 +1,47 @@
+{
+  "name": "sky-guard-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx lib/db/migrate.ts",
+    "db:seed": "tsx lib/db/seed.ts",
+    "db:push": "drizzle-kit push",
+    "db:local": "node scripts/local-db.mjs",
+    "db:load-production": "tsx scripts/load-production-data.mts",
+    "admin:reset-password": "tsx scripts/reset-password.mts"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "^2.2.0",
+    "@react-pdf/renderer": "^4.9.0",
+    "drizzle-orm": "^0.45.2",
+    "fast-xml-parser": "^5.11.1",
+    "next": "16.3.3",
+    "postgres": "^3.4.9",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-socket": "^0.2.11",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.3",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.13",
+    "typescript": "^5",
+    "unpdf": "^1.8.1",
+    "vitest": "^4.1.11"
+  }
+}

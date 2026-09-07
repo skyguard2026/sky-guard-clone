@@ -1,0 +1,17 @@
+# Nikdy nenahrávat tajemství ani lokální data.
+# Vercel sice respektuje .gitignore, ale tohle je pojistka navíc —
+# proměnné prostředí patří výhradně do nastavení projektu.
+.env
+.env.*
+.pgdata
+.claude
+
+# Do buildu nepotřebné
+tests
+vitest.config.mts
+
+# Fonty a logo pro PDF se do buildu naopak MUSÍ dostat — viz
+# outputFileTracingIncludes v next.config.ts. Nic z lib/ tu proto nevylučuj.
+
+# skutečné bankovní výpisy se nesmí svézt do nasazení
+vypisy
