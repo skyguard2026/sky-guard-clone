@@ -1,5 +1,6 @@
 {
   "framework": "nextjs",
+  "outputDirectory": ".next",
   "headers": [
     {
       "source": "/(images|sites|third-party-assets|assets)/(.*)",
