@@ -33,6 +33,7 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
+html, body { overflow-x: clip; } /* pojistka: záře a dekorace nesmí vytvořit vodorovný posuv */
 body {
   margin: 0; background: var(--bg); color: var(--muted);
   font: 400 16px/1.6 var(--font);
@@ -705,6 +706,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-header-inner { padding: 0 2px; }
   .sg-logo img { width: 124px; }
   .sg-hero-drone { width: 88%; }
+  .sg-hero-drone::before { left: -6%; right: -6%; }
   .sg-hero-actions { flex-direction: column; align-items: stretch; }
   .sg-hero-actions .sg-btn, .sg-hero-actions .sg-btn-secondary { justify-content: center; }
   .sg-tile { padding: 24px; min-height: 0; }
