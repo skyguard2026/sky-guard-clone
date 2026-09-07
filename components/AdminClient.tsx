@@ -65,6 +65,7 @@ const ACTION_LABELS: Record<string, string> = {
   "finance.imported": "nahrán výpis",
   "finance.import_reverted": "vrácen import",
   "finance.wiped": "smazána bankovní data",
+  "inquiry.deleted": "smazána poptávka",
 };
 
 const dt = (iso: string) =>

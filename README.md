@@ -350,6 +350,17 @@ vyžádá nové heslo, takže heslo z nastavení Vercelu v aplikaci nezůstane.
 Když `BOOTSTRAP_ADMIN_*` chybí a v databázi není žádný uživatel, aplikace
 **nepustí nikoho** a řekne proč. Fail-closed.
 
+### Poptávky z webu
+
+Kontaktní formulář na veřejném webu (`public/nova/index.html`, sekce Kontakt)
+posílá data na `POST /api/poptavka` (`app/api/poptavka/route.ts`). Je to jediný
+zápis do databáze bez přihlášení, proto je úzký: pevná pole s ořezem délky,
+past na roboty (`company_url`) a limit pět odeslání z jedné IP za deset minut.
+Poptávka se uloží do tabulky `inquiry` (migrace `0007`) a v Hubu se objeví
+v sekci **Poptávky z webu** s odznakem počtu nových; tam se přepíná stav
+(nová → v řešení → vyřízená) a vede interní poznámka. Bez `DATABASE_URL`
+endpoint vrací 503 a formulář nabídne přímý kontakt.
+
 ### Nasazení
 
 #### Po každém deployi, který mění schéma databáze

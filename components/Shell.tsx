@@ -10,18 +10,21 @@ import { hub } from "@/lib/hub-path";
 
 /** `admin: true` znamená, že položku member vůbec neuvidí. */
 const NAV = [
+  { sep: "KALKULAČKA" },
   { href: hub("/"), label: "Kalkulace", icon: "calc" },
   { href: hub("/prehled"), label: "Přehled", icon: "grid" },
   { href: hub("/srovnani"), label: "Srovnání lokalit", icon: "rows" },
   { href: hub("/delka-kontraktu"), label: "Délka kontraktu", icon: "clock" },
+  { href: hub("/klienti"), label: "Klienti a lokality", icon: "pin" },
+  { href: hub("/katalog"), label: "Katalog nákladů", icon: "list" },
   { sep: "FINANCE", admin: true },
   { href: hub("/finance"), label: "Přehled financí", icon: "coins", admin: true },
   { href: hub("/finance/transakce"), label: "Transakce", icon: "rows", admin: true },
   { href: hub("/finance/kategorie"), label: "Kategorie a pravidla", icon: "tag", admin: true },
   { href: hub("/finance/import"), label: "Nahrání výpisu", icon: "upload", admin: true },
+  { sep: "POPTÁVKY" },
+  { href: hub("/poptavky"), label: "Poptávky z webu", icon: "inbox" },
   { sep: "SPRÁVA" },
-  { href: hub("/klienti"), label: "Klienti a lokality", icon: "pin" },
-  { href: hub("/katalog"), label: "Katalog nákladů", icon: "list" },
   { href: hub("/nastaveni"), label: "Nastavení", icon: "cog" },
   { href: hub("/admin"), label: "Admin centrum", icon: "shield", admin: true },
 ] as const;
@@ -38,6 +41,7 @@ function Icon({ name }: { name: string }) {
     tag: "M3 3h6.6c.5 0 1 .2 1.4.6l6 6a2 2 0 0 1 0 2.8l-4.6 4.6a2 2 0 0 1-2.8 0l-6-6A2 2 0 0 1 3 9.6zm3 2.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3",
     upload: "M10 2.5 14.5 7H11v5H9V7H5.5zM3 14h14v3.5H3z",
     shield: "M10 1.6 3.5 4.2v5.1c0 4 2.8 7.7 6.5 9.1 3.7-1.4 6.5-5.1 6.5-9.1V4.2zm0 4.2a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4m0 5.6c1.7 0 3.2.8 3.9 2a6.9 6.9 0 0 1-7.8 0c.7-1.2 2.2-2 3.9-2",
+    inbox: "M3 3h14l-1.4 8H13l-1 2H8l-1-2H4.4zM3 12.5h4.2l1 2h3.6l1-2H17V17H3z",
     cog: "M10 6.5A3.5 3.5 0 1 0 10 13.5 3.5 3.5 0 0 0 10 6.5m8 3.5-1.9-.5a6 6 0 0 0-.6-1.5l1-1.7-1.8-1.8-1.7 1a6 6 0 0 0-1.5-.6L11 2.5H8.5L8 4.4a6 6 0 0 0-1.5.6l-1.7-1L3 5.8l1 1.7a6 6 0 0 0-.6 1.5L1.5 10v2.5l1.9.5c.15.53.35 1.03.6 1.5l-1 1.7 1.8 1.8 1.7-1c.47.25.97.45 1.5.6l.5 1.9H11l.5-1.9a6 6 0 0 0 1.5-.6l1.7 1 1.8-1.8-1-1.7c.25-.47.45-.97.6-1.5l1.9-.5z",
   };
   return (
@@ -53,12 +57,15 @@ export function Shell({
   locations,
   activeId,
   catalogCount,
+  newInquiries,
   user,
   children,
 }: {
   locations: LocationWithClient[];
   activeId: string | null;
   catalogCount: number;
+  /** Nevyřízené poptávky z webu — odznak u položky Poptávky. */
+  newInquiries: number;
   user: SessionUser;
   children: React.ReactNode;
 }) {
@@ -105,6 +112,9 @@ export function Shell({
                 ) : null}
                 {n.href === hub("/klienti") ? (
                   <span className="badge">{locations.length}</span>
+                ) : null}
+                {n.href === hub("/poptavky") && newInquiries > 0 ? (
+                  <span className="badge hot">{newInquiries}</span>
                 ) : null}
               </Link>
             ),

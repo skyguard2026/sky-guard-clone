@@ -31,7 +31,8 @@ export type AuditAction =
   | "data.wiped"
   | "finance.imported"
   | "finance.import_reverted"
-  | "finance.wiped";
+  | "finance.wiped"
+  | "inquiry.deleted";
 
 export interface AuditActor {
   userId: string | null;

@@ -232,12 +232,27 @@ html[data-theme="light"] .brand img {
   background: var(--blue);
   color: #fff;
 }
+/* Skupiny navigace: kalkulačka, finance, poptávky, správa — každá s
+   nadpisem a linkou, aby bylo na první pohled vidět, co k čemu patří. */
 .nav .sep {
   color: var(--tx-3);
   font-size: 11px;
+  font-weight: 600;
   padding: 18px 12px 7px;
-  letter-spacing: 0.08em;
+  margin-top: 8px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  border-top: 1px solid var(--line);
+}
+.nav .sep:first-child {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 6px;
+}
+.nav .badge.hot {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
 }
 .sb-foot {
   padding: 14px;
@@ -926,6 +941,20 @@ td.name em {
   background: transparent;
   border: 1px solid var(--line);
   color: var(--tx-3);
+}
+/* stavy poptávek */
+.pill.st-new {
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-weight: 600;
+}
+.pill.st-contacted {
+  background: rgba(245, 181, 68, 0.16);
+  color: var(--amber);
+}
+.pill.st-closed {
+  background: rgba(61, 220, 151, 0.14);
+  color: var(--green);
 }
 /* Buňka s akcemi drží tlačítka na jedné řádce. */
 td.acts {

@@ -289,11 +289,8 @@
 
   /* ════════════════════════════════════════════════════ formulář */
 
-  // Backend zatím není — čeká na ověření domény v Resend a nasazení
-  // Vercel funkce. Do té doby formulář neodesílá a nabídne přímé kontakty,
-  // aby se z něj nestala slepá ulička (a hlavně aby se osobní údaje
-  // nedostaly do URL nativním GET odesláním).
-  var BACKEND_READY = false;
+  // Poptávka jde do Hubu (tabulka inquiry) přes veřejný endpoint aplikace.
+  var ENDPOINT = "/api/poptavka";
 
   function initForm() {
     var form = document.getElementById("sg-form");
@@ -343,24 +340,53 @@
 
       if (!validate()) return;
 
-      if (!BACKEND_READY) {
-        status.textContent = "";
-        var t1 = document.createElement("span");
-        t1.textContent = "Formulář je momentálně v údržbě. Napište nám prosím na ";
-        var mail = document.createElement("a");
-        mail.href = "mailto:jan@sky-guard.cz";
-        mail.textContent = "jan@sky-guard.cz";
-        var t2 = document.createElement("span");
-        t2.textContent = " nebo volejte ";
-        var tel = document.createElement("a");
-        tel.href = "tel:+420737373430";
-        tel.textContent = "+420 737 373 430";
-        status.appendChild(t1); status.appendChild(mail);
-        status.appendChild(t2); status.appendChild(tel);
-        status.appendChild(document.createTextNode("."));
-        return;
-      }
+      var btn = form.querySelector(".sg-form-submit");
+      btn.disabled = true;
+      status.textContent = "Odesílám…";
+
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = v; });
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (j) {
+            return { ok: r.ok && j.ok === true, error: j.error };
+          });
+        })
+        .then(function (res) {
+          if (res.ok) {
+            form.reset();
+            status.textContent = "Děkujeme, poptávku jsme přijali. Ozveme se vám.";
+          } else {
+            showFallback(res.error);
+          }
+        })
+        .catch(function () { showFallback(); })
+        .finally(function () { btn.disabled = false; });
     });
+
+    // Když odeslání selže, nesmí z formuláře být slepá ulička — nabídne se
+    // přímý kontakt.
+    function showFallback(reason) {
+      status.textContent = "";
+      var t1 = document.createElement("span");
+      t1.textContent = (reason ? reason + " " : "Odeslání se nepodařilo. ") + "Napište nám prosím na ";
+      var mail = document.createElement("a");
+      mail.href = "mailto:jan@sky-guard.cz";
+      mail.textContent = "jan@sky-guard.cz";
+      var t2 = document.createElement("span");
+      t2.textContent = " nebo volejte ";
+      var tel = document.createElement("a");
+      tel.href = "tel:+420737373430";
+      tel.textContent = "+420 737 373 430";
+      status.appendChild(t1); status.appendChild(mail);
+      status.appendChild(t2); status.appendChild(tel);
+      status.appendChild(document.createTextNode("."));
+    }
   }
 
   /* ═════════════════════════════════════ jemný nájezd sekcí */

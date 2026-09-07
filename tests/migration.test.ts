@@ -119,6 +119,7 @@ describe("existující řádky migraci přežijí", () => {
       "category_rule",
       "client",
       "expense_category",
+      "inquiry",
       "location",
       "login_attempt",
       "offer",

@@ -9,6 +9,7 @@ import {
   categoryRules,
   clients,
   expenseCategories,
+  inquiries,
   locations,
   offers,
   settings,
@@ -21,6 +22,7 @@ import type {
   ExpenseCategory,
 } from "./bank/types";
 import type { Offer } from "./offer-types";
+import type { Inquiry } from "./inquiries";
 import type {
   CatalogItem,
   ClientWithLocations,
@@ -233,4 +235,31 @@ export const getTransactions = cache(async (): Promise<TxListRow[]> => {
     .from(bankTransactions)
     .orderBy(desc(bankTransactions.bookedAt), asc(bankTransactions.id));
   return rows;
+});
+
+/** Poptávky z webu, nejnovější první. */
+export const getInquiries = cache(async (): Promise<Inquiry[]> => {
+  const rows = await db.select().from(inquiries).orderBy(desc(inquiries.createdAt));
+  return rows.map((r) => ({
+    id: r.id,
+    createdAt: r.createdAt.toISOString(),
+    name: r.name,
+    company: r.company,
+    email: r.email,
+    phone: r.phone,
+    objectType: r.objectType,
+    interest: r.interest,
+    message: r.message,
+    status: r.status,
+    note: r.note,
+  }));
+});
+
+/** Počet nevyřízených poptávek pro odznak v navigaci. */
+export const countNewInquiries = cache(async (): Promise<number> => {
+  const rows = await db
+    .select({ id: inquiries.id })
+    .from(inquiries)
+    .where(eq(inquiries.status, "new"));
+  return rows.length;
 });

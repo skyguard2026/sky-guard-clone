@@ -50,6 +50,13 @@
       "when": 1788735091663,
       "tag": "0006_fast_vanisher",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788791001716,
+      "tag": "0007_amazing_dagger",
+      "breakpoints": true
     }
   ]
 }

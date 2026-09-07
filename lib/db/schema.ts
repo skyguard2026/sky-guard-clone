@@ -395,6 +395,42 @@ export const bankTransactions = pgTable(
   ],
 );
 
+/* ------------------------------------------------------------------ */
+/* Poptávky z veřejného webu                                            */
+/* ------------------------------------------------------------------ */
+
+export const inquiryStatusEnum = pgEnum("inquiry_status", [
+  "new",
+  "contacted",
+  "closed",
+]);
+
+/**
+ * Poptávka z kontaktního formuláře na webu. Zapisuje ji veřejný endpoint
+ * bez přihlášení, proto je každé pole ořezané na délku a hodnoty výběrů
+ * se ukládají jako klíče formuláře (industrial, camera …), ne jako texty —
+ * popisky se překládají až v Hubu.
+ */
+export const inquiries = pgTable("inquiry", {
+  id: text("id").primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  name: text("name").notNull(),
+  company: text("company").notNull().default(""),
+  email: text("email").notNull(),
+  phone: text("phone").notNull().default(""),
+  objectType: text("object_type").notNull().default(""),
+  interest: text("interest").notNull().default(""),
+  message: text("message").notNull().default(""),
+  status: inquiryStatusEnum("status").notNull().default("new"),
+  /** Interní poznámka obchodníka, klient ji nevidí. */
+  note: text("note").notNull().default(""),
+  source: text("source").notNull().default("web"),
+  ip: text("ip").notNull().default(""),
+  userAgent: text("user_agent").notNull().default(""),
+});
+
 export const schema = {
   users,
   sessions,
@@ -410,6 +446,7 @@ export const schema = {
   categoryRules,
   bankImports,
   bankTransactions,
+  inquiries,
 };
 export type Schema = typeof schema;
 
@@ -425,3 +462,4 @@ export type BankTxRow = typeof bankTransactions.$inferSelect;
 export type UserRow = typeof users.$inferSelect;
 export type SessionRow = typeof sessions.$inferSelect;
 export type AuditLogRow = typeof auditLog.$inferSelect;
+export type InquiryRow = typeof inquiries.$inferSelect;
