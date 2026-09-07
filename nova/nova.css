@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Sky Guard — /nova, samostatný stylesheet (v58)
+   Sky Guard — /nova, samostatný stylesheet (v59)
    Tmavé, prostorové rozhraní: skleněné panely s gradientním okrajem,
    světelné akcenty v brandové modré, bento mřížka, velká typografie.
    Brand: DM Sans (500 pro nadpisy), Nippo pro štítky, #0249A8 → #2F7BFF.
@@ -296,7 +296,12 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-hero-row picture { flex: 0 0 auto; }
 .sg-hero-row img { height: auto; display: block; }
 .sg-hero-tower img { height: clamp(220px, 24vw, 340px); width: auto; }
-.sg-hero-drone { width: min(680px, 56vw); }
+.sg-hero-drone { position: relative; width: min(680px, 56vw); aspect-ratio: 1 / .66; }
+.sg-hero-dock { position: absolute; left: 0; right: 0; bottom: 0; }
+.sg-hero-dock img { width: 100%; }
+.sg-hero-uav { position: absolute; left: 51%; bottom: 57%; width: 30%; transform: translateX(-50%); animation: sg-hover 5s ease-in-out infinite; }
+.sg-hero-uav img { width: 100%; }
+@keyframes sg-hover { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -6px); } }
 .sg-hero-drone img { width: 100%; }
 
 @keyframes sg-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
@@ -623,7 +628,7 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .sg-reveal { opacity: 1; transform: none; }
-  .sg-float, .sg-tile-orbit::before { animation: none !important; }
+  .sg-float, .sg-hero-uav, .sg-tile-orbit::before { animation: none !important; }
   .sg-btn, .sg-btn-secondary, .sg-solution, .sg-round-btn { transition: none; }
 }
 
