@@ -465,11 +465,10 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-solution:hover { background: rgba(255, 255, 255, .015); }
 .sg-sol-icon {
   position: absolute; top: 24px; left: 24px; width: 48px; height: 48px; border-radius: 50%;
-  display: grid; place-items: center; background: linear-gradient(180deg, #2273F5, #0249A8);
-  box-shadow: 0 10px 24px -10px rgba(30, 111, 240, .9);
+  display: grid; place-items: center; background: #0249A8;
 }
-.sg-sol-icon img { width: 26px; height: 26px; }
-.sg-solution-construction .sg-sol-icon { background: linear-gradient(180deg, #FF9A2E, #E0700A); box-shadow: 0 10px 24px -10px rgba(255, 134, 5, .9); }
+.sg-sol-icon img { width: 36px; height: 36px; }
+.sg-solution-construction .sg-sol-icon { background: #FF8605; }
 .sg-sol-art { display: grid; place-items: center; height: 220px; margin-bottom: 36px; }
 .sg-sol-art img { max-height: 220px; width: auto; max-width: 100%; }
 .sg-solution-construction .sg-sol-art img { max-height: 200px; }
