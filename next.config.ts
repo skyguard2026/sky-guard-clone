@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   // Fonty a logo pro PDF se čtou ze souborů za běhu, takže je Next musí
   // přibalit do serverless funkce — sám je jako závislost nevidí.
   outputFileTracingIncludes: {
-    "/**": ["./lib/pdf/fonts/**", "./lib/pdf/assets/**"],
+    "/**": ["./lib/pdf/fonts/**", "./lib/pdf/assets/**", "./lib/login-page/**"],
   },
   // @react-pdf/renderer je Node knihovna, do klientského bundlu nepatří.
   serverExternalPackages: ["@react-pdf/renderer"],
