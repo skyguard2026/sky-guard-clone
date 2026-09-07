@@ -42,6 +42,7 @@ body {
 img, picture, svg { max-width: 100%; }
 img { height: auto; display: block; }
 picture { display: block; line-height: 0; }
+picture > source { display: none; } /* jinak je <source> položkou gridu/flexu a posune obrázek */
 h1, h2, h3, h4, p, figure, blockquote, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 a { color: inherit; }
