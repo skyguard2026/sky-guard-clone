@@ -379,8 +379,8 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-hub-cells { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; border-top: 1px solid var(--line); }
 .sg-hub-cell { padding: 24px 24px 28px; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .sg-hub-cell:first-child { border-left: 0; }
-.sg-hub-shot { display: block; margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line-2); aspect-ratio: 16 / 10; background: #0A0C13; }
-.sg-hub-shot img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.sg-hub-shot { display: block; margin-bottom: 20px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line-2); aspect-ratio: 17 / 10; background: #0A0C13; }
+.sg-hub-shot img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .sg-hub-cell h3 { color: var(--text); font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
 .sg-hub-cell p { margin-top: 6px; font-size: 14px; line-height: 1.55; }
 .sg-hub-cells-sm { margin-top: 0; border-top: 0; }
