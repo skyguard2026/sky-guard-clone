@@ -276,17 +276,18 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 
 .sg-hero { padding: clamp(40px, 5vw, 64px) 0 0; border-top: 0; overflow: visible; }
 .sg-hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.sg-hero-mark { width: min(440px, 64vw); margin: 0 auto; }
+/* Obrácený trojúhelník jako na původním webu: wordmark nejširší, nadpis užší, perex ještě užší, tlačítka nejužší. */
+.sg-hero-mark { width: min(620px, 88vw); margin: 0 auto; }
 .sg-hero-mark img { width: 100%; height: auto; }
 .sg-h1 {
-  margin-top: 28px; color: var(--text); font-weight: 500;
-  font-size: clamp(36px, 4vw, 56px); line-height: 1.04; letter-spacing: -.03em;
+  margin-top: 32px; color: var(--text); font-weight: 500;
+  font-size: clamp(38px, 4.8vw, 66px); line-height: 1.04; letter-spacing: -.03em;
 }
 .sg-grad {
   background: linear-gradient(92deg, #7FB4FF 0%, #2F7BFF 45%, #9BDCFF 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.sg-hero .sg-lead { margin: 16px auto 0; max-width: 560px; font-size: 16px; line-height: 1.6; }
+.sg-hero .sg-lead { margin: 16px auto 0; max-width: 470px; font-size: 16px; line-height: 1.6; text-wrap: balance; }
 .sg-hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
 
 /* jedna řada produktů: zarovnané na spodní hranu, pevné rozměry */
