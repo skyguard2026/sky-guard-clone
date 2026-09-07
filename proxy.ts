@@ -23,6 +23,7 @@ import { resolveSession } from "./lib/auth/session";
 import { db } from "./lib/db";
 import { hasDatabase } from "./lib/db/url";
 import { HUB, hub } from "./lib/hub-path";
+import { PUBLIC_SITE } from "./lib/public-site";
 
 export const config = {
   matcher: ["/hub", "/hub/:path*"],
@@ -46,7 +47,8 @@ export default async function proxy(req: NextRequest) {
     if (pathname === UNAVAILABLE) return NextResponse.next();
     return NextResponse.rewrite(new URL(UNAVAILABLE, req.url));
   }
-  if (pathname === UNAVAILABLE) return NextResponse.redirect(new URL(HUB, req.url));
+  // S databází stránka pro náhled nemá smysl — zpět na veřejný web.
+  if (pathname === UNAVAILABLE) return NextResponse.redirect(new URL(PUBLIC_SITE, req.url));
 
   const user = await resolveSession(db, req.cookies.get(SESSION_COOKIE)?.value);
 

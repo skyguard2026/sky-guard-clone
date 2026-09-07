@@ -15,6 +15,7 @@ import { revokeSession } from "@/lib/auth/session";
 import { changeOwnPassword } from "@/lib/auth/users";
 import { db } from "@/lib/db";
 import { HUB, hub } from "@/lib/hub-path";
+import { PUBLIC_SITE } from "@/lib/public-site";
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -67,7 +68,8 @@ async function logoutImpl() {
     await revokeSession(db, sid);
   }
   jar.delete({ name: SESSION_COOKIE, path: HUB });
-  redirect(hub("/prihlaseni"));
+  // Po odhlášení zpět na veřejný web, ne na přihlašovací stránku.
+  redirect(PUBLIC_SITE);
 }
 
 async function changePasswordImpl(

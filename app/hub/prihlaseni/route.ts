@@ -18,6 +18,7 @@ import { callerIp, callerUserAgent } from "@/lib/auth/guards";
 import { login } from "@/lib/auth/login";
 import { db } from "@/lib/db";
 import { HUB, hub } from "@/lib/hub-path";
+import { PUBLIC_SITE } from "@/lib/public-site";
 
 export const dynamic = "force-dynamic";
 
@@ -46,6 +47,8 @@ function originOf(req: NextRequest): string {
 
 function render(dal: string, error?: string): NextResponse {
   const html = readFileSync(TEMPLATE, "utf8")
+    .replaceAll("{{WEB}}", PUBLIC_SITE)
+    .replaceAll("{{HUB}}", HUB)
     .replace("{{DAL}}", escapeHtml(dal))
     .replace(
       "{{ERROR}}",

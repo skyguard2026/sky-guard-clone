@@ -1,10 +1,11 @@
 import Image from "next/image";
 import styles from "./web.module.css";
+import { PUBLIC_SITE, webUrl } from "@/lib/public-site";
 
 /**
  * Rám ve vzhledu veřejného webu pro stránky, které stojí před bránou:
  * přihlášení a náhled bez databáze. Aplikace sama má vlastní Shell.
- * Odkazy vedou na veřejný web (statický, v public/), ne do aplikace.
+ * Odkazy vedou na veřejný web (PUBLIC_SITE), ne do aplikace.
  */
 export function WebFrame({
   title,
@@ -18,14 +19,14 @@ export function WebFrame({
       <div className={styles.lines} aria-hidden="true" />
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <a href="/" className={styles.logo} aria-label="Sky Guard — domů">
+          <a href={PUBLIC_SITE} className={styles.logo} aria-label="Sky Guard — domů">
             <Image src="/images/MQAD3CzwiRLz2sjkC49qdndj7Q.png" alt="Sky Guard" width={230} height={39} priority />
           </a>
           <nav className={styles.nav} aria-label="Hlavní navigace">
-            <a href="/#onas">O nás</a>
-            <a href="/#technologie">Technologie</a>
-            <a href="/#sluzby">Služby</a>
-            <a href="/#kontakt">Kontakt</a>
+            <a href={webUrl("o-nas")}>O nás</a>
+            <a href={webUrl("sky-camera")}>Technologie</a>
+            <a href={webUrl("reseni")}>Služby</a>
+            <a href={webUrl("kontakt")}>Kontakt</a>
           </nav>
           <span className={styles.pill}>Sky Guard Hub</span>
         </div>
@@ -58,10 +59,10 @@ export function WebFrame({
           </div>
           <nav aria-label="Navigace">
             <b>Navigation</b>
-            <a href="/#technologie">Technologie</a>
-            <a href="/#sluzby">Služby</a>
-            <a href="/#onas">O nás</a>
-            <a href="/#kontakt">Kontakt</a>
+            <a href={webUrl("sky-camera")}>Technologie</a>
+            <a href={webUrl("reseni")}>Služby</a>
+            <a href={webUrl("o-nas")}>O nás</a>
+            <a href={webUrl("kontakt")}>Kontakt</a>
           </nav>
           <nav aria-label="Sociální sítě">
             <b>Socials</b>

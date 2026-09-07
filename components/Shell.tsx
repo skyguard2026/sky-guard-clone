@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { setActiveLocationCookie } from "@/lib/active-location-client";
 import type { SessionUser } from "@/lib/auth/session";
 import type { LocationWithClient } from "@/lib/types";
-import { logout } from "@/app/actions/auth";
 import { hub } from "@/lib/hub-path";
 
 /** `admin: true` znamená, že položku member vůbec neuvidí. */
@@ -117,7 +116,7 @@ export function Shell({
               <b>{user.name || user.email}</b>
               <i>{isAdmin ? "správce" : "člen"}</i>
             </div>
-            <form action={logout}>
+            <form action={hub("/odhlaseni")} method="post">
               <button type="submit" className="btn sm" title="Odhlásit se">
                 Odhlásit
               </button>

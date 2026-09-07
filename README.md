@@ -15,6 +15,9 @@ na `/hub/prihlaseni`.
 ceny hardwaru.**
 
 Prefix `/hub` se skládá na jednom místě, v [lib/hub-path.ts](lib/hub-path.ts).
+Adresa veřejného webu pro odkazy „zpět na web" (odhlášení, přihlášení,
+náhled bez databáze) je jedna konstanta v [lib/public-site.ts](lib/public-site.ts):
+dnes `/nova`, po přechodu nového webu na kořen `/`.
 `basePath` v Next se nepoužívá: aplikoval by se i na `public/` a rozbil
 veřejné adresy.
 
