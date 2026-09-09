@@ -33,10 +33,10 @@ export const INTERESTS: Record<string, string> = {
 };
 
 export function objectTypeLabel(v: string): string {
-  return OBJECT_TYPES[v] ?? (v || "—");
+  return Object.hasOwn(OBJECT_TYPES, v) ? OBJECT_TYPES[v] : v || "—";
 }
 export function interestLabel(v: string): string {
-  return INTERESTS[v] ?? (v || "—");
+  return Object.hasOwn(INTERESTS, v) ? INTERESTS[v] : v || "—";
 }
 
 export interface InquiryInput {
@@ -81,9 +81,9 @@ export function parseInquiry(
   if (name.length < 2) return { ok: false, error: "Zadejte prosím své jméno." };
   if (!EMAIL.test(email))
     return { ok: false, error: "Zadejte platnou e-mailovou adresu." };
-  if (!objectType || !(objectType in OBJECT_TYPES))
+  if (!objectType || !Object.hasOwn(OBJECT_TYPES, objectType))
     return { ok: false, error: "Vyberte prosím typ objektu." };
-  if (interest && !(interest in INTERESTS))
+  if (interest && !Object.hasOwn(INTERESTS, interest))
     return { ok: false, error: "Neplatná volba zájmu." };
 
   return {
@@ -101,5 +101,7 @@ export function parseInquiry(
 }
 
 export function isInquiryStatus(v: unknown): v is InquiryStatus {
-  return typeof v === "string" && (INQUIRY_STATUSES as readonly string[]).includes(v);
+  return (
+    typeof v === "string" && (INQUIRY_STATUSES as readonly string[]).includes(v)
+  );
 }

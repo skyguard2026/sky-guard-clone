@@ -50,6 +50,7 @@
     if (!burger || !panel) return;
     var lastFocus = null;
     var locked = false;
+    var closeTimer = null;
 
     function lock(on) {
       var de = document.documentElement;
@@ -66,6 +67,7 @@
     }
 
     function open() {
+      if (closeTimer) clearTimeout(closeTimer);
       lastFocus = document.activeElement;
       panel.hidden = false;
       void panel.offsetHeight;
@@ -84,13 +86,13 @@
       burger.setAttribute("aria-label", "Otevřít menu");
       lock(false);
       var done = function () { panel.hidden = true; };
-      reduceMotion ? done() : setTimeout(done, 200);
+      closeTimer = reduceMotion ? (done(), null) : setTimeout(done, 200);
       if (lastFocus && lastFocus.focus) lastFocus.focus();
       lastFocus = null;
     }
 
     burger.addEventListener("click", function () {
-      panel.hidden ? open() : close();
+      panel.hasAttribute("data-open") ? close() : open();
     });
     panel.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", close);
@@ -262,6 +264,7 @@
       ans.className = "sg-faq-a";
       ans.id = "faq-a-" + idx;
       ans.setAttribute("role", "region");
+      ans.setAttribute("aria-hidden", "true");
       ans.setAttribute("aria-labelledby", btn.id);
       var inner = document.createElement("div");
       var p = document.createElement("p");
@@ -273,10 +276,12 @@
         var isOpen = wrap.classList.contains("open");
         root.querySelectorAll(".sg-faq-item.open").forEach(function (o) {
           o.classList.remove("open");
+          o.querySelector(".sg-faq-a").setAttribute("aria-hidden", "true");
           o.querySelector(".sg-faq-q").setAttribute("aria-expanded", "false");
         });
         if (!isOpen) {
           wrap.classList.add("open");
+          ans.setAttribute("aria-hidden", "false");
           btn.setAttribute("aria-expanded", "true");
         }
       });
@@ -296,6 +301,7 @@
     var form = document.getElementById("sg-form");
     if (!form) return;
     var status = document.getElementById("sg-form-status");
+    var sending = false;
 
     var fields = [
       { id: "f-name", err: "err-name", test: function (v) { return v.trim().length >= 2; } },
@@ -332,6 +338,7 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      if (sending) return;
       // Honeypot: vyplněné = robot. Tváříme se, že vše proběhlo.
       if (form.querySelector("#f-company-url").value) {
         status.textContent = "Děkujeme, ozveme se vám.";
@@ -341,14 +348,20 @@
       if (!validate()) return;
 
       var btn = form.querySelector(".sg-form-submit");
+      sending = true;
       btn.disabled = true;
+      form.setAttribute("aria-busy", "true");
+      status.dataset.state = "sending";
       status.textContent = "Odesílám…";
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, 15000);
 
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
 
       fetch(ENDPOINT, {
         method: "POST",
+        signal: controller.signal,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       })
@@ -360,18 +373,20 @@
         .then(function (res) {
           if (res.ok) {
             form.reset();
+            status.dataset.state = "success";
             status.textContent = "Děkujeme, poptávku jsme přijali. Ozveme se vám.";
           } else {
             showFallback(res.error);
           }
         })
         .catch(function () { showFallback(); })
-        .finally(function () { btn.disabled = false; });
+        .finally(function () { clearTimeout(timeout); sending = false; btn.disabled = false; form.setAttribute("aria-busy", "false"); });
     });
 
     // Když odeslání selže, nesmí z formuláře být slepá ulička — nabídne se
     // přímý kontakt.
     function showFallback(reason) {
+      status.dataset.state = "error";
       status.textContent = "";
       var t1 = document.createElement("span");
       t1.textContent = (reason ? reason + " " : "Odeslání se nepodařilo. ") + "Napište nám prosím na ";

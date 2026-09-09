@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   deleteInquiry,
@@ -14,16 +14,20 @@ import {
   type Inquiry,
   type InquiryStatus,
 } from "@/lib/inquiries";
+import {
+  inquiriesCsv,
+  selectInquiries,
+  type InquiryFilter,
+  type InquirySort,
+} from "@/lib/inquiry-view";
 import { useToast } from "./Toast";
 import { ConfirmButton, Modal, Segmented } from "./ui";
-
-type Filter = "all" | InquiryStatus;
 
 const dt = (iso: string) =>
   new Date(iso).toLocaleString("cs-CZ", {
     day: "numeric",
     month: "numeric",
-    year: "2-digit",
+    year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -31,249 +35,407 @@ const dt = (iso: string) =>
 export function InquiriesClient({ inquiries }: { inquiries: Inquiry[] }) {
   const router = useRouter();
   const toast = useToast();
-  const [, startTransition] = useTransition();
-  const [filter, setFilter] = useState<Filter>("all");
-  const [noteDlg, setNoteDlg] = useState<Inquiry | null>(null);
+  const [pending, startTransition] = useTransition();
+  const busy = useRef(false);
+  const [filter, setFilter] = useState<InquiryFilter>("all");
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<InquirySort>("newest");
+  const [detailId, setDetailId] = useState<string | null>(null);
   const [noteText, setNoteText] = useState("");
-
+  const [error, setError] = useState("");
+  const detail = inquiries.find((q) => q.id === detailId);
   const counts = useMemo(() => {
-    const c = { new: 0, contacted: 0, closed: 0 };
+    const c = { new: 0, contacted: 0, closed: 0, all: inquiries.length };
     for (const q of inquiries) c[q.status]++;
     return c;
   }, [inquiries]);
-
   const shown = useMemo(
-    () => (filter === "all" ? inquiries : inquiries.filter((q) => q.status === filter)),
-    [inquiries, filter],
+    () => selectInquiries(inquiries, filter, query, sort),
+    [inquiries, filter, query, sort],
   );
-
+  const run = (
+    action: () => Promise<{ ok: boolean; error?: string }>,
+    message: string,
+    close = false,
+  ) => {
+    if (busy.current) return;
+    busy.current = true;
+    setError("");
+    startTransition(async () => {
+      try {
+        const result = await action();
+        if (!result.ok)
+          throw new Error(result.error || "Změnu se nepodařilo uložit.");
+        toast(message);
+        if (close) setDetailId(null);
+        router.refresh();
+      } catch {
+        setError(
+          "Změnu se nepodařilo uložit. Zkontrolujte připojení a zkuste to znovu. Rozepsaná poznámka zůstala zachovaná.",
+        );
+      } finally {
+        busy.current = false;
+      }
+    });
+  };
   const changeStatus = (q: Inquiry, status: InquiryStatus) =>
-    startTransition(async () => {
-      const res = await setInquiryStatus(q.id, status);
-      if (!res.ok) return toast(res.error);
-      toast(`Poptávka: ${STATUS_LABEL[status].toLowerCase()}`);
-      router.refresh();
-    });
-
-  const remove = (q: Inquiry) =>
-    startTransition(async () => {
-      await deleteInquiry(q.id);
-      toast("Poptávka smazána");
-      router.refresh();
-    });
-
-  const openNote = (q: Inquiry) => {
+    run(
+      () => setInquiryStatus(q.id, status),
+      `Poptávka: ${STATUS_LABEL[status].toLowerCase()}`,
+    );
+  const openDetail = (q: Inquiry) => {
     setNoteText(q.note);
-    setNoteDlg(q);
+    setDetailId(q.id);
+    setError("");
   };
-  const saveNote = () => {
-    const q = noteDlg;
-    if (!q) return;
-    startTransition(async () => {
-      await setInquiryNote(q.id, noteText);
-      setNoteDlg(null);
-      toast("Poznámka uložena");
-      router.refresh();
-    });
+  const closeDetail = () => {
+    if (pending) return;
+    if (
+      detail &&
+      noteText !== detail.note &&
+      !window.confirm("Zavřít bez uložení poznámky?")
+    )
+      return;
+    setDetailId(null);
   };
-
+  const exportCsv = () => {
+    const url = URL.createObjectURL(
+      new Blob([inquiriesCsv(shown)], { type: "text/csv;charset=utf-8;" }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `poptavky-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast(`Exportováno: ${shown.length} poptávek`);
+  };
   return (
     <>
+      <div className="inquiry-intro">
+        <div>
+          <span className="eyebrow">OBCHODNÍ PŘEHLED</span>
+          <h2>Každá poptávka má svůj další krok.</h2>
+          <p>
+            Kontaktujte nové zájemce, zapište domluvu a mějte přehled o
+            rozpracovaných příležitostech.
+          </p>
+        </div>
+        <span className="inquiry-total">
+          {counts.new}
+          <small>čeká na kontakt</small>
+        </span>
+      </div>
       <div className="card">
-        <div className="kpis">
-          <div className="kpi">
-            <label>Nové</label>
-            <div className={`v ${counts.new > 0 ? "blue" : ""}`}>{counts.new}</div>
-            <div className="sub">čekají na první kontakt</div>
-          </div>
-          <div className="kpi">
-            <label>V řešení</label>
-            <div className={`v ${counts.contacted > 0 ? "warn" : ""}`}>{counts.contacted}</div>
-            <div className="sub">už jste se ozvali</div>
-          </div>
-          <div className="kpi">
-            <label>Vyřízené</label>
-            <div className={`v ${counts.closed > 0 ? "good" : ""}`}>{counts.closed}</div>
-            <div className="sub">uzavřené poptávky</div>
-          </div>
-          <div className="kpi">
-            <label>Celkem</label>
-            <div className="v">{inquiries.length}</div>
-            <div className="sub">od spuštění formuláře</div>
-          </div>
+        <div className="kpis inquiry-kpis">
+          {(
+            [
+              {
+                key: "new",
+                title: "Nové",
+                sub: "čekají na první kontakt",
+                color: "blue",
+              },
+              {
+                key: "contacted",
+                title: "V řešení",
+                sub: "rozpracované příležitosti",
+                color: "warn",
+              },
+              {
+                key: "closed",
+                title: "Vyřízené",
+                sub: "uzavřené poptávky",
+                color: "good",
+              },
+              {
+                key: "all",
+                title: "Celkem",
+                sub: "všechny přijaté poptávky",
+                color: "",
+              },
+            ] as const
+          ).map((item) => (
+            <button
+              type="button"
+              key={item.key}
+              className="kpi"
+              aria-pressed={filter === item.key}
+              onClick={() => setFilter(item.key)}
+            >
+              <span className="kpi-label">
+                {item.title}
+                <span aria-hidden="true">↗</span>
+              </span>
+              <div className={`v ${item.color}`}>{counts[item.key]}</div>
+              <div className="sub">{item.sub}</div>
+            </button>
+          ))}
         </div>
       </div>
-
-      <div className="card">
-        <h2>
-          <span className="tag" />
-          Poptávky
-          <span className="right">
-            <Segmented
-              value={filter}
-              onChange={setFilter}
-              options={[
-                { v: "all", label: "Vše" },
-                { v: "new", label: "Nové" },
-                { v: "contacted", label: "V řešení" },
-                { v: "closed", label: "Vyřízené" },
-              ]}
+      <section className="card inquiry-panel" aria-label="Seznam poptávek">
+        <div className="inquiry-toolbar">
+          <div className="inquiry-search">
+            <input
+              type="search"
+              aria-label="Hledat v poptávkách"
+              placeholder="Hledat jméno, firmu, e-mail nebo zprávu…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
+          </div>
+          <select
+            aria-label="Řazení poptávek"
+            value={sort}
+            onChange={(e) => setSort(e.target.value as InquirySort)}
+          >
+            <option value="newest">Od nejnovějších</option>
+            <option value="oldest">Od nejstarších</option>
+          </select>
+          <button
+            type="button"
+            className="btn"
+            onClick={exportCsv}
+            disabled={!shown.length}
+          >
+            Export CSV ↓
+          </button>
+        </div>
+        <div className="inquiry-filters">
+          <Segmented
+            value={filter}
+            onChange={setFilter}
+            options={[
+              { v: "all", label: "Vše" },
+              { v: "new", label: "Nové" },
+              { v: "contacted", label: "V řešení" },
+              { v: "closed", label: "Vyřízené" },
+            ]}
+          />
+          <span className="muted" role="status">
+            Zobrazeno {shown.length} z {inquiries.length}
           </span>
-        </h2>
-
-        {shown.length === 0 ? (
-          <div className="empty">
+        </div>
+        {error && !detail && (
+          <div className="inquiry-error" role="alert">
+            {error}
+          </div>
+        )}
+        {!shown.length ? (
+          <div className="empty inquiry-empty">
+            <span className="empty-symbol" aria-hidden="true">
+              ↗
+            </span>
             <b>
-              {inquiries.length === 0
-                ? "Zatím žádná poptávka"
-                : "V tomhle filtru nic není"}
+              {inquiries.length
+                ? "Žádná odpovídající poptávka"
+                : "Tady začínají nové příležitosti"}
             </b>
-            {inquiries.length === 0
-              ? "Formulář „Domluvte si s námi ukázku“ na webu ukládá poptávky sem."
-              : "Zkuste jiný stav."}
+            <p>
+              {inquiries.length
+                ? "Zkuste jiné hledání nebo zobrazte všechny stavy."
+                : "Poptávky z kontaktního formuláře se zde objeví automaticky."}
+            </p>
+            {inquiries.length > 0 && (
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  setFilter("all");
+                  setQuery("");
+                }}
+              >
+                Zrušit filtry
+              </button>
+            )}
           </div>
         ) : (
-          <div className="scroll-x">
-            <table>
-              <thead>
-                <tr>
-                  <th>Přijato</th>
-                  <th>Kontakt</th>
-                  <th className="hide-narrow">Objekt</th>
-                  <th className="hide-narrow">Zajímá</th>
-                  <th>Stav</th>
-                  <th>Poznámka</th>
-                  <th className="n">Akce</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shown.map((q) => (
-                  <tr key={q.id}>
-                    <td className="nw muted tnum">{dt(q.createdAt)}</td>
-                    <td className="name">
-                      <b style={{ fontWeight: q.status === "new" ? 700 : 500 }}>
-                        {q.name}
-                      </b>
-                      {q.company ? <div className="muted">{q.company}</div> : null}
-                      <div style={{ marginTop: 3, fontSize: 12.5 }}>
-                        <a href={`mailto:${q.email}`} style={{ color: "var(--blue)" }}>
-                          {q.email}
-                        </a>
-                        {q.phone ? (
-                          <>
-                            {" · "}
-                            <a href={`tel:${q.phone.replace(/\s+/g, "")}`} style={{ color: "var(--blue)" }}>
-                              {q.phone}
-                            </a>
-                          </>
-                        ) : null}
-                      </div>
-                    </td>
-                    <td className="hide-narrow">{objectTypeLabel(q.objectType)}</td>
-                    <td className="hide-narrow">{interestLabel(q.interest)}</td>
-                    <td className="nw">
-                      <span className={`pill st-${q.status}`}>{STATUS_LABEL[q.status]}</span>
-                    </td>
-                    <td style={{ maxWidth: 260 }}>
-                      {q.note ? (
-                        <span className="muted" style={{ fontSize: 13 }}>
-                          {q.note.length > 90 ? q.note.slice(0, 90) + "…" : q.note}
-                        </span>
-                      ) : (
-                        <span className="muted">—</span>
-                      )}
-                    </td>
-                    <td className="acts n">
-                      <span>
-                        <button type="button" className="btn sm" onClick={() => openNote(q)}>
-                          Poznámka
-                        </button>
-                        {q.status === "new" ? (
-                          <button
-                            type="button"
-                            className="btn sm primary"
-                            onClick={() => changeStatus(q, "contacted")}
-                          >
-                            Řeším
-                          </button>
-                        ) : null}
-                        {q.status !== "closed" ? (
-                          <button
-                            type="button"
-                            className="btn sm"
-                            onClick={() => changeStatus(q, "closed")}
-                          >
-                            Vyřízeno
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            className="btn sm"
-                            onClick={() => changeStatus(q, "contacted")}
-                          >
-                            Otevřít znovu
-                          </button>
-                        )}
-                        <ConfirmButton
-                          question={`Smazat poptávku od ${q.name}? Nejde to vrátit.`}
-                          onConfirm={() => remove(q)}
-                        >
-                          Smazat
-                        </ConfirmButton>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="inquiry-list">
+            {shown.map((q) => (
+              <article
+                className={`inquiry-row${q.status === "new" ? " is-new" : ""}`}
+                key={q.id}
+              >
+                <div className="inquiry-avatar" aria-hidden="true">
+                  {q.name
+                    .trim()
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase()}
+                </div>
+                <div className="inquiry-person">
+                  <button
+                    type="button"
+                    className="inquiry-name"
+                    onClick={() => openDetail(q)}
+                  >
+                    {q.name}
+                  </button>
+                  <span>{q.company || objectTypeLabel(q.objectType)}</span>
+                  <a href={`mailto:${q.email}`}>{q.email}</a>
+                </div>
+                <div className="inquiry-summary">
+                  <span>{interestLabel(q.interest)}</span>
+                  <p>{q.message || q.note || "Bez doplňující zprávy"}</p>
+                </div>
+                <div className="inquiry-meta">
+                  <span className={`pill st-${q.status}`}>
+                    {STATUS_LABEL[q.status]}
+                  </span>
+                  <time dateTime={q.createdAt}>{dt(q.createdAt)}</time>
+                </div>
+                <div className="inquiry-actions">
+                  <button
+                    className="btn sm"
+                    type="button"
+                    onClick={() => openDetail(q)}
+                  >
+                    Detail ↗
+                  </button>
+                  {q.status === "new" && (
+                    <button
+                      className="btn sm primary"
+                      type="button"
+                      disabled={pending}
+                      onClick={() => changeStatus(q, "contacted")}
+                    >
+                      Řeším
+                    </button>
+                  )}
+                </div>
+              </article>
+            ))}
           </div>
         )}
         <div className="note">
-          Poptávku odešle návštěvník webu formulářem v sekci Kontakt. Nová
-          poptávka čeká na první kontakt; jakmile se ozvete, přepněte ji na
-          „Řeším“, po uzavření na „Vyřízeno“. Poznámka je interní, klient ji
-          nevidí.
+          Poznámky jsou interní. Klient je nevidí. Export obsahuje pouze právě
+          zobrazené poptávky.
         </div>
-      </div>
-
+      </section>
       <Modal
-        open={noteDlg !== null}
-        title={noteDlg ? `Poznámka — ${noteDlg.name}` : "Poznámka"}
-        onClose={() => setNoteDlg(null)}
+        open={Boolean(detail)}
+        title={detail ? `Poptávka — ${detail.name}` : "Detail poptávky"}
+        onClose={closeDetail}
       >
-        {noteDlg ? (
+        {detail && (
           <>
-            <div className="dbody">
+            <div className="dbody inquiry-detail">
+              <div className="detail-heading">
+                <span className={`pill st-${detail.status}`}>
+                  {STATUS_LABEL[detail.status]}
+                </span>
+                <time dateTime={detail.createdAt}>{dt(detail.createdAt)}</time>
+              </div>
+              <dl className="contact-grid">
+                <div>
+                  <dt>E-mail</dt>
+                  <dd>
+                    <a href={`mailto:${detail.email}`}>{detail.email}</a>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Telefon</dt>
+                  <dd>
+                    {detail.phone ? (
+                      <a href={`tel:${detail.phone.replace(/[^+\d]/g, "")}`}>
+                        {detail.phone}
+                      </a>
+                    ) : (
+                      "Neuveden"
+                    )}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Společnost / objekt</dt>
+                  <dd>
+                    {detail.company || "Neuvedena"}
+                    <small>{objectTypeLabel(detail.objectType)}</small>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Zájem</dt>
+                  <dd>{interestLabel(detail.interest)}</dd>
+                </div>
+              </dl>
+              <div className="inquiry-message">
+                <h4>Zpráva od zájemce</h4>
+                <p>
+                  {detail.message || "Zájemce nepřipojil doplňující zprávu."}
+                </p>
+              </div>
+              <div className="field">
+                <label htmlFor="inq-status">Stav poptávky</label>
+                <select
+                  id="inq-status"
+                  value={detail.status}
+                  disabled={pending}
+                  onChange={(e) =>
+                    changeStatus(detail, e.target.value as InquiryStatus)
+                  }
+                >
+                  <option value="new">Nová</option>
+                  <option value="contacted">V řešení</option>
+                  <option value="closed">Vyřízená</option>
+                </select>
+              </div>
               <div className="field">
                 <label htmlFor="inq-note">Interní poznámka</label>
                 <textarea
                   id="inq-note"
                   value={noteText}
                   onChange={(e) => setNoteText(e.target.value)}
+                  disabled={pending}
                   rows={5}
-                  placeholder="Co jste si domluvili, kdy se ozvat znovu…"
+                  maxLength={4000}
+                  placeholder="Co jste si domluvili a kdy se ozvat znovu…"
                 />
                 <div className="hint">
-                  {noteDlg.company ? `${noteDlg.company} · ` : ""}
-                  {noteDlg.email}
-                  {noteDlg.phone ? ` · ${noteDlg.phone}` : ""}
-                  {" · "}
-                  {objectTypeLabel(noteDlg.objectType)}
-                  {noteDlg.interest ? ` · ${interestLabel(noteDlg.interest)}` : ""}
+                  {noteText.length} / 4 000 znaků · vidí pouze váš tým
                 </div>
               </div>
+              {error && (
+                <div className="inquiry-error" role="alert">
+                  {error}
+                </div>
+              )}
             </div>
-            <div className="dfoot">
-              <button type="button" className="btn" onClick={() => setNoteDlg(null)}>
-                Zrušit
+            <div className="dfoot inquiry-detail-footer">
+              <ConfirmButton
+                disabled={pending}
+                question={`Smazat poptávku od ${detail.name}? Nejde to vrátit.`}
+                onConfirm={() =>
+                  run(() => deleteInquiry(detail.id), "Poptávka smazána", true)
+                }
+              >
+                Smazat
+              </ConfirmButton>
+              <span className="spacer" />
+              <button
+                className="btn"
+                type="button"
+                disabled={pending}
+                onClick={closeDetail}
+              >
+                Zavřít
               </button>
-              <button type="button" className="btn primary" onClick={saveNote}>
-                Uložit
+              <button
+                className="btn primary"
+                type="button"
+                disabled={pending || noteText === detail.note}
+                onClick={() =>
+                  run(
+                    () => setInquiryNote(detail.id, noteText),
+                    "Poznámka uložena",
+                    true,
+                  )
+                }
+              >
+                {pending ? "Ukládám…" : "Uložit poznámku"}
               </button>
             </div>
           </>
-        ) : null}
+        )}
       </Modal>
     </>
   );

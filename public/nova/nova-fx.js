@@ -11,7 +11,7 @@
   /* Spotlight: karta dostane --mx/--my v procentech, CSS z toho kreslí
      radiální přechod. Posluchač je jeden na dokumentu, ne na každé kartě. */
   function initSpotlight() {
-    if (!fine) return;
+    if (!fine || reduce) return;
     document.addEventListener("pointermove", function (e) {
       var card = e.target.closest && e.target.closest(".sg-glass");
       if (!card) return;
@@ -49,17 +49,43 @@
     var h = document.getElementById("sg-header");
     var grid = document.querySelector(".sg-bg-grid");
     if (!h) return;
+    var progress = document.createElement("span");
+    progress.className = "sg-scroll-progress";
+    progress.setAttribute("aria-hidden", "true");
+    h.appendChild(progress);
+    var ticking = false;
     function sync() {
+      ticking = false;
       var y = window.scrollY;
       h.classList.toggle("is-scrolled", y > 24);
-      // Mřížka patří jen k heru; při scrollu se vytratí, ať neprosvítá všude.
       if (grid) grid.style.opacity = Math.max(0, 1 - y / 700).toFixed(2);
+      var height = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = "scaleX(" + (height > 0 ? Math.min(1, Math.max(0, y / height)) : 0) + ")";
     }
-    window.addEventListener("scroll", sync, { passive: true });
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
     sync();
   }
 
-  function start() { initSpotlight(); initParallax(); initHeader(); }
+  function initStagger() {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    var items = document.querySelectorAll(".sg-glass, .sg-hub-details > li, .sg-steps > li");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("sg-in-view");
+        io.unobserve(entry.target);
+      });
+    }, { threshold: .08 });
+    items.forEach(function (item, i) {
+      item.classList.add("sg-stagger");
+      item.style.setProperty("--reveal-delay", (i % 3 * 65) + "ms");
+      io.observe(item);
+    });
+  }
+
+  function start() { initSpotlight(); initParallax(); initHeader(); initStagger(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();
 })();

@@ -408,3 +408,25 @@ databázi ani nepotřebuje tajemství — spojení se navazuje až při prvním 
 - nákupní ceny z katalogu
 
 Záloha z Nastavení je interní soubor pro jednatele, ne podklad pro klienta.
+
+
+### Vylepšení rozhraní (2026-09-09)
+
+- Hub má rychlé hledání sekcí i klientských lokalit (⌘/Ctrl K), mobilní
+  navigaci v dialogu a přímý návrat na veřejný web. Oprávnění jednotlivých
+  rolí zůstávají řízená bránou a server actions.
+- Poptávky lze hledat bez diakritiky, filtrovat kliknutím na souhrny a řadit
+  podle data. Detail ukazuje původní zprávu, kontakty, stav a interní poznámku.
+  Ukládání blokuje opakované kliknutí a při chybě zachová rozepsaný text.
+- CSV export obsahuje pouze filtrované výsledky, včetně interních poznámek.
+  Buňky jsou escapované a hodnoty začínající vzorcem jsou neutralizované.
+- Veřejný formulář má nepovinnou zprávu, přístupné chyby a časový limit
+  odesílání. Endpoint omezuje tělo požadavku před parsováním na 32 KiB.
+  IP limit zůstává paměťový, pouze pro konkrétní serverovou instanci;
+  není globálním limitem napříč funkcemi Vercelu.
+- Přihlášení používá vlastní lehkou HTML šablonu bez Framer runtime.
+  Účty, hesla, sessions ani bootstrap se tím nemění.
+- Animace sekcí, karet a dialogů respektují prefers-reduced-motion.
+
+Tato úprava nemění schéma databáze. Poptávky stále vyžadují dřívější migraci
+0007; případný výpadek databáze se nyní odlišuje od chybějící tabulky.

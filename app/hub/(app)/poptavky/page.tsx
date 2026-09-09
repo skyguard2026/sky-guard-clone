@@ -9,9 +9,12 @@ export default async function PoptavkyPage() {
   // Migrace se pouštějí ručně (README → Nasazení). Než doběhne, tabulka
   // chybí — stránka to řekne místo toho, aby spadla.
   let inquiries: Inquiry[] | null = null;
+  let missingTable = false;
   try {
     inquiries = await getInquiries();
-  } catch {
+  } catch (error) {
+    const cause = error as { code?: string; cause?: { code?: string } };
+    missingTable = cause?.code === "42P01" || cause?.cause?.code === "42P01";
     inquiries = null;
   }
 
@@ -27,10 +30,19 @@ export default async function PoptavkyPage() {
         ) : (
           <div className="card">
             <div className="empty">
-              <b>Tabulka poptávek v databázi ještě není</b>
-              Spusť migraci <code>npm run db:migrate</code> proti této databázi
-              (postup v README, část Nasazení). Do té doby formulář na webu
-              nabídne přímý kontakt místo odeslání.
+              <b>
+                {missingTable
+                  ? "Poptávky čekají na aktivaci"
+                  : "Poptávky se nepodařilo načíst"}
+              </b>
+              <p>
+                {missingTable
+                  ? "Správce musí dokončit nastavení databáze. Zájemci zatím mohou využít přímý kontakt na webu."
+                  : "Databáze teď není dostupná. Zkuste stránku načíst znovu za chvíli."}
+              </p>
+              <a className="btn" href="/hub/poptavky">
+                Zkusit znovu
+              </a>
             </div>
           </div>
         )}

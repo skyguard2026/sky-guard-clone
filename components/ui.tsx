@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 export function Toggle({
   on,
@@ -228,6 +223,7 @@ export function Modal({
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
@@ -237,6 +233,7 @@ export function Modal({
   return (
     <dialog
       ref={ref}
+      aria-labelledby={titleId}
       onCancel={(e) => {
         e.preventDefault();
         onClose();
@@ -244,7 +241,7 @@ export function Modal({
     >
       {open ? (
         <>
-          <h3>{title}</h3>
+          <h3 id={titleId}>{title}</h3>
           {children}
         </>
       ) : null}
@@ -258,18 +255,21 @@ export function ConfirmButton({
   onConfirm,
   children,
   className = "btn sm danger",
+  disabled,
   style,
 }: {
   question: string;
   onConfirm: () => void;
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
   style?: React.CSSProperties;
 }) {
   return (
     <button
       type="button"
       className={className}
+      disabled={disabled}
       style={style}
       onClick={() => {
         if (window.confirm(question)) onConfirm();

@@ -19,7 +19,7 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=71">
+    <link rel="stylesheet" href="/nova/nova.css?v=72">
 </head>
 <body>
 
@@ -443,7 +443,7 @@
       <h2 class="sg-h2">Domluvte si s námi ukázku</h2>
       <p class="sg-lead">Ozvěte se a projdeme spolu, co dává pro váš objekt smysl. Nebo rovnou <a href="tel:+420737373430">+420 737 373 430</a> · <a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a></p>
     </div>
-    <form class="sg-form" id="sg-form" method="post" novalidate>
+    <form class="sg-form" id="sg-form" action="/api/poptavka" method="post" novalidate>
       <!-- Past na roboty: skutečný návštěvník pole nevidí a nevyplní. -->
       <div class="sg-hp" aria-hidden="true">
         <label for="f-company-url">Nevyplňujte</label>
@@ -453,25 +453,25 @@
       <div class="sg-form-grid">
         <div class="sg-field">
           <label for="f-name">Jméno <span class="sg-req" aria-hidden="true">*</span></label>
-          <input type="text" id="f-name" name="name" required autocomplete="name" placeholder="Josef Novák">
+          <input type="text" id="f-name" name="name" maxlength="200" aria-describedby="err-name" required autocomplete="name" placeholder="Josef Novák">
           <p class="sg-err" id="err-name" hidden>Zadejte prosím své jméno.</p>
         </div>
         <div class="sg-field">
           <label for="f-company">Společnost</label>
-          <input type="text" id="f-company" name="company" autocomplete="organization" placeholder="Vaše firma s.r.o.">
+          <input type="text" id="f-company" name="company" maxlength="200" autocomplete="organization" placeholder="Vaše firma s.r.o.">
         </div>
         <div class="sg-field">
           <label for="f-email">E-mail <span class="sg-req" aria-hidden="true">*</span></label>
-          <input type="email" id="f-email" name="email" required autocomplete="email" placeholder="novak@seznam.cz">
+          <input type="email" id="f-email" name="email" maxlength="200" aria-describedby="err-email" required autocomplete="email" placeholder="novak@seznam.cz">
           <p class="sg-err" id="err-email" hidden>Zadejte platnou e-mailovou adresu.</p>
         </div>
         <div class="sg-field">
           <label for="f-phone">Telefon</label>
-          <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+420 000 000 000">
+          <input type="tel" id="f-phone" name="phone" maxlength="60" autocomplete="tel" placeholder="+420 000 000 000">
         </div>
         <div class="sg-field">
           <label for="f-object">Typ objektu <span class="sg-req" aria-hidden="true">*</span></label>
-          <select id="f-object" name="object_type" required>
+          <select id="f-object" name="object_type" aria-describedby="err-object" required>
             <option value="">Vybrat</option>
             <option value="industrial">Průmyslový areál</option>
             <option value="logistics">Logistika / sklad</option>
@@ -495,7 +495,10 @@
         </div>
       </div>
 
+      <div class="sg-field sg-message-field"><label for="f-message">Co potřebujete vyřešit? <span class="sg-optional">Nepovinné</span></label><textarea id="f-message" name="message" rows="4" maxlength="4000" placeholder="Popište svůj areál, co chcete hlídat nebo s čím potřebujete poradit…"></textarea></div>
       <button type="submit" class="sg-btn sg-form-submit">Domluvit konzultaci <span aria-hidden="true">↗</span></button>
+      <p class="sg-form-hint">Ozveme se vám osobně a společně projdeme možnosti pro váš objekt.</p>
+      <noscript><p>Pokud se odeslání nezdaří, napište nám na <a href="mailto:jan@sky-guard.cz">jan@sky-guard.cz</a>.</p></noscript>
       <div class="sg-form-status" id="sg-form-status" role="status" aria-live="polite"></div>
     </form>
   </div>
@@ -563,7 +566,7 @@
   </div>
 </footer>
 
-<script defer src="/nova/nova.js?v=4"></script>
-<script defer src="/nova/nova-fx.js?v=2"></script>
+<script defer src="/nova/nova.js?v=5"></script>
+<script defer src="/nova/nova-fx.js?v=3"></script>
 </body>
 </html>

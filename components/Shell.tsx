@@ -1,5 +1,8 @@
 "use client";
 
+import { useRef } from "react";
+import { QuickSearch } from "./QuickSearch";
+import { PUBLIC_SITE } from "@/lib/public-site";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,10 +21,30 @@ const NAV = [
   { href: hub("/klienti"), label: "Klienti a lokality", icon: "pin" },
   { href: hub("/katalog"), label: "Katalog nákladů", icon: "list" },
   { sep: "FINANCE", admin: true },
-  { href: hub("/finance"), label: "Přehled financí", icon: "coins", admin: true },
-  { href: hub("/finance/transakce"), label: "Transakce", icon: "rows", admin: true },
-  { href: hub("/finance/kategorie"), label: "Kategorie a pravidla", icon: "tag", admin: true },
-  { href: hub("/finance/import"), label: "Nahrání výpisu", icon: "upload", admin: true },
+  {
+    href: hub("/finance"),
+    label: "Přehled financí",
+    icon: "coins",
+    admin: true,
+  },
+  {
+    href: hub("/finance/transakce"),
+    label: "Transakce",
+    icon: "rows",
+    admin: true,
+  },
+  {
+    href: hub("/finance/kategorie"),
+    label: "Kategorie a pravidla",
+    icon: "tag",
+    admin: true,
+  },
+  {
+    href: hub("/finance/import"),
+    label: "Nahrání výpisu",
+    icon: "upload",
+    admin: true,
+  },
   { sep: "POPTÁVKY" },
   { href: hub("/poptavky"), label: "Poptávky z webu", icon: "inbox" },
   { sep: "SPRÁVA" },
@@ -36,11 +59,14 @@ function Icon({ name }: { name: string }) {
     rows: "M3 4h14v3H3zm0 5h14v3H3zm0 5h14v3H3z",
     pin: "M10 2a5 5 0 0 0-5 5c0 3.6 5 11 5 11s5-7.4 5-11a5 5 0 0 0-5-5m0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4",
     list: "M3 4h2v2H3zm4 0h10v2H7zM3 9h2v2H3zm4 0h10v2H7zM3 14h2v2H3zm4 0h10v2H7z",
-    clock: "M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16m0 2.6a1 1 0 0 1 1 1V10h2.6a1 1 0 1 1 0 2H10a1 1 0 0 1-1-1V5.6a1 1 0 0 1 1-1",
-    coins: "M10 2c3.9 0 7 1.3 7 3s-3.1 3-7 3-7-1.3-7-3 3.1-3 7-3M3 8.4C4.3 9.4 6.9 10 10 10s5.7-.6 7-1.6V11c0 1.7-3.1 3-7 3s-7-1.3-7-3zm0 5C4.3 14.4 6.9 15 10 15s5.7-.6 7-1.6V16c0 1.7-3.1 3-7 3s-7-1.3-7-3z",
+    clock:
+      "M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16m0 2.6a1 1 0 0 1 1 1V10h2.6a1 1 0 1 1 0 2H10a1 1 0 0 1-1-1V5.6a1 1 0 0 1 1-1",
+    coins:
+      "M10 2c3.9 0 7 1.3 7 3s-3.1 3-7 3-7-1.3-7-3 3.1-3 7-3M3 8.4C4.3 9.4 6.9 10 10 10s5.7-.6 7-1.6V11c0 1.7-3.1 3-7 3s-7-1.3-7-3zm0 5C4.3 14.4 6.9 15 10 15s5.7-.6 7-1.6V16c0 1.7-3.1 3-7 3s-7-1.3-7-3z",
     tag: "M3 3h6.6c.5 0 1 .2 1.4.6l6 6a2 2 0 0 1 0 2.8l-4.6 4.6a2 2 0 0 1-2.8 0l-6-6A2 2 0 0 1 3 9.6zm3 2.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3",
     upload: "M10 2.5 14.5 7H11v5H9V7H5.5zM3 14h14v3.5H3z",
-    shield: "M10 1.6 3.5 4.2v5.1c0 4 2.8 7.7 6.5 9.1 3.7-1.4 6.5-5.1 6.5-9.1V4.2zm0 4.2a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4m0 5.6c1.7 0 3.2.8 3.9 2a6.9 6.9 0 0 1-7.8 0c.7-1.2 2.2-2 3.9-2",
+    shield:
+      "M10 1.6 3.5 4.2v5.1c0 4 2.8 7.7 6.5 9.1 3.7-1.4 6.5-5.1 6.5-9.1V4.2zm0 4.2a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4m0 5.6c1.7 0 3.2.8 3.9 2a6.9 6.9 0 0 1-7.8 0c.7-1.2 2.2-2 3.9-2",
     inbox: "M3 3h14l-1.4 8H13l-1 2H8l-1-2H4.4zM3 12.5h4.2l1 2h3.6l1-2H17V17H3z",
     cog: "M10 6.5A3.5 3.5 0 1 0 10 13.5 3.5 3.5 0 0 0 10 6.5m8 3.5-1.9-.5a6 6 0 0 0-.6-1.5l1-1.7-1.8-1.8-1.7 1a6 6 0 0 0-1.5-.6L11 2.5H8.5L8 4.4a6 6 0 0 0-1.5.6l-1.7-1L3 5.8l1 1.7a6 6 0 0 0-.6 1.5L1.5 10v2.5l1.9.5c.15.53.35 1.03.6 1.5l-1 1.7 1.8 1.8 1.7-1c.47.25.97.45 1.5.6l.5 1.9H11l.5-1.9a6 6 0 0 0 1.5-.6l1.7 1 1.8-1.8-1-1.7c.25-.47.45-.97.6-1.5l1.9-.5z",
   };
@@ -72,6 +98,11 @@ export function Shell({
   const isAdmin = user.role === "admin";
   const pathname = usePathname();
   const router = useRouter();
+  const drawer = useRef<HTMLDialogElement>(null);
+  const visibleNav = NAV.filter((n) => !("admin" in n && n.admin) || isAdmin);
+  const pages = visibleNav.flatMap((n) =>
+    "href" in n ? [{ href: n.href, label: n.label }] : [],
+  );
 
   const pick = (id: string) => {
     setActiveLocationCookie(id);
@@ -80,6 +111,94 @@ export function Shell({
 
   return (
     <div className="app">
+      <a href="#hub-content" className="hub-skip">
+        Přeskočit na obsah
+      </a>
+      <div className="mobile-toolbar">
+        <button
+          type="button"
+          className="btn"
+          aria-label="Otevřít navigaci"
+          aria-haspopup="dialog"
+          onClick={() => drawer.current?.showModal()}
+        >
+          ☰ <span>Menu</span>
+        </button>
+        <Link href={hub("/")} className="mobile-title">
+          SKY GUARD <span>HUB</span>
+        </Link>
+        <Link
+          href={hub("/poptavky")}
+          className="mobile-inbox"
+          aria-label={`Poptávky z webu, ${newInquiries} nových`}
+        >
+          ↗ <span>{newInquiries}</span>
+        </Link>
+      </div>
+      <dialog ref={drawer} className="mobile-drawer" aria-label="Navigace Hubu">
+        <div className="drawer-heading">
+          <b>Sky Guard Hub</b>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => drawer.current?.close()}
+          >
+            Zavřít ✕
+          </button>
+        </div>
+        <nav className="nav" aria-label="Mobilní navigace">
+          {visibleNav.map((n, i) =>
+            "sep" in n ? (
+              <div className="sep" key={i}>
+                {n.sep}
+              </div>
+            ) : (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={pathname === n.href ? "page" : undefined}
+                onClick={() => drawer.current?.close()}
+              >
+                <Icon name={n.icon} />
+                {n.label}
+                {n.href === hub("/poptavky") && newInquiries > 0 ? (
+                  <span className="badge hot">{newInquiries}</span>
+                ) : null}
+              </Link>
+            ),
+          )}
+        </nav>
+        <div className="sb-foot">
+          <label htmlFor="mobile-location">AKTIVNÍ LOKALITA</label>
+          <select
+            id="mobile-location"
+            value={activeId ?? ""}
+            disabled={!locations.length}
+            onChange={(e) => {
+              pick(e.target.value);
+              drawer.current?.close();
+            }}
+          >
+            {locations.length ? (
+              locations.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.clientName} — {l.name}
+                </option>
+              ))
+            ) : (
+              <option value="">Žádná lokalita</option>
+            )}
+          </select>
+          <div className="mobile-account">
+            <span>{user.name || user.email}</span>
+            <form action={hub("/odhlaseni")} method="post">
+              <button className="btn sm" type="submit">
+                Odhlásit
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
       <aside className="sidebar">
         <div className="brand">
           <Image
@@ -89,35 +208,38 @@ export function Shell({
             height={129}
             priority
           />
-          <small>KALKULACE NÁKLADŮ A CEN</small>
+          <small>
+            HUB <span className="brand-divider">/</span> PRACOVNÍ PROSTOR
+          </small>
         </div>
-        <nav className="nav">
+        <nav className="nav" aria-label="Hlavní navigace Hubu">
           {/* Skrytí v UI je pohodlí, ne ochrana — na oprávnění se ptá brána
               a znovu každá server action. */}
-          {NAV.filter((n) => !("admin" in n && n.admin) || isAdmin).map((n, i) =>
-            "sep" in n ? (
-              <div className="sep" key={`s${i}`}>
-                {n.sep}
-              </div>
-            ) : (
-              <Link
-                key={n.href}
-                href={n.href}
-                aria-current={pathname === n.href ? "page" : undefined}
-              >
-                <Icon name={n.icon} />
-                {n.label}
-                {n.href === hub("/katalog") ? (
-                  <span className="badge">{catalogCount}</span>
-                ) : null}
-                {n.href === hub("/klienti") ? (
-                  <span className="badge">{locations.length}</span>
-                ) : null}
-                {n.href === hub("/poptavky") && newInquiries > 0 ? (
-                  <span className="badge hot">{newInquiries}</span>
-                ) : null}
-              </Link>
-            ),
+          {NAV.filter((n) => !("admin" in n && n.admin) || isAdmin).map(
+            (n, i) =>
+              "sep" in n ? (
+                <div className="sep" key={`s${i}`}>
+                  {n.sep}
+                </div>
+              ) : (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  aria-current={pathname === n.href ? "page" : undefined}
+                >
+                  <Icon name={n.icon} />
+                  {n.label}
+                  {n.href === hub("/katalog") ? (
+                    <span className="badge">{catalogCount}</span>
+                  ) : null}
+                  {n.href === hub("/klienti") ? (
+                    <span className="badge">{locations.length}</span>
+                  ) : null}
+                  {n.href === hub("/poptavky") && newInquiries > 0 ? (
+                    <span className="badge hot">{newInquiries}</span>
+                  ) : null}
+                </Link>
+              ),
           )}
         </nav>
         <div className="sb-foot">
@@ -151,7 +273,20 @@ export function Shell({
           </select>
         </div>
       </aside>
-      <main className="main">{children}</main>
+      <main className="main" id="hub-content" tabIndex={-1}>
+        <div className="workspace-bar">
+          <span className="workspace-label">
+            <span className="workspace-dot" /> Sky Guard Hub
+          </span>
+          <QuickSearch pages={pages} locations={locations} pick={pick} />
+          <a href={PUBLIC_SITE} className="back-to-web">
+            Zpět na web ↗
+          </a>
+        </div>
+        <div className="page-transition" key={pathname}>
+          {children}
+        </div>
+      </main>
     </div>
   );
 }

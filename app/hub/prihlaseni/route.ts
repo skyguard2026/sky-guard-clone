@@ -1,10 +1,8 @@
 /**
  * Přihlášení do Sky Guard Hubu.
  *
- * Vzhled je původní stránka „Sky Guard Hub — Přihlášení" z veřejného webu
- * (Framer export, uložený v lib/login-page/login.html) — beze změny až na
- * formulář, který místo kulisy posílá na tento handler. Logika přihlášení
- * je táž jako v aplikaci: lib/auth/login (argon2id, zámek po pěti
+ * Lehká HTML šablona je v lib/login-page/login.html, bez Framer runtime.
+ * Formulář posílá na tento handler. Logika přihlášení je táž jako v aplikaci: lib/auth/login (argon2id, zámek po pěti
  * neúspěších, audit), cookie se session pod /hub.
  *
  * Stránka i handler stojí před bránou (proxy.ts pouští /hub/prihlaseni bez

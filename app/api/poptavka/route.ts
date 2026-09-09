@@ -12,6 +12,7 @@ import { inquiries } from "@/lib/db/schema";
 import { hasDatabase } from "@/lib/db/url";
 import { uid } from "@/lib/id";
 import { parseInquiry } from "@/lib/inquiries";
+import { readLimitedText, PayloadTooLarge } from "@/lib/request-body";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,6 +24,11 @@ const LIMIT = 5;
 const hits = new Map<string, number[]>();
 function limited(ip: string): boolean {
   const now = Date.now();
+  // Expire inactive addresses and bound the per-instance cache.
+  for (const [key, times] of hits) {
+    if (!times.some((t) => now - t < WINDOW_MS)) hits.delete(key);
+  }
+  if (!hits.has(ip) && hits.size >= 10_000) return true;
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
   if (recent.length >= LIMIT) return true;
   recent.push(now);
@@ -32,13 +38,16 @@ function limited(ip: string): boolean {
 
 async function readBody(req: NextRequest): Promise<Record<string, unknown>> {
   const ct = req.headers.get("content-type") ?? "";
+  const text = await readLimitedText(req);
   if (ct.includes("application/json")) {
-    const j = await req.json();
-    return j && typeof j === "object" ? (j as Record<string, unknown>) : {};
+    const j = JSON.parse(text);
+    return j && typeof j === "object" && !Array.isArray(j) ? j : {};
   }
-  const fd = await req.formData();
-  const out: Record<string, unknown> = {};
-  fd.forEach((v, k) => {
+  const form = await new Response(text, {
+    headers: { "content-type": ct },
+  }).formData();
+  const out: Record<string, unknown> = Object.create(null);
+  form.forEach((v, k) => {
     if (typeof v === "string") out[k] = v;
   });
   return out;
@@ -55,8 +64,16 @@ export async function POST(req: NextRequest) {
   let raw: Record<string, unknown>;
   try {
     raw = await readBody(req);
-  } catch {
-    return NextResponse.json({ ok: false, error: "Neplatná data." }, { status: 400 });
+  } catch (error) {
+    if (error instanceof PayloadTooLarge)
+      return NextResponse.json(
+        { ok: false, error: "Zpráva je příliš dlouhá." },
+        { status: 413 },
+      );
+    return NextResponse.json(
+      { ok: false, error: "Neplatná data." },
+      { status: 400 },
+    );
   }
 
   // Past na roboty: skutečný návštěvník skryté pole nevyplní. Tváříme se,
@@ -68,7 +85,10 @@ export async function POST(req: NextRequest) {
 
   const parsed = parseInquiry(raw);
   if (!parsed.ok) {
-    return NextResponse.json({ ok: false, error: parsed.error }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: parsed.error },
+      { status: 400 },
+    );
   }
 
   const ip = await callerIp();
