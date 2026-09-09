@@ -93,15 +93,6 @@
   }
 
   function initScenes() {
-    var hero = document.getElementById("hero");
-    var row = document.querySelector(".sg-hero-row");
-    if (hero && row) effects.set(hero, function (rect) {
-      var p = clamp(-rect.top / (rect.height * .8));
-      row.style.setProperty("--drone-y", (-p * (window.innerWidth < 700 ? 42 : 95)).toFixed(1) + "px");
-      row.style.setProperty("--drone-x", (p * 24).toFixed(1) + "px");
-      row.style.setProperty("--drone-roll", (p * -5).toFixed(2) + "deg");
-      row.style.setProperty("--dock-scale", (1 - p * .04).toFixed(3));
-    });
     var claim = document.querySelector(".sg-claim");
     if (claim) effects.set(claim, function (rect, vh) {
       var p = clamp((vh * .86 - rect.top) / (vh * .48));

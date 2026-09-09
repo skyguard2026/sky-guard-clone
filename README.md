@@ -433,8 +433,8 @@ Tato úprava nemění schéma databáze. Poptávky stále vyžadují dřívějš
 
 ### Animace veřejného webu
 
-`public/nova/motion.css` a `nova-fx.js` doplňují radarovou scénu, pohyb dronu
-podle posouvání, postupné zvýraznění motta, prostorové představení Hubu a
+`public/nova/motion.css` a `nova-fx.js` doplňují jemný pohyb dronu
+v čisté produktové scéně, postupné zvýraznění motta, prostorové představení Hubu a
 interaktivní ilustraci pěti kroků incidentu. Mapa reaguje na posouvání i
 na tlačítka jednotlivých kroků; jde o ilustraci, nikoliv o živá provozní data.
 
