@@ -638,13 +638,16 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
 .sg-footer-list a:hover { color: var(--text); }
 .sg-footer-list a, .sg-footer-contact a { position: relative; }
 .sg-footer-list a::after, .sg-footer-contact a::after { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; height: 44px; }
-.sg-footer-bottom { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 56px; padding: 22px 0 34px; border-top: 1px solid var(--line); color: var(--dim); font-size: 13px; }
+.sg-footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 56px; padding: 22px 0 34px; border-top: 1px solid var(--line); color: var(--dim); font-size: 13px; }
 
 
 @media (prefers-reduced-motion: reduce) {
   .sg-float, .sg-hero-uav, .sg-tile-orbit::before { animation: none !important; }
   .sg-btn, .sg-btn-secondary, .sg-solution, .sg-round-btn { transition: none; }
 }
+
+.sg-footer-admin { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:0 16px; margin-left:auto; border:1px solid var(--line-2); border-radius:999px; color:var(--muted); font-size:12px; text-decoration:none; white-space:nowrap; transition:color .2s,background .2s,border-color .2s; }
+.sg-footer-admin:hover { color:var(--text); background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.28); }
 
 /* ────────────────────────────────────────────────── responzivita */
 
@@ -703,7 +706,8 @@ main, .sg-header, .sg-footer { position: relative; z-index: 1; }
   .sg-why-num { font-size: 24px; }
   .sg-form-grid { grid-template-columns: 1fr; }
   .sg-footer-grid { grid-template-columns: 1fr; gap: 36px; }
-  .sg-footer-bottom { flex-direction: column; gap: 6px; }
+  .sg-footer-bottom { flex-direction: column; align-items:flex-start; gap: 6px; }
+  .sg-footer-admin { align-self:flex-end; margin-top:12px; }
   .sg-band-inner .sg-btn { width: 100%; justify-content: center; }
 
   /* Pod 700 px: každý řádek jako karta s popiskem sloupce u hodnoty. */
