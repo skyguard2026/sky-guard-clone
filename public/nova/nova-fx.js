@@ -28,6 +28,9 @@
     if (!story || index === storyIndex) return;
     storyIndex = index;
     story.dataset.step = String(index);
+    story.querySelectorAll("[data-story-visual]").forEach(function (visual) {
+      visual.classList.toggle("is-active", Number(visual.dataset.storyVisual) === index);
+    });
     story.style.setProperty("--story-progress", (index + 1) / storyButtons.length);
     storyCaption.textContent = storyButtons[index].querySelector("span > span").textContent;
     storyCount.textContent = "0" + (index + 1) + " / 05";

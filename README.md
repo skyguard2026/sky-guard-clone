@@ -435,11 +435,12 @@ Tato úprava nemění schéma databáze. Poptávky stále vyžadují dřívějš
 
 `public/nova/motion.css` a `nova-fx.js` doplňují jemný pohyb dronu
 v čisté produktové scéně, postupné zvýraznění motta, prostorové představení Hubu a
-interaktivní ilustraci pěti kroků incidentu. Mapa reaguje na posouvání i
-na tlačítka jednotlivých kroků; jde o ilustraci, nikoliv o živá provozní data.
+interaktivní ilustraci pěti kroků incidentu. Ukázka reaguje na posouvání i
+na tlačítka jednotlivých kroků. Používá stejné produktové rendery kamery,
+dronu a Hubu jako zbytek webu; nejde o živá provozní data.
 
 Tlačítko v úvodu vypíná animace a volbu ukládá pouze do místního úložiště
 prohlížeče. Respektuje se i systémové omezení pohybu. Efekty se pozastavují
 mimo obrazovku a ve skryté kartě; posouvání zůstává nativní. V nízkém okně
-se mapa nepřichytává, aby nezakrývala obsah. Bez JavaScriptu zůstává obsah
+se ukázka nepřichytává, aby nezakrývala obsah. Bez JavaScriptu zůstává obsah
 čitelný. Tato úprava se netýká účtů, Hubu ani databázového schématu.
