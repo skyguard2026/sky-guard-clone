@@ -430,3 +430,16 @@ Záloha z Nastavení je interní soubor pro jednatele, ne podklad pro klienta.
 
 Tato úprava nemění schéma databáze. Poptávky stále vyžadují dřívější migraci
 0007; případný výpadek databáze se nyní odlišuje od chybějící tabulky.
+
+### Animace veřejného webu
+
+`public/nova/motion.css` a `nova-fx.js` doplňují radarovou scénu, pohyb dronu
+podle posouvání, postupné zvýraznění motta, prostorové představení Hubu a
+interaktivní ilustraci pěti kroků incidentu. Mapa reaguje na posouvání i
+na tlačítka jednotlivých kroků; jde o ilustraci, nikoliv o živá provozní data.
+
+Tlačítko v úvodu vypíná animace a volbu ukládá pouze do místního úložiště
+prohlížeče. Respektuje se i systémové omezení pohybu. Efekty se pozastavují
+mimo obrazovku a ve skryté kartě; posouvání zůstává nativní. V nízkém okně
+se mapa nepřichytává, aby nezakrývala obsah. Bez JavaScriptu zůstává obsah
+čitelný. Tato úprava se netýká účtů, Hubu ani databázového schématu.

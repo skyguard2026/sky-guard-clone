@@ -404,22 +404,6 @@
     }
   }
 
-  /* ═════════════════════════════════════ jemný nájezd sekcí */
-
-  function initReveal() {
-    if (reduceMotion || !("IntersectionObserver" in window)) return;
-    var targets = document.querySelectorAll(".sg-section > .sg-container");
-    targets.forEach(function (t) { t.classList.add("sg-reveal"); });
-    var io = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        en.target.classList.add("sg-revealed");
-        obs.unobserve(en.target);
-      });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
-    targets.forEach(function (t) { io.observe(t); });
-  }
-
   /* ══════════════════════════════════════════════════════ start */
 
   function start() {
@@ -429,7 +413,6 @@
     initQuotes();
     initFaq();
     initForm();
-    initReveal();
   }
 
   if (document.readyState === "loading") {

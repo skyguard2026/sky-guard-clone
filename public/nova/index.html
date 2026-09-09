@@ -19,7 +19,8 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=72">
+    <link rel="stylesheet" href="/nova/nova.css?v=73">
+    <link rel="stylesheet" href="/nova/motion.css?v=1">
 </head>
 <body>
 
@@ -88,7 +89,9 @@
 
 <!-- ══════════════════════════════════════════ 01 — HERO ═════════════ -->
 <section class="sg-section sg-hero" id="hero">
+  <div class="sg-aurora" aria-hidden="true"><span></span><span></span></div>
   <div class="sg-container sg-hero-inner">
+    <p class="sg-hero-eyebrow"><span aria-hidden="true"></span> Kamery. Drony. Jeden Sky Hub.</p>
     <picture class="sg-hero-mark">
       <source type="image/webp" srcset="/images/sky-guard-wordmark.webp">
       <img src="/images/sky-guard-wordmark.png" alt="Sky Guard" width="983" height="111" decoding="async" fetchpriority="high">
@@ -101,6 +104,9 @@
 
     <!-- Dron s dokem uprostřed; sloup má svou sekci Sky Camera níž. -->
     <div class="sg-hero-row">
+      <div class="sg-radar" aria-hidden="true"><span class="sg-radar-ring"></span><span class="sg-radar-ring"></span><span class="sg-radar-ring"></span><span class="sg-radar-sweep"></span></div>
+      <span class="sg-scene-label sg-scene-label-left" aria-hidden="true"><i></i><small>SKY DRONE</small>Mobilní dosah</span>
+      <span class="sg-scene-label sg-scene-label-right" aria-hidden="true"><i></i><small>SKY HUB</small>Vše propojené</span>
       <div class="sg-hero-drone" role="img" aria-label="Autonomní dron Sky Guard vznášející se nad otevřenou dokovací stanicí">
         <picture class="sg-hero-dock">
           <source type="image/webp" srcset="/images/yFOLVBrL4igF5Wu5jtFwMNSO2o.webp">
@@ -112,13 +118,17 @@
         </picture>
       </div>
     </div>
+    <div class="sg-hero-bottom">
+      <a class="sg-scroll-cue" href="#platforma"><span aria-hidden="true">↓</span> Objevte celý systém</a>
+      <button class="sg-motion-toggle" id="sg-motion-toggle" type="button" aria-pressed="false" hidden><span class="sg-motion-icon" aria-hidden="true"></span><span data-motion-label>Pozastavit animace</span></button>
+    </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════ 02 — CLAIM ════════════════════ -->
 <section class="sg-section sg-claim" aria-label="Motto">
   <div class="sg-container">
-    <p class="sg-claim-text">Mějte přehled. Mějte jistotu. Mějte Sky Guard.</p>
+    <p class="sg-claim-text"><span>Mějte přehled.</span> <span>Mějte jistotu.</span> <span>Mějte Sky Guard.</span></p>
   </div>
 </section>
 
@@ -240,13 +250,48 @@
       <p class="sg-lead">Kamera vidí problém. Dron může situaci prověřit. Váš tým reaguje s aktuálními informacemi.</p>
     </div>
 
-    <ol class="sg-flow">
-      <li class="sg-glass sg-flow-step"><span class="sg-flow-num" aria-hidden="true">01</span><h3>Detekce</h3><p>Kamera zaznamená událost v hlídané zóně.</p></li>
-      <li class="sg-glass sg-flow-step"><span class="sg-flow-num" aria-hidden="true">02</span><h3>Sky Hub</h3><p>Incident se objeví v jednom přehledu i na mapě areálu.</p></li>
-      <li class="sg-glass sg-flow-step"><span class="sg-flow-num" aria-hidden="true">03</span><h3>Upozornění</h3><p>Odpovědná osoba dostane notifikaci do telefonu.</p></li>
-      <li class="sg-glass sg-flow-step"><span class="sg-flow-num" aria-hidden="true">04</span><h3>Prověření</h3><p>Dron lze vyslat k ověření situace z jiného úhlu.</p></li>
-      <li class="sg-glass sg-flow-step"><span class="sg-flow-num" aria-hidden="true">05</span><h3>Reakce</h3><p>Operátor a bezpečnostní tým jednají s aktuálním obrazem.</p></li>
-    </ol>
+    <div class="sg-story" id="sg-story">
+      <figure class="sg-story-stage" data-step="0" aria-label="Ilustrace průběhu incidentu">
+        <div class="sg-story-top"><span><i aria-hidden="true"></i> Ukázka průběhu</span><span class="sg-story-count" aria-hidden="true">01 / 05</span></div>
+        <div class="sg-story-map" aria-hidden="true">
+          <svg viewBox="0 0 600 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="sg-map-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" stroke="#6090d8" stroke-opacity=".1"/></pattern>
+              <linearGradient id="sg-roof" x1="100" y1="100" x2="360" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#254371"/><stop offset="1" stop-color="#101e36"/></linearGradient>
+              <radialGradient id="sg-map-light"><stop stop-color="#245aa9" stop-opacity=".25"/><stop offset="1" stop-color="#245aa9" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect width="600" height="420" fill="url(#sg-map-grid)"/>
+            <ellipse cx="300" cy="230" rx="290" ry="210" fill="url(#sg-map-light)"/>
+            <path class="sg-map-perimeter" d="M62 196 290 65 548 214 324 351Z" stroke="#5e89c5" stroke-opacity=".45" stroke-dasharray="5 7"/>
+            <path d="m62 208 262 155 224-137M62 208v-12m262 167v-12m224-125v-12" stroke="#42618f" stroke-opacity=".3"/>
+            <g stroke="#4f709f" stroke-width="1.2">
+              <path d="m130 203 84-48 106 61-84 48Z" fill="url(#sg-roof)"/>
+              <path d="m130 203 106 61v40l-106-61Z" fill="#101d30"/><path d="m236 264 84-48v40l-84 48Z" fill="#142b46"/>
+              <path d="m258 132 63-36 122 70-63 37Z" fill="url(#sg-roof)"/><path d="m258 132 122 71v42l-122-70Z" fill="#112139"/><path d="m380 203 63-37v42l-63 37Z" fill="#1b3353"/>
+              <path d="m344 268 62-36 69 40-62 36Z" fill="url(#sg-roof)"/><path d="m344 268 69 40v26l-69-40Z" fill="#101d30"/><path d="m413 308 62-36v26l-62 36Z" fill="#142b46"/>
+              <path d="m150 202 64-36m-38 51 64-36m-38 51 64-36m15-62 43-25m-16 41 43-25m-16 41 43-25" stroke-opacity=".6"/>
+            </g>
+            <path class="sg-map-signal" d="M100 192 191 140 315 212 459 130" pathLength="100" stroke="#80b8ff" stroke-width="2" stroke-dasharray="100" stroke-dashoffset="100"/>
+            <path class="sg-map-route" d="M420 320 503 272 490 198 379 136 290 94 167 164 110 197" pathLength="100" stroke="#84e1dc" stroke-width="2" stroke-dasharray="100" stroke-dashoffset="100"/>
+            <g class="sg-map-alarm" transform="translate(100 192)"><circle class="sg-map-ping" r="24" stroke="#ffb375"/><circle r="12" fill="#ff9d55" fill-opacity=".12" stroke="#ffb375"/><circle r="4" fill="#ffd2ac"/></g>
+            <g class="sg-map-hub" transform="translate(315 212)"><rect x="-18" y="-18" width="36" height="36" rx="10" fill="#162f55" stroke="#8dbaff"/><path d="M-8-5H8V5H-8Z M-4 10H4M0 5V10" stroke="#b6d6ff" stroke-width="1.8"/></g>
+            <g class="sg-map-phone" transform="translate(459 130)"><rect x="-16" y="-25" width="32" height="50" rx="7" fill="#132b4b" stroke="#8dbaff"/><path d="M-5-17H5M-4 17H4" stroke="#8dbaff" stroke-linecap="round"/><circle r="6" fill="#82b5ff"/><path d="M-2 0 0 2 3-2" stroke="#14263d" stroke-width="1.5"/></g>
+            <g class="sg-map-drone"><circle r="19" fill="#0c242c" stroke="#84e1dc"/><path d="m-8-8 16 16m0-16L-8 8M-10-6v-4h4m12 0h4v4m0 12v4H6m-12 0h-4V6" stroke="#b0eeeb" stroke-width="1.8" stroke-linecap="round"/><circle r="3" fill="#b0eeeb"/></g>
+            <g class="sg-map-team" transform="translate(110 246)"><circle r="18" fill="#153c34" stroke="#78dfb2"/><path d="m-7 0 5 5 10-11" stroke="#a9f0cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+          </svg>
+          <span class="sg-map-caption">ILUSTRAČNÍ AREÁL · SKY GUARD</span>
+        </div>
+        <figcaption class="sg-story-caption"><span class="sg-story-indicator" aria-hidden="true"></span><span id="sg-story-caption">Kamera zaznamená událost v hlídané zóně.</span></figcaption>
+        <div class="sg-story-progress" aria-hidden="true"><span></span></div>
+      </figure>
+      <ol class="sg-story-steps">
+        <li><button type="button" class="sg-story-step is-active" data-story-step="0" aria-current="step" aria-controls="sg-story-caption"><span class="sg-story-number">01</span><span><strong>Detekce</strong><span>Kamera zaznamená událost v hlídané zóně.</span></span><i aria-hidden="true">↗</i></button></li>
+        <li><button type="button" class="sg-story-step" data-story-step="1" aria-controls="sg-story-caption"><span class="sg-story-number">02</span><span><strong>Sky Hub</strong><span>Incident se objeví v jednom přehledu i na mapě areálu.</span></span><i aria-hidden="true">↗</i></button></li>
+        <li><button type="button" class="sg-story-step" data-story-step="2" aria-controls="sg-story-caption"><span class="sg-story-number">03</span><span><strong>Upozornění</strong><span>Odpovědná osoba dostane notifikaci do telefonu.</span></span><i aria-hidden="true">↗</i></button></li>
+        <li><button type="button" class="sg-story-step" data-story-step="3" aria-controls="sg-story-caption"><span class="sg-story-number">04</span><span><strong>Prověření</strong><span>Dron lze vyslat k ověření situace z jiného úhlu.</span></span><i aria-hidden="true">↗</i></button></li>
+        <li><button type="button" class="sg-story-step" data-story-step="4" aria-controls="sg-story-caption"><span class="sg-story-number">05</span><span><strong>Reakce</strong><span>Operátor a bezpečnostní tým jednají s aktuálním obrazem.</span></span><i aria-hidden="true">↗</i></button></li>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -566,7 +611,7 @@
   </div>
 </footer>
 
-<script defer src="/nova/nova.js?v=5"></script>
-<script defer src="/nova/nova-fx.js?v=3"></script>
+<script defer src="/nova/nova.js?v=6"></script>
+<script defer src="/nova/nova-fx.js?v=4"></script>
 </body>
 </html>
