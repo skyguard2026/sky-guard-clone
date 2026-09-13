@@ -29,6 +29,10 @@
 
 /* ───────────────────────────────────────────────────────── základ */
 
+/* Mobile disclosures keep the full original layout on larger screens. */
+.sg-mobile-details { display: contents; }
+.sg-mobile-details > summary { display: none; }
+
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

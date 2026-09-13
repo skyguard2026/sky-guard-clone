@@ -5,6 +5,7 @@
   var root = document.documentElement;
   var media = window.matchMedia("(prefers-reduced-motion: reduce)");
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var compact = window.matchMedia("(max-width: 700px)");
   var paused = false;
   try { paused = localStorage.getItem("sg-motion-paused") === "true"; } catch (_) { /* Storage can be disabled. */ }
   var active = new Set();
@@ -17,7 +18,7 @@
   var storyIndex = -1;
   var storyNeedsSync = true;
   var clamp = function (n) { return Math.min(1, Math.max(0, n)); };
-  var enabled = function () { return !paused && !media.matches; };
+  var enabled = function () { return !paused && !media.matches && !compact.matches; };
 
   function schedule(syncStory) {
     if (syncStory === true) storyNeedsSync = true;
@@ -54,7 +55,7 @@
       if (effects.has(element)) measurements.push({ el: element, rect: element.getBoundingClientRect() });
     });
     var step = -1;
-    if (storyNeedsSync && story && active.has(document.getElementById("sg-story"))) {
+    if (storyNeedsSync && !compact.matches && story && active.has(document.getElementById("sg-story"))) {
       var anchor = window.innerWidth <= 760 ? vh * .8 : vh * .53;
       var nearest = Infinity;
       storyButtons.forEach(function (button, index) {
@@ -78,7 +79,7 @@
       var off = !enabled();
       root.dataset.motion = off ? "off" : "on";
       if (toggle) {
-        toggle.hidden = false;
+        toggle.hidden = compact.matches;
         toggle.disabled = media.matches;
         toggle.setAttribute("aria-pressed", String(off));
         toggle.querySelector("[data-motion-label]").textContent = media.matches ? "Omezený pohyb" : off ? "Zapnout animace" : "Pozastavit animace";
@@ -92,6 +93,7 @@
       sync();
     });
     media.addEventListener("change", sync);
+    compact.addEventListener("change", sync);
     sync();
   }
 

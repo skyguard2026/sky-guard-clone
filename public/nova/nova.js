@@ -292,6 +292,27 @@
     });
   }
 
+  // Show secondary information on request on phones, preserving desktop layout.
+  function initMobileDetails() {
+    var compact = window.matchMedia("(max-width: 700px)");
+    var folds = document.querySelectorAll(".sg-mobile-details");
+    function openLinkedSection() {
+      var id = window.location.hash.slice(1);
+      var section = id && document.getElementById(id);
+      if (!section) return;
+      var fold = section.closest(".sg-mobile-details");
+      if (id === "porovnani") fold = section.querySelector(".sg-mobile-details");
+      if (fold) fold.open = true;
+    }
+    function sync() {
+      folds.forEach(function (fold) { fold.open = !compact.matches; });
+      openLinkedSection();
+    }
+    compact.addEventListener("change", sync);
+    window.addEventListener("hashchange", openLinkedSection);
+    sync();
+  }
+
   /* ════════════════════════════════════════════════════ formulář */
 
   // Poptávka jde do Hubu (tabulka inquiry) přes veřejný endpoint aplikace.
@@ -412,6 +433,7 @@
     initHubTabs();
     initQuotes();
     initFaq();
+    initMobileDetails();
     initForm();
   }
 

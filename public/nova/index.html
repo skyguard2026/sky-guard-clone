@@ -29,8 +29,9 @@
     <link rel="preload" href="/assets/fonts/dmsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/dmsans-500-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/nova/fonts.css?v=1">
-    <link rel="stylesheet" href="/nova/nova.css?v=75">
+    <link rel="stylesheet" href="/nova/nova.css?v=76">
     <link rel="stylesheet" href="/nova/motion.css?v=3">
+    <link rel="stylesheet" href="/nova/mobile.css?v=1" media="(max-width: 700px)">
 </head>
 <body>
 
@@ -217,6 +218,8 @@
       </picture>
     </figure>
 
+    <details class="sg-mobile-details" open>
+      <summary>Prohlédnout funkce Sky Hubu <span aria-hidden="true">+</span></summary>
     <ul class="sg-hub-cells">
       <li class="sg-hub-cell">
         <picture class="sg-hub-shot"><source type="image/webp" srcset="/images/hub-map-2.webp"><img src="/images/hub-map-2.png" alt="Výřez z aplikace: mapa areálu s letovou trasou dronu a hranicí perimetru" width="1000" height="576" loading="lazy" decoding="async"></picture>
@@ -240,6 +243,7 @@
       <li class="sg-hub-cell sg-hub-cell-sm"><span class="sg-icon-box"><span class="sg-i" aria-hidden="true" style="--i:url(/design/icons/analytics.svg)"></span></span><div><h3>Reporty</h3><p>Souhrny událostí a provozu pro váš tým i vedení.</p></div></li>
     </ul>
 
+    </details>
     <p class="sg-actions sg-actions-center sg-hub-actions">
       <a class="sg-btn" href="#kontakt">Poznat Sky Hub <span aria-hidden="true">→</span></a>
       <a class="sg-btn-secondary" href="https://portal.sky-guard.cz/login">Přihlásit se <span aria-hidden="true">↗</span></a>
@@ -419,6 +423,8 @@
 <!-- ══════════════════════ 09b — POROVNÁNÍ ŘEŠENÍ ═══════════════════ -->
 <section class="sg-section sg-compact sg-cmp-section" id="porovnani">
   <div class="sg-container">
+    <details class="sg-mobile-details" open>
+      <summary>Porovnat služby obou řešení <span aria-hidden="true">+</span></summary>
     <p class="sg-cmp-note">Kamery i autonomní dron jsou volitelné moduly obou řešení. Rozdíl je v tom, co se hlídá a jaké služby k tomu dostanete.</p>
     <div class="sg-table-wrap" tabindex="0" role="region" aria-label="Porovnání služeb Sky Security a Sky Construction">
       <table class="sg-table">
@@ -443,6 +449,7 @@
         </tbody>
       </table>
     </div>
+    </details>
   </div>
 </section>
 
@@ -618,7 +625,7 @@
   </div>
 </footer>
 
-<script defer src="/nova/nova.js?v=6"></script>
-<script defer src="/nova/nova-fx.js?v=6"></script>
+<script defer src="/nova/nova.js?v=7"></script>
+<script defer src="/nova/nova-fx.js?v=7"></script>
 </body>
 </html>
