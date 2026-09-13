@@ -2,12 +2,11 @@
  * Adresa veřejného webu, na který se z Hubu odkazuje „zpět na web"
  * (odhlášení, přihlašovací stránka, stránka pro náhled bez databáze).
  *
- * Dnes je nový web na /nova a na kořeni běží starý. Až nový web přejde
- * na kořen, změní se jen tahle konstanta.
+ * Veřejný web běží na kořeni domény; /nova přesměrovává na stejnou stránku.
  */
-export const PUBLIC_SITE = "/nova";
+export const PUBLIC_SITE = "/";
 
-/** Odkaz na sekci veřejného webu, např. webUrl("kontakt") → /nova#kontakt. */
+/** Odkaz na sekci veřejného webu, např. webUrl("kontakt") → /#kontakt. */
 export function webUrl(section = ""): string {
   return section ? `${PUBLIC_SITE}#${section}` : PUBLIC_SITE;
 }

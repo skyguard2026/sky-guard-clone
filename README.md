@@ -4,12 +4,12 @@ Jeden repozitář, jedno nasazení na Vercelu (www.sky-guard.cz):
 
 | Část | Kde | Co |
 |---|---|---|
-| **Veřejný web** | `public/` | statický export z Frameru + vlastní skripty (`carousel.js`, `faq.js`, `i18n.js`, `script.js`). Adresy zůstávají (`/`, `/images/...`). Čisté adresy, které dřív dělal `cleanUrls`, obstarávají rewrites v [next.config.ts](next.config.ts). |
+| **Veřejný web** | `public/nova/` | nový statický web s vlastními styly a animacemi. Hlavní stránka `/` se přepisuje na `public/nova/index.html`; staré odkazy `/nova` se přesměrují na `/`. Obrázky zůstávají pod `/images/...`. Routing obstarává [next.config.ts](next.config.ts). |
 | **Sky Guard Hub** | `app/hub/`, `components/`, `lib/` | interní kalkulačka nákladů a cen (Next.js 16). Všechny stránky žijí pod `/hub`, brána [proxy.ts](proxy.ts) chrání jen tento prefix. |
 
 Veřejný web z kódu pod `/hub` nic neimportuje — jsou to statické soubory.
-Tlačítko „Sky Guard Hub" na webu vede na `/hub`; nepřihlášeného pošle brána
-na `/hub/prihlaseni`.
+Tlačítko „Přihlásit" na webu vede na zákaznický portál `https://portal.sky-guard.cz/login`.
+„Administrace" v patičce vede na `/hub`; nepřihlášeného pošle brána na `/hub/prihlaseni`.
 
 **Repozitář je privátní a musí takový zůstat — kalkulačka obsahuje nákupní
 ceny hardwaru.**
@@ -17,7 +17,7 @@ ceny hardwaru.**
 Prefix `/hub` se skládá na jednom místě, v [lib/hub-path.ts](lib/hub-path.ts).
 Adresa veřejného webu pro odkazy „zpět na web" (odhlášení, přihlášení,
 náhled bez databáze) je jedna konstanta v [lib/public-site.ts](lib/public-site.ts):
-dnes `/nova`, po přechodu nového webu na kořen `/`.
+je `/`.
 `basePath` v Next se nepoužívá: aplikoval by se i na `public/` a rozbil
 veřejné adresy.
 

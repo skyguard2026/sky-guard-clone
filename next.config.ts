@@ -17,8 +17,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
-        { source: "/", destination: "/index.html" },
-        { source: "/nova", destination: "/nova/index.html" },
+        { source: "/", destination: "/nova/index.html" },
       ],
       afterFiles: [],
       fallback: [],
@@ -28,7 +27,8 @@ const nextConfig: NextConfig = {
     return [
       // stejné chování jako dřív s cleanUrls
       { source: "/index.html", destination: "/", permanent: true },
-      { source: "/nova/index.html", destination: "/nova", permanent: true },
+      { source: "/nova", destination: "/", permanent: true },
+      { source: "/nova/index.html", destination: "/", permanent: true },
       // stará přihlašovací stránka webu → skutečné přihlášení Hubu
       { source: "/hub/login", destination: "/hub/prihlaseni", permanent: true },
       { source: "/hub/login.html", destination: "/hub/prihlaseni", permanent: true },
